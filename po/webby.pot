@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-16 23:42+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /home/artem/Launchpad/webby-browser/po/../src/InfoDialog.vala:16
+msgid "Accept"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:70
+msgid "Applications"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:76
+msgid "Add a new Web App"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:79
+msgid "No Web Apps Availible"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:79
+msgid "Create a new Webby Web App."
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:80
+msgid "Create App"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/AppWindow.vala:80
+msgid "Create a new Webby web app."
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:45
+msgid "Create a new web app with webby"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:53
+msgid "Application name"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:56
+msgid "http://myapp.domain"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:66
+msgid "theme icon name"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:68
+msgid "or"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:69
+msgid "Set from file..."
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:85
+msgid "Save cookies"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:87
+msgid "Save login information"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:110
+msgid "Save app"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:132
+msgid "url must start with http:// or https://"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:145
+msgid "App already exist"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:198
+msgid "Images"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:210
+msgid "Cancel"
+msgstr ""
+
+#: /home/artem/Launchpad/webby-browser/po/../src/Assistant.vala:211
+msgid "Open"
+msgstr ""

@@ -1,0 +1,75 @@
+# Spanish translation for webby-browser
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the webby-browser package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: webby-browser\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-02-26 23:57-0300\n"
+"PO-Revision-Date: 2015-02-27 03:18+0000\n"
+"Last-Translator: Erasmo Marín <Unknown>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-03-24 00:16+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
+
+msgid "Remove Application"
+msgstr "Quitar aplicación"
+
+msgid "Accept"
+msgstr "Aceptar"
+
+msgid "Create a new web app with webby"
+msgstr "Crear una nueva aplicación web con webby"
+
+msgid "Application name"
+msgstr "Nombre de la aplicación"
+
+msgid "http://myapp.domain"
+msgstr "http://miapp.dominio"
+
+msgid "theme icon name"
+msgstr "nombre de ícono del tema"
+
+msgid "or"
+msgstr "o"
+
+msgid "Set from file..."
+msgstr "Establecer desde archivo..."
+
+msgid "Save cookies"
+msgstr "Guardar cookies"
+
+msgid "Save login information"
+msgstr "Guardar información de sesión"
+
+msgid "Create app"
+msgstr "Crear aplicación"
+
+msgid "url must start with http:// or https://"
+msgstr "La url debe comenzar con http:// o https://"
+
+msgid "App already exist"
+msgstr "La aplicación ya existe"
+
+msgid "Images"
+msgstr "Imágenes"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "App created"
+msgstr "Aplicación creada"
+
+msgid "The application shortcut was successfully created"
+msgstr "El atajo a la aplicación fue creado exitosamente"
+
+msgid "Applications"
+msgstr "Aplicaciones"

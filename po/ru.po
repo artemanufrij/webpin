@@ -1,0 +1,75 @@
+# Russian translation for webby-browser
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the webby-browser package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: webby-browser\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-02-26 23:57-0300\n"
+"PO-Revision-Date: 2015-02-27 20:39+0000\n"
+"Last-Translator: Artem Anufrij <Unknown>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-03-24 00:16+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
+
+msgid "Remove Application"
+msgstr "Удалить приложение"
+
+msgid "Accept"
+msgstr ""
+
+msgid "Create a new web app with webby"
+msgstr ""
+
+msgid "Application name"
+msgstr "Имя приложения"
+
+msgid "http://myapp.domain"
+msgstr "http://myapp.domain"
+
+msgid "theme icon name"
+msgstr ""
+
+msgid "or"
+msgstr "или"
+
+msgid "Set from file..."
+msgstr ""
+
+msgid "Save cookies"
+msgstr ""
+
+msgid "Save login information"
+msgstr ""
+
+msgid "Create app"
+msgstr ""
+
+msgid "url must start with http:// or https://"
+msgstr ""
+
+msgid "App already exist"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Отменить"
+
+msgid "Open"
+msgstr "Открыть"
+
+msgid "App created"
+msgstr ""
+
+msgid "The application shortcut was successfully created"
+msgstr ""
+
+msgid "Applications"
+msgstr "Приложения"
