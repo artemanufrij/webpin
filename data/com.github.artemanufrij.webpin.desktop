@@ -1,20 +1,11 @@
 [Desktop Entry]
-Version=1.0
-Name=Webby
-GenericName=Webby
-Comment=Create your apps
+Name=Webpin
+GenericName=Webpin
+Comment=Pin your websites on your desktop
 Keywords=internet;webapp;
-Exec=webby %u
-Icon=webby
+Exec=com.github.artemanufrij.webpin %u
+Icon=artemanufrij.webpin
 Terminal=false
 Type=Application
 Categories=Network;GNOME;GTK;
-X-GIO-NoFuse=true
-X-GNOME-Gettext-Domain=webby
-X-GNOME-FullName=Webby
-StartupWMClass=Webby
-Actions=AboutDialog;
-
-[Desktop Action AboutDialog]
-Exec=webby --about
-Name=About Webby
+X-GNOME-Gettext-Domain=webpin

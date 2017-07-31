@@ -27,27 +27,51 @@
  */
 
 namespace Webpin {
-    public class Settings : Granite.Services.Settings {
+    public class WebpinApp : Granite.Application {
 
-        private static Settings settings;
-        public static Settings get_default () {
-            if (settings == null)
-                settings = new Settings ();
+        static WebpinApp _instance = null;
 
-            return settings;
-        }
-        public int window_width { get; set; }
-        public int window_height { get; set; }
-        public WindowState window_state { get; set; }
-
-        private Settings () {
-            base ("com.github.artemanufrij.webpin");
+        public static WebpinApp instance {
+            get {
+                if (_instance == null)
+                    _instance = new WebpinApp ();
+                return _instance;
+            }
         }
 
-        public enum WindowState {
-            NORMAL,
-            MAXIMIZED,
-            FULLSCREEN
+        construct {
+            program_name = "Image Burner";
+            exec_name = "com.github.artemanufrij.webpin";
+            application_id = "com.github.artemanufrij.webpin";
+            app_launcher = application_id + ".desktop";
+        }
+
+        public Gtk.Window mainwindow;
+
+        protected override void activate () {
+            if (mainwindow != null) {
+                mainwindow.present ();
+                return;
+            }
+
+            mainwindow = new MainWindow ();
+            mainwindow.set_application(this);
         }
     }
+}
+static int main (string[] args) {
+
+    Gtk.init (ref args);
+
+    if (args.length < 2 || args[1] == "--about" || args[1] == "-d") {
+        var app = Webpin.WebpinApp.instance;
+        return app.run (args);
+    } else {
+        var app_info = DesktopFile.get_app_by_url (args[1]);
+        var app = new Webpin.WebAppWindow(app_info.get_display_name (), args[1]);
+        app.show_all ();
+    }
+
+    Gtk.main ();
+    return 0;
 }
