@@ -50,11 +50,11 @@ namespace Webpin {
             url_entry.show_all();
 
             share_button = new Gtk.Button.from_icon_name ("application-menu-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
-            share_button.margin_left = 15;
+            share_button.margin_start = 15;
             share_button.show_all ();
 
             back_button = new Gtk.Button.from_icon_name ("go-next-symbolic-rtl", Gtk.IconSize.SMALL_TOOLBAR);
-            back_button.margin_right = 15;
+            back_button.margin_end = 15;
             back_button.show_all ();
 
             pack_start (back_button);

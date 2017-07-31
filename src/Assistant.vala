@@ -39,7 +39,6 @@ namespace Webpin {
         private Gtk.Entry app_name_entry;
         private Gtk.Entry app_url_entry;
         private Gtk.Entry icon_name_entry;
-        private Gtk.ComboBox app_category_combo;
         private Gtk.CheckButton save_cookies_check;
         private Gtk.CheckButton save_password_check;
         private Gtk.Popover icon_selector_popover;
@@ -72,7 +71,7 @@ namespace Webpin {
 
             //welcome message
             message = new Gtk.Label (_("Create a new web app with webby"));
-
+            message.get_style_context ().add_class ("h2");
             //app information
             icon_button = new Gtk.Button ();
             icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG) );
@@ -257,12 +256,12 @@ namespace Webpin {
 		            }
                 }
 
-                if (pix!=null){
+                if (pix != null){
                     preview.set_from_pixbuf (pix);
                     file_chooser.set_preview_widget_active (true);
                     file_chooser.set_preview_widget (preview);
                 } else {
-                    file_chooser.set_preview_widget (null);
+                    file_chooser.set_preview_widget_active (false);
                 }
             });
 

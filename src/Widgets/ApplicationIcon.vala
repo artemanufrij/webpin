@@ -31,9 +31,7 @@ namespace Webpin {
 
         Gtk.Image image;
         Gtk.Label label;
-        Gtk.MenuButton conf_btn;
         Gtk.Box box;
-        Gtk.ActionGroup action_group;
 
         internal DesktopFile desktop_file { get; private set; }
 
@@ -93,8 +91,12 @@ namespace Webpin {
 
         private void set_icon (string icon) {
             if (File.new_for_path (icon).query_exists ()) {
-                var pix = new Gdk.Pixbuf.from_file (icon);
-
+                Gdk.Pixbuf pix = null;
+                try {
+                    pix = new Gdk.Pixbuf.from_file (icon);
+                } catch (Error e) {
+                    warning (e.message);
+                }
                 int new_height = 64;
                 int new_width = 64;
                 int margin_vertical = 0;

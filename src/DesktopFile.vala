@@ -56,7 +56,11 @@ namespace Webpin {
             this.icon = icon;
 
             file = new GLib.KeyFile();
-            file.load_from_data (template, -1, GLib.KeyFileFlags.NONE);
+            try {
+                file.load_from_data (template, -1, GLib.KeyFileFlags.NONE);
+            } catch (Error e) {
+                warning (e.message);
+            }
             //TODO: Category
             file.set_string ("Desktop Entry", "Name", name);
             file.set_string ("Desktop Entry", "GenericName", name);
@@ -68,31 +72,53 @@ namespace Webpin {
 
         public DesktopFile.from_desktopappinfo(GLib.DesktopAppInfo info) {
             file = new GLib.KeyFile();
-            file.load_from_file (info.filename, KeyFileFlags.NONE);
+            try {
+                file.load_from_file (info.filename, KeyFileFlags.NONE);
+            } catch (Error e) {
+                warning (e.message);
+            }
             this.name = info.get_display_name ();
             this.icon = info.get_icon ().to_string ();
-            this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
+            try {
+                this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
+            } catch (Error e) {
+                warning (e.message);
+            }
         }
 
         public bool edit_propertie (string propertie, string val) {
-            string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-            file = new GLib.KeyFile();
-            file.load_from_file (filename, KeyFileFlags.NONE);
-            file.set_string ("Desktop Entry", propertie, val);
-            return file.save_to_file (filename);
+            bool return_value = false;
+            try {
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" + file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
+                file = new GLib.KeyFile();
+                file.load_from_file (filename, KeyFileFlags.NONE);
+                file.set_string ("Desktop Entry", propertie, val);
+                return_value = file.save_to_file (filename);
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return return_value;
         }
 
         public GLib.DesktopAppInfo save_to_file () {
-            string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-            print("Desktop file created: " + filename);
-            file.save_to_file (filename);
-            return new GLib.DesktopAppInfo.from_filename (filename);
+            GLib.DesktopAppInfo return_value = null;
+            try {
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
+                print("Desktop file created: " + filename);
+                file.save_to_file (filename);
+                return_value = new GLib.DesktopAppInfo.from_filename (filename);
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return return_value;
         }
 
         public bool delete_file () {
-            string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-	        File file = File.new_for_path (filename);
-	        try {
+            try {
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
+	            File file = File.new_for_path (filename);
 		        file.delete ();
 	        } catch (Error e) {
                 print(e.message + "\n");
