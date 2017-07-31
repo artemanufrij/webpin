@@ -5,7 +5,6 @@ vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
     Assistant.vala
     DesktopFile.vala
     InfoDialog.vala
-    Launcher.vala
     Settings.vala
     UrlEntry.vala
     WebApp.vala
@@ -18,7 +17,7 @@ PACKAGES
     gio-2.0
     gee-0.8
     posix
-    webkit2gtk-3.0
+    webkit2gtk-4.0
     libsoup-2.4
     gdk-pixbuf-2.0
 

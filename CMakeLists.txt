@@ -19,7 +19,7 @@ pkg_check_modules(DEPS REQUIRED
     gthread-2.0 
     granite 
     gee-0.8 
-    webkit2gtk-3.0 
+    webkit2gtk-4.0 
     libsoup-2.4 
     gdk-pixbuf-2.0
 )

@@ -15,7 +15,6 @@ public class WebBar : Gtk.HeaderBar {
 
     public WebBar (WebKit.WebView webview) {
 
-
         this.get_style_context ().remove_class ("header-bar");
         this.webview = webview;
 
@@ -48,7 +47,6 @@ public class WebBar : Gtk.HeaderBar {
 
         back_button.clicked.connect( () => { back_event(); });
         back_button.activate.connect( () => { back_event(); });
-
     }
 
     public void set_title_mode (title_mode mode) {
@@ -63,8 +61,8 @@ public class WebBar : Gtk.HeaderBar {
             pack_start (back_button);
             pack_start (url_entry);
             pack_end (share_button);
-            custom_title = new Gtk.Label(null);  
-            this.get_style_context ().add_class ("header-bar");          
+            custom_title = new Gtk.Label(null);
+            this.get_style_context ().add_class ("header-bar");
         }
     }
 
