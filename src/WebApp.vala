@@ -108,7 +108,7 @@ namespace Webpin {
             //load theme color saved in desktop file
             if (info != null && info.has_key("WebpinThemeColor")) {
                 var color = info.get_string("WebpinThemeColor");
-                print("COLOR: " + color+"\n");
+                debug("COLOR: " + color+"\n");
                 if(color != "none") {
                     ui_color = color;
                 }
@@ -124,7 +124,7 @@ namespace Webpin {
             //update theme color if changed
             app_view.load_changed.connect ( (load_event) => {
                 if (load_event == WebKit.LoadEvent.FINISHED) {
-                    print("determine color");
+                    debug ("determine color");
                     determine_theme_color.begin();
                 } else {
                     container.set_visible(true);
@@ -149,24 +149,22 @@ namespace Webpin {
 
             });*/
 
-            uint8[] data = {0, 0, 0};
-            int snap_width = 0;
-            try {
-		        var snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE, WebKit.SnapshotOptions.NONE, null);
+            Cairo.ImageSurface snap = null;
 
-		        // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
-		        // appears not to be the case
-                data = snap.get_data ();
-                snap_width = snap.get_width ();
+            try {
+                snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE, WebKit.SnapshotOptions.NONE, null);
             } catch (Error e) {
                 warning (e.message);
             }
+            // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
+            // appears not to be the case
+            unowned uint8[] data = snap.get_data ();
 
 		    uint8 r = data[2];
             uint8 g = data[1];
             uint8 b = data[0];
 
-		    for (var i = 4; i < snap_width * 3 * 4; i += 4) {
+		    for (var i = 4; i < snap.get_width () * 3 * 4; i += 4) {
 			    r = (r + data[i + 2]) / 2;
 			    g = (g + data[i + 1]) / 2;
 			    b = (b + data[i + 0]) / 2;

@@ -54,7 +54,7 @@ namespace Webpin {
                 return;
             }
 
-            mainwindow = new MainWindow (); 
+            mainwindow = new MainWindow ();
             mainwindow.set_application(this);
         }
     }

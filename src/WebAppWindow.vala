@@ -50,7 +50,7 @@ namespace Webpin {
             //style
             if (web_app.ui_color != "none") {
                 try {
-                    print("set color");
+                    debug ("set color");
                     var style_cp = style_str.replace ("@titlebar_color", web_app.ui_color);
                     var style_provider = new Gtk.CssProvider ();
                     style_provider.load_from_data (style_cp, -1);
@@ -63,7 +63,7 @@ namespace Webpin {
 
             web_app.theme_color_changed.connect( (color)=> {
                 try {
-                    print("set color");
+                    debug ("set color");
                     var style_cp = style_str.replace ("@titlebar_color", color);
                     var style_provider = new Gtk.CssProvider ();
                     style_provider.load_from_data (style_cp, -1);
@@ -92,14 +92,14 @@ namespace Webpin {
             this.destroy.connect(Gtk.main_quit);
 
             web_app.external_request.connect ( () => {
-                print("Web app external request\n");
+                debug ("Web app external request\n");
                 web_app.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
                 headerbar.set_title_mode (WebBar.title_mode.BROWSER);
                 web_app.set_visible_child_name ("external");
             });
 
             headerbar.back_event.connect ( () => {
-                print ("back");
+                debug ("back");
                 headerbar.set_title_mode (WebBar.title_mode.TITLE);
                 web_app.set_transition_type (Gtk.StackTransitionType.SLIDE_RIGHT);
                 web_app.set_visible_child_name ("app");

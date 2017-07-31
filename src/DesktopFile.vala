@@ -41,6 +41,7 @@ namespace Webpin {
                                     Type=Application
                                     Categories=Network;
                                     X-GNOME-FullName=webpin
+                                    StartupWMClass=Webpin
                                     WebpinThemeColor=none""";
 
         private GLib.KeyFile file;
