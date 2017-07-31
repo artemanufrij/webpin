@@ -58,12 +58,12 @@ namespace Webpin {
             headerbar.pack_start (back_button);
 
             add_button = new Gtk.Button ();
-            add_button.image = new Gtk.Image.from_icon_name ("add", Gtk.IconSize.LARGE_TOOLBAR);
+            add_button.image = new Gtk.Image.from_icon_name ("document-new", Gtk.IconSize.LARGE_TOOLBAR);
             add_button.tooltip_text = _("Add a new Web App");
             headerbar.pack_start (add_button);
 
             var welcome = new Granite.Widgets.Welcome (_("No Web Apps Availible"), _("Create a new Webby Web App."));
-            welcome.append ("add", _("Create App"), _("Create a new Webby web app."));
+            welcome.append ("document-new", _("Create App"), _("Create a new Webby web app."));
             welcome.activated.connect ((index) => {
                 switch (index) {
                     case 0:
