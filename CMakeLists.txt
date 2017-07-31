@@ -25,7 +25,6 @@ pkg_check_modules(DEPS REQUIRED
 )
 
 #
-add_subdirectory(vapi)
 add_subdirectory(po)
 
 add_definitions(${DEPS_CFLAGS})

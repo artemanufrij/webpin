@@ -67,7 +67,7 @@ static int main (string[] args) {
         var app = Webpin.WebpinApp.instance;
         return app.run (args);
     } else {
-        var app_info = DesktopFile.get_app_by_url (args[1]);
+        var app_info = Webpin.DesktopFile.get_app_by_url (args[1]);
         var app = new Webpin.WebAppWindow(app_info.get_display_name (), args[1]);
         app.show_all ();
     }
