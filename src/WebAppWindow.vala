@@ -58,8 +58,8 @@ namespace Webpin {
                     Gtk.Settings.get_default ().set ("gtk-application-prefer-dark-theme", should_use_dark_theme (web_app.ui_color));
                 } catch (GLib.Error err) {
          	        warning("Loading style failed");
-                }            
-            }        
+                }
+            }
 
             web_app.theme_color_changed.connect( (color)=> {
                 try {
@@ -77,8 +77,8 @@ namespace Webpin {
             this.set_titlebar (headerbar);
 
             var info = DesktopFile.get_app_by_url(webapp_uri);
-            var width = info.get_string("WebbyWindowWidth");
-            var height = info.get_string("WebbyWindowHeight");
+            var width = info.get_string("WebpinWindowWidth");
+            var height = info.get_string("WebpinWindowHeight");
 
             if(width !=null && height != null)
               set_default_size (int.parse(width), int.parse(height));
@@ -134,8 +134,8 @@ namespace Webpin {
 
       public void update_window_state (int width, int height) {
           var file = web_app.get_desktop_file();
-          file.edit_propertie ("WebbyWindowWidth", width.to_string());
-          file.edit_propertie ("WebbyWindowHeight", height.to_string());
+          file.edit_propertie ("WebpinWindowWidth", width.to_string());
+          file.edit_propertie ("WebpinWindowHeight", height.to_string());
       }
 
         public override bool key_press_event (Gdk.EventKey event) {
@@ -155,7 +155,7 @@ namespace Webpin {
             if (handled)
                 return true;
 
-            return (base.key_press_event != null) ? base.key_press_event (event) : true;        
+            return (base.key_press_event != null) ? base.key_press_event (event) : true;
         }
 
         private bool should_use_dark_theme (string theme_color) {

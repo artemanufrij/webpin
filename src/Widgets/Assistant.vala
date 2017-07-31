@@ -27,7 +27,7 @@
  */
 
 namespace Webpin {
-    public class WebbyAssistant : Gtk.Box {
+    public class Assistant : Gtk.Box {
 
         public enum assistant_mode { new_app, edit_app }
 
@@ -55,7 +55,7 @@ namespace Webpin {
 
         private assistant_mode mode { get; set; default = assistant_mode.new_app; }
 
-        public WebbyAssistant () {
+        public Assistant () {
 
             GLib.Object (orientation: Gtk.Orientation.VERTICAL);
             apps = DesktopFile.get_applications ();

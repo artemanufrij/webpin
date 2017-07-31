@@ -149,17 +149,24 @@ namespace Webpin {
 
             });*/
 
-		    var snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE,
-			                                                             WebKit.SnapshotOptions.NONE, null);
+            uint8[] data = {0, 0, 0};
+            int snap_width = 0;
+            try {
+		        var snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE, WebKit.SnapshotOptions.NONE, null);
 
-		    // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
-		    // appears not to be the case
-		    unowned uint8[] data = snap.get_data ();
+		        // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
+		        // appears not to be the case
+                data = snap.get_data ();
+                snap_width = snap.get_width ();
+            } catch (Error e) {
+                warning (e.message);
+            }
+
 		    uint8 r = data[2];
             uint8 g = data[1];
             uint8 b = data[0];
 
-		    for (var i = 4; i < snap.get_width () * 3 * 4; i += 4) {
+		    for (var i = 4; i < snap_width * 3 * 4; i += 4) {
 			    r = (r + data[i + 2]) / 2;
 			    g = (g + data[i + 1]) / 2;
 			    b = (b + data[i + 0]) / 2;

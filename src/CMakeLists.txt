@@ -1,9 +1,9 @@
 vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
     Widgets/ApplicationIcon.vala
     Widgets/ApplicationsView.vala
+    Widgets/Assistant.vala
     Application.vala
     MainWindow.vala
-    Assistant.vala
     DesktopFile.vala
     InfoDialog.vala
     Settings.vala
@@ -14,12 +14,7 @@ vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
 PACKAGES
     gtk+-3.0
     granite
-    gio-2.0
-    gee-0.8
-    posix
     webkit2gtk-4.0
-    libsoup-2.4
-    gdk-pixbuf-2.0
 
 OPTIONS
     --vapidir=${CMAKE_SOURCE_DIR}/vapi

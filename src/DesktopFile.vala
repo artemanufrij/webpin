@@ -43,7 +43,6 @@ namespace Webpin {
                                     X-GNOME-FullName=webpin
                                     WebpinThemeColor=none""";
 
-
         private GLib.KeyFile file;
 
         public string name { get; private set; }

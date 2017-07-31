@@ -35,7 +35,7 @@ namespace Webpin {
         private Gtk.Button back_button;
         private Gtk.Button add_button;
 
-        private WebbyAssistant assistant;
+        private Assistant assistant;
         private ApplicationsView apps_view;
 
         public MainWindow () {
@@ -73,7 +73,7 @@ namespace Webpin {
             });
 
             apps_view = new ApplicationsView();
-            assistant = new WebbyAssistant();
+            assistant = new Assistant();
             stack = new Gtk.Stack ();
             stack.set_transition_duration (500);
 
