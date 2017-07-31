@@ -6,12 +6,12 @@ public class WebApp : Gtk.Stack {
     private string app_url;
     private GLib.DesktopAppInfo info;
     private DesktopFile file;
-    private WebKit.CookieManager cookie_manager; 
+    private WebKit.CookieManager cookie_manager;
     private Gtk.Box container; //the spinner container
-    
+
     public signal void external_request ();
     public signal void theme_color_changed(string color);
-    
+
     public WebApp (string webapp_name, string app_url) {
 
         this.app_url = app_url;
@@ -77,8 +77,8 @@ public class WebApp : Gtk.Stack {
         info = DesktopFile.get_app_by_url(app_url);
         file = new DesktopFile.from_desktopappinfo(info);
         //load theme color saved in desktop file
-        if (info != null && info.has_key("WebbyThemeColor")) {
-            var color = info.get_string("WebbyThemeColor");
+        if (info != null && info.has_key("WebpinThemeColor")) {
+            var color = info.get_string("WebpinThemeColor");
             print("COLOR: " + color+"\n");
             if(color != "none") {
                 ui_color = color;
@@ -113,11 +113,11 @@ public class WebApp : Gtk.Stack {
 	 * of pixels to get a good representative color of the page
 	 */
 	public async void determine_theme_color () {
-    
+
         //FIXME: This is useless without JSCore
-        /*string script = "var t = document.getElementsByTagName('meta').filter(function(e){return e.name == 'theme-color';)[0]; t ? t.value : null;"; 
+        /*string script = "var t = document.getElementsByTagName('meta').filter(function(e){return e.name == 'theme-color';)[0]; t ? t.value : null;";
 		app_view.run_javascript.begin (script, null, (obj, res)=> {
-            
+
         });*/
 
 		var snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE,
@@ -145,7 +145,7 @@ public class WebApp : Gtk.Stack {
             container.override_background_color (Gtk.StateFlags.NORMAL, background);
             theme_color_changed(ui_color);
             if (file != null)
-                file.edit_propertie ("WebbyThemeColor", ui_color);
+                file.edit_propertie ("WebpinThemeColor", ui_color);
         }
         container.set_visible(false);
 	}

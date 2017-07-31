@@ -3,17 +3,16 @@ public class DesktopFile : GLib.Object {
     private string template = """
                                 [Desktop Entry]
                                 Version=1.0
-                                Name=Webby
+                                Name=Webpin
                                 GenericName=Web app
-                                Comment=Webby web app
-                                Exec=webby
-                                Keywords=webby;webapp;internet;
+                                Comment=Webpin web app
+                                Exec=com.github.artemanufrij.webpin
+                                Keywords=webpin;webapp;internet;
                                 Icon=application-default-icon
                                 Terminal=false
                                 Type=Application
                                 Categories=Network;
-                                X-GNOME-FullName=Webby
-                                StartupWMClass=Webby
+                                X-GNOME-FullName=webpin
                                 WebbyThemeColor=none""";
 
 
@@ -34,7 +33,7 @@ public class DesktopFile : GLib.Object {
         file.set_string ("Desktop Entry", "Name", name);
         file.set_string ("Desktop Entry", "GenericName", name);
         file.set_string ("Desktop Entry", "X-GNOME-FullName", name);
-        file.set_string ("Desktop Entry", "Exec", "webby " + url);
+        file.set_string ("Desktop Entry", "Exec", "com.github.artemanufrij.webpin " + url);
         file.set_string ("Desktop Entry", "Icon", icon);
         file.set_string ("Desktop Entry", "StartupWMClass", url);
     }
@@ -44,11 +43,11 @@ public class DesktopFile : GLib.Object {
         file.load_from_file (info.filename, KeyFileFlags.NONE);
         this.name = info.get_display_name ();
         this.icon = info.get_icon ().to_string ();
-        this.url = file.get_string ("Desktop Entry", "Exec").substring (6);
+        this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
     }
 
     public bool edit_propertie (string propertie, string val) {
-        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webby.desktop";
+        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
         file = new GLib.KeyFile();
         file.load_from_file (filename, KeyFileFlags.NONE);
         file.set_string ("Desktop Entry", propertie, val);
@@ -56,14 +55,14 @@ public class DesktopFile : GLib.Object {
     }
 
     public GLib.DesktopAppInfo save_to_file () {
-        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webby.desktop";
+        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
         print("Desktop file created: " + filename);
         file.save_to_file (filename);
         return new GLib.DesktopAppInfo.from_filename (filename);
     }
 
     public bool delete_file () {
-        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webby.desktop";
+        string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
 	    File file = File.new_for_path (filename);
 	    try {
 		    file.delete ();
@@ -87,7 +86,7 @@ public class DesktopFile : GLib.Object {
 
             string keywords = desktop_app.get_string ("Keywords");
 
-            if (keywords != null && keywords.contains ("webby")) {
+            if (keywords != null && keywords.contains ("webpin")) {
                 list.set(desktop_app.get_name(), desktop_app);
             }
         }
