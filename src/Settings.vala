@@ -12,7 +12,7 @@ public class Settings : Granite.Services.Settings {
     public WindowState window_state { get; set; }
 
     private Settings () {
-        base ("org.pantheon.webby.SavedState");
+        base ("com.github.artemanufrij.webpin");
     }
 
     public enum WindowState {
