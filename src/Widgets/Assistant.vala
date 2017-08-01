@@ -47,7 +47,7 @@ namespace Webpin {
         private GLib.Regex protocol_regex;
         private Gee.HashMap<string, GLib.AppInfo> apps;
 
-        private string default_app_icon = "application-default-icon";
+        private string default_app_icon = "artemanufrij.webpin";
 
         private bool app_name_valid = false;
         private bool app_url_valid = false;

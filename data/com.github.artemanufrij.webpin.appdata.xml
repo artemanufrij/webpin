@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Artem Anufrij <artem.anufrij@live.de> -->
+<component type="desktop">
+    <id>com.github.artemanufrij.webpin.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0+</project_license>
+    <name>Webpin</name>
+    <summary>A simple app to pin websites on the desktop</summary>
+    <description>
+        <p>Pin your any favourite website on Applications Menu or Plank like a regular desktop app</p>
+    </description>
+    <categories>
+        <category>Utility</category>
+        <category>Internet</category>
+    </categories>
+    <custom>
+        <value key="x-appcenter-color-primary">#399cd2</value>
+        <value key="x-appcenter-color-primary-text">rgb(255,255,255)</value>
+        <value key="x-appcenter-suggested-price">1</value>
+    </custom>
+    <developer_name>Artem Anufrij</developer_name>
+    <url type="homepage">https://github.com/artemanufrij/webpin</url>
+    <url type="bugtracker">https://github.com/artemanufrij/webpin/issues</url>
+    <url type="help">https://github.com/artemanufrij/webpin/issues</url>
+    <update_contact>artem.anufrij@live.de</update_contact>
+    <screenshots>
+        <screenshot type="default">
+            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Screenshot.png</image>
+        </screenshot>
+    </screenshots>
+</component>
