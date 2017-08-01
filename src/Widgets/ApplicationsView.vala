@@ -70,7 +70,7 @@ namespace Webpin {
         }
 
         public void load_applications () {
-            applications = DesktopFile.get_webby_applications();
+            applications = DesktopFile.get_webpin_applications();
 
             foreach (GLib.DesktopAppInfo app in applications.values) {
                 this.add_button (app);

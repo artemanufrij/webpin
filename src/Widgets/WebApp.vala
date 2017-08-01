@@ -50,7 +50,7 @@ namespace Webpin {
             cookie_manager = WebKit.WebContext.get_default ().get_cookie_manager ();
             cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
 
-            string cookie_db = Environment.get_user_cache_dir () + "/webby/cookies/";
+            string cookie_db = Environment.get_user_cache_dir () + "/webpin/cookies/";
 
             var dir = GLib.File.new_for_path (cookie_db);
 
