@@ -6,7 +6,7 @@ Build-Depends: cmake (>= 2.8),
                cmake-elementary,
                debhelper (>= 9),
                libgranite-dev,
-               libwebkit2gtk-4.0,
+               libwebkit2gtk-4.0-dev,
                valac (>= 0.26)
 Standards-Version: 3.9.3
 
