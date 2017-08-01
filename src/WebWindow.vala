@@ -27,7 +27,7 @@
  */
 
 namespace Webpin {
-    public class WebAppWindow : Gtk.ApplicationWindow {
+    public class WebWindow : Gtk.ApplicationWindow {
 
         private bool is_full_screen = false;
 
@@ -37,7 +37,7 @@ namespace Webpin {
         private WebApp web_app;
         private WebBar headerbar;
 
-        public WebAppWindow (string webapp_name, string webapp_uri) {
+        public WebWindow (string webapp_name, string webapp_uri) {
 
             set_wmclass(webapp_uri, webapp_uri);
             web_app = new WebApp(webapp_name, webapp_uri);

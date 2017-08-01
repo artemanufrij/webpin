@@ -2,15 +2,15 @@ vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
     Widgets/ApplicationIcon.vala
     Widgets/ApplicationsView.vala
     Widgets/Assistant.vala
-    Application.vala
-    MainWindow.vala
-    DesktopFile.vala
-    InfoDialog.vala
+    Widgets/WebApp.vala
+    Widgets/WebBar.vala
+    Objects/DesktopFile.vala
+    Dialogs/InfoDialog.vala
     Settings.vala
     UrlEntry.vala
-    WebApp.vala
-    WebBar.vala
-    WebAppWindow.vala
+    MainWindow.vala
+    WebWindow.vala
+    Application.vala
 PACKAGES
     gtk+-3.0
     granite
