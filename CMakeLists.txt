@@ -30,6 +30,10 @@ include(ValaVersion)
 ensure_vala_version("0.26.0" MINIMUM)
 
 add_subdirectory (src)
+# Translation files
+set (GETTEXT_PACKAGE "${CMAKE_PROJECT_NAME}")
+add_definitions (-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
 add_subdirectory (po)
 add_subdirectory (data)
 add_subdirectory (schemas)
+

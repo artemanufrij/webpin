@@ -127,7 +127,7 @@ namespace Webpin {
             return true;
         }
 
-        public static Gee.HashMap<string, GLib.DesktopAppInfo> get_webby_applications () {
+        public static Gee.HashMap<string, GLib.DesktopAppInfo> get_webpin_applications () {
 
             var list = new Gee.HashMap<string, GLib.DesktopAppInfo>();
 

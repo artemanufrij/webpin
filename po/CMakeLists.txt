@@ -1,6 +1,6 @@
 include (Translations)
-add_translations_directory ("webby")
-add_translations_catalog ("webby"
-    ../src
+    add_translations_directory(${GETTEXT_PACKAGE})
+    add_translations_catalog(${GETTEXT_PACKAGE}
+    ../src/
     ../data
 )
