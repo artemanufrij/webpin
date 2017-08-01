@@ -11,7 +11,7 @@
     </description>
     <categories>
         <category>Utility</category>
-        <category>Internet</category>
+        <category>Network</category>
     </categories>
     <custom>
         <value key="x-appcenter-color-primary">#399cd2</value>
