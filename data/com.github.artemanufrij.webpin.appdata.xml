@@ -27,5 +27,8 @@
         <screenshot type="default">
             <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Screenshot.png</image>
         </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Apps.png</image>
+        </screenshot>
     </screenshots>
 </component>
