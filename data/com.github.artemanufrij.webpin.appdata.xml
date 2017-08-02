@@ -7,11 +7,11 @@
     <name>Webpin</name>
     <summary>A simple app to pin websites on the desktop</summary>
     <description>
-        <p>Pin your any favourite website on Applications Menu or Plank like a regular desktop app</p>
+        <p>Pin your any favorite website on Applications Menu or Plank like a regular desktop app</p>
     </description>
     <categories>
         <category>Utility</category>
-        <category>Internet</category>
+        <category>Network</category>
     </categories>
     <custom>
         <value key="x-appcenter-color-primary">#399cd2</value>
@@ -26,6 +26,9 @@
     <screenshots>
         <screenshot type="default">
             <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Screenshot.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Apps.png</image>
         </screenshot>
     </screenshots>
 </component>
