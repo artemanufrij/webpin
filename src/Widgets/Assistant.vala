@@ -70,7 +70,7 @@ namespace Webpin {
             }
 
             //welcome message
-            message = new Gtk.Label (_("Create a new web app with webpin"));
+            message = new Gtk.Label (_("Create a new web app"));
             message.get_style_context ().add_class ("h2");
             //app information
             icon_button = new Gtk.Button ();
