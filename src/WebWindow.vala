@@ -43,7 +43,7 @@ namespace Webpin {
 
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = webapp_name;
-
+            headerbar.show_close_button = true;
             //style
             if (web_app.ui_color != "none") {
                 try {
