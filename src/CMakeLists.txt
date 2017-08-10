@@ -3,7 +3,6 @@ vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
     Widgets/ApplicationsView.vala
     Widgets/Assistant.vala
     Widgets/WebApp.vala
-    Widgets/WebBar.vala
     Objects/DesktopFile.vala
     Dialogs/InfoDialog.vala
     Settings.vala

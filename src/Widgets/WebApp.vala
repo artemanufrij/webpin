@@ -30,7 +30,6 @@ namespace Webpin {
     public class WebApp : Gtk.Stack {
 
         public WebKit.WebView app_view;
-        public WebKit.WebView external_view;
         public string ui_color = "none";
         private string app_url;
         private GLib.DesktopAppInfo info;
@@ -38,13 +37,12 @@ namespace Webpin {
         private WebKit.CookieManager cookie_manager;
         private Gtk.Box container; //the spinner container
 
-        public signal void external_request ();
+        public signal void external_request (WebKit.NavigationAction action);
         public signal void theme_color_changed(string color);
 
         public WebApp (string webapp_name, string app_url) {
 
             this.app_url = app_url;
-            set_transition_duration (1000);
 
             //configure cookies settings
             cookie_manager = WebKit.WebContext.get_default ().get_cookie_manager ();
@@ -66,11 +64,8 @@ namespace Webpin {
             cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
 
             //load app viewer
-            app_view = new  WebKit.WebView.with_context (WebKit.WebContext.get_default ());
+            app_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
             app_view.load_uri (app_url);
-
-            //create external viewer
-            this.external_view = new WebKit.WebView ();
 
             //loading view
             var spinner = new Gtk.Spinner();
@@ -88,19 +83,12 @@ namespace Webpin {
             overlay.add(app_view);
             overlay.add_overlay(container);
 
-            add_titled(overlay, "app", "app");
-            add_titled(external_view, "external", "external");
-            set_visible_child_name ("app");
+            add(overlay);
 
-            app_view.create.connect ( () => {
+            app_view.create.connect ((action) => {
                 print("external request");
-                external_request ();
-                return external_view;
-            });
-            external_view.create.connect ( () => {
-                print("external request");
-                set_visible_child_name ("external");
-                return external_view;
+                external_request (action);
+                return new WebKit.WebView ();
             });
 
             info = DesktopFile.get_app_by_url(app_url);
@@ -132,9 +120,9 @@ namespace Webpin {
             });
         }
 
-      public DesktopFile get_desktop_file () {
-        return this.file;
-      }
+        public DesktopFile get_desktop_file () {
+            return this.file;
+        }
 
 	    /**Taken from WebView.vala in lp:midori
 	     * Check for the theme-color meta tag in the page and if that one can't be

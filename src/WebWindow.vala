@@ -35,17 +35,14 @@ namespace Webpin {
 
         //widgets
         private WebApp web_app;
-        private WebBar headerbar;
 
         public WebWindow (string webapp_name, string webapp_uri) {
 
             set_wmclass(webapp_uri, webapp_uri);
             web_app = new WebApp(webapp_name, webapp_uri);
 
-            headerbar = new WebBar(web_app.external_view);
-            headerbar.show_close_button = true;
+            var headerbar = new Gtk.HeaderBar ();
             headerbar.title = webapp_name;
-            headerbar.set_title_mode (WebBar.title_mode.TITLE);
 
             //style
             if (web_app.ui_color != "none") {
@@ -91,23 +88,13 @@ namespace Webpin {
 
             this.destroy.connect(Gtk.main_quit);
 
-            web_app.external_request.connect ( () => {
-                debug ("Web app external request\n");
-                web_app.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
-                headerbar.set_title_mode (WebBar.title_mode.BROWSER);
-                web_app.set_visible_child_name ("external");
-            });
-
-            headerbar.back_event.connect ( () => {
-                debug ("back");
-                headerbar.set_title_mode (WebBar.title_mode.TITLE);
-                web_app.set_transition_type (Gtk.StackTransitionType.SLIDE_RIGHT);
-                web_app.set_visible_child_name ("app");
-                //wait the animation to end before "cleaning" the web view
-                GLib.Timeout.add(web_app.get_transition_duration(), () => {
-                    web_app.external_view.load_uri ("about:blank");
-                    return false;
-                });
+            web_app.external_request.connect ((action) => {
+                debug ("Web app external request: %s", action.get_request ().uri);
+                try {
+                    Process.spawn_command_line_async ("xdg-open " + action.get_request ().uri);
+                } catch (Error e) {
+                    warning (e.message);
+                }
             });
 
             add(web_app);
