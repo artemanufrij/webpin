@@ -85,12 +85,14 @@ namespace Webpin {
             var height = info.get_string ("WebpinWindowHeight");
             var state = info.get_string ("WebpinWindowMaximized");
 
-            if (state != null && state == "max") {
-                this.maximize ();
-            } else if (width != null && height != null) {
+            if (width != null && height != null) {
                 set_default_size (int.parse(width), int.parse(height));
             } else {
                 set_default_size (1000, 600);
+            }
+
+            if (state != null && state == "max") {
+                this.maximize ();
             }
 
             this.delete_event.connect (() => {
@@ -139,12 +141,17 @@ namespace Webpin {
             is_full_screen = !is_full_screen;
         }
 
-      public void update_window_state (int width, int height, bool is_maximized) {
-          var file = web_app.get_desktop_file();
-          file.edit_propertie ("WebpinWindowWidth", width.to_string());
-          file.edit_propertie ("WebpinWindowHeight", height.to_string());
-          file.edit_propertie ("WebpinWindowMaximized", is_maximized == true ? "max" : "norm");
-      }
+        public void update_window_state (int width, int height, bool is_maximized) {
+            var file = web_app.get_desktop_file();
+
+            if (is_maximized) {
+                file.edit_propertie ("WebpinWindowMaximized", "max");
+            } else {
+                file.edit_propertie ("WebpinWindowWidth", width.to_string());
+                file.edit_propertie ("WebpinWindowHeight", height.to_string());
+                file.edit_propertie ("WebpinWindowMaximized", "norm");
+            }
+        }
 
         public override bool key_press_event (Gdk.EventKey event) {
             bool handled = true;
