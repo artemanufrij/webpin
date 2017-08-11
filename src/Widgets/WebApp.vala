@@ -35,7 +35,7 @@ namespace Webpin {
         private GLib.DesktopAppInfo info;
         private DesktopFile file;
         private WebKit.CookieManager cookie_manager;
-        private Gtk.Box container; //the spinner container
+        private Gtk.Box container;
         Granite.Widgets.Toast app_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
@@ -80,10 +80,12 @@ namespace Webpin {
             //overlay trick to make snapshot work even with the spinner
             var overlay = new Gtk.Overlay ();
             overlay.add (app_view);
-            overlay.add_overlay (container);
             overlay.add_overlay (app_notification);
 
-            add (overlay);
+            add_named (container, "splash");
+            add_named (overlay, "app");
+
+            transition_type = Gtk.StackTransitionType.SLIDE_UP;
 
             app_view.create.connect ((action) => {
                 print("external request");
@@ -160,35 +162,35 @@ namespace Webpin {
             } catch (Error e) {
                 warning (e.message);
             }
-            // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
-            // appears not to be the case
-            unowned uint8[] data = snap.get_data ();
 
-		    uint8 r = data[2];
-            uint8 g = data[1];
-            uint8 b = data[0];
+            if (snap != null) {
+                // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
+                // appears not to be the case
+                unowned uint8[] data = snap.get_data ();
 
-		    for (var i = 4; i < snap.get_width () * 3 * 4; i += 4) {
-			    r = (r + data[i + 2]) / 2;
-			    g = (g + data[i + 1]) / 2;
-			    b = (b + data[i + 0]) / 2;
-		    }
+		        uint8 r = data[2];
+                uint8 g = data[1];
+                uint8 b = data[0];
 
-		    var color = "#%02x%02x%02x".printf (r, g, b);
+		        for (var i = 4; i < snap.get_width () * 3 * 4; i += 4) {
+			        r = (r + data[i + 2]) / 2;
+			        g = (g + data[i + 1]) / 2;
+			        b = (b + data[i + 0]) / 2;
+		        }
 
-            if (color != ui_color) {
-                ui_color = color;
-                Gdk.RGBA background = {};
-                background.parse (ui_color);
-                container.override_background_color (Gtk.StateFlags.NORMAL, background);
-                theme_color_changed(ui_color);
-                if (file != null)
-                    file.edit_propertie ("WebpinThemeColor", ui_color);
+		        var color = "#%02x%02x%02x".printf (r, g, b);
+
+                if (color != ui_color) {
+                    ui_color = color;
+                    Gdk.RGBA background = {};
+                    background.parse (ui_color);
+                    container.override_background_color (Gtk.StateFlags.NORMAL, background);
+                    theme_color_changed(ui_color);
+                    if (file != null)
+                        file.edit_propertie ("WebpinThemeColor", ui_color);
+                }
             }
-            if(container.visible) {
-                container.visible = false;
-            }
-
+            visible_child_name = "app";
             request_finished ();
 	    }
     }
