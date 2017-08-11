@@ -40,6 +40,9 @@ namespace Webpin {
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void theme_color_changed(string color);
+        public signal void request_begin ();
+        public signal void request_finished ();
+
 
         public WebApp (string webapp_name, string app_url) {
 
@@ -73,7 +76,7 @@ namespace Webpin {
             spinner.active = true;
             spinner.halign = Gtk.Align.CENTER;
             spinner.valign = Gtk.Align.CENTER;
-            spinner.set_size_request (24, 24);
+            spinner.set_size_request (32, 32);
             container = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
             container.halign = Gtk.Align.FILL;
             container.valign = Gtk.Align.FILL;
@@ -118,6 +121,7 @@ namespace Webpin {
 
             //update theme color if changed
             app_view.load_changed.connect ( (load_event) => {
+                request_begin ();
                 if (load_event == WebKit.LoadEvent.FINISHED) {
                     debug ("determine color");
                     determine_theme_color.begin();
@@ -174,7 +178,11 @@ namespace Webpin {
                 if (file != null)
                     file.edit_propertie ("WebpinThemeColor", ui_color);
             }
-            container.set_visible(false);
+            if(container.visible) {
+                container.visible = false;
+            }
+
+            request_finished ();
 	    }
     }
 }

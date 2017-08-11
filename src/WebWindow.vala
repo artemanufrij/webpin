@@ -36,6 +36,8 @@ namespace Webpin {
         //widgets
         private WebApp web_app;
 
+        Gtk.Spinner spinner;
+
         public WebWindow (string webapp_name, string webapp_uri) {
 
             set_wmclass(webapp_uri, webapp_uri);
@@ -44,6 +46,11 @@ namespace Webpin {
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = webapp_name;
             headerbar.show_close_button = true;
+
+            spinner = new Gtk.Spinner ();
+            spinner.set_size_request (16, 16);
+            headerbar.pack_end (spinner);
+
             //style
             if (web_app.ui_color != "none") {
                 try {
@@ -95,6 +102,14 @@ namespace Webpin {
                 } catch (Error e) {
                     warning (e.message);
                 }
+            });
+
+            web_app.request_begin.connect (() => {
+                spinner.active = true;
+            });
+
+            web_app.request_finished.connect (() => {
+                spinner.active = false;
             });
 
             add(web_app);
