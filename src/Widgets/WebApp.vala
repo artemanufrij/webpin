@@ -71,16 +71,9 @@ namespace Webpin {
             app_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
             app_view.load_uri (app_url);
 
-            //loading view
-            var spinner = new Gtk.Spinner();
-            spinner.active = true;
-            spinner.halign = Gtk.Align.CENTER;
-            spinner.valign = Gtk.Align.CENTER;
-            spinner.set_size_request (32, 32);
             container = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
             container.halign = Gtk.Align.FILL;
             container.valign = Gtk.Align.FILL;
-            container.pack_start(spinner, true, true, 0);
 
             app_notification = new Granite.Widgets.Toast ("");
 
@@ -112,6 +105,20 @@ namespace Webpin {
                 }
             }
 
+            var icon_file = File.new_for_path (file.icon);
+
+            Gtk.Image icon;
+            if (icon_file.query_exists ()) {
+                try {
+                    icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (file.icon, 48, 48, true));
+                } catch (Error e) {
+                    warning (e.message);
+                    icon = new Gtk.Image.from_icon_name ("artemanufrij.webpin", Gtk.IconSize.DIALOG);
+                }
+            } else {
+                icon = new Gtk.Image.from_icon_name (file.icon, Gtk.IconSize.DIALOG);
+            }
+            container.pack_start(icon, true, true, 0);
 
             Gdk.RGBA background = {};
             if (!background.parse (ui_color)){
