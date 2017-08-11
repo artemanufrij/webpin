@@ -81,17 +81,22 @@ namespace Webpin {
             this.set_titlebar (headerbar);
 
             var info = DesktopFile.get_app_by_url(webapp_uri);
-            var width = info.get_string("WebpinWindowWidth");
-            var height = info.get_string("WebpinWindowHeight");
+            var width = info.get_string ("WebpinWindowWidth");
+            var height = info.get_string ("WebpinWindowHeight");
+            var state = info.get_string ("WebpinWindowMaximized");
 
-            if(width !=null && height != null)
-              set_default_size (int.parse(width), int.parse(height));
-            else
-              set_default_size (1000, 600);
+            if (state != null && state == "max") {
+                this.maximize ();
+            } else if (width != null && height != null) {
+                set_default_size (int.parse(width), int.parse(height));
+            } else {
+                set_default_size (1000, 600);
+            }
+
             this.delete_event.connect (() => {
-                update_window_state(this.get_allocated_width (), this.get_allocated_height () );
+                update_window_state(this.get_allocated_width (), this.get_allocated_height (), this.is_maximized);
                 return false;
-	          });
+            });
 
             this.destroy.connect(Gtk.main_quit);
 
@@ -134,10 +139,11 @@ namespace Webpin {
             is_full_screen = !is_full_screen;
         }
 
-      public void update_window_state (int width, int height) {
+      public void update_window_state (int width, int height, bool is_maximized) {
           var file = web_app.get_desktop_file();
           file.edit_propertie ("WebpinWindowWidth", width.to_string());
           file.edit_propertie ("WebpinWindowHeight", height.to_string());
+          file.edit_propertie ("WebpinWindowMaximized", is_maximized == true ? "max" : "norm");
       }
 
         public override bool key_press_event (Gdk.EventKey event) {
