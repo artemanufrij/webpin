@@ -149,6 +149,16 @@ namespace Webpin {
             case Gdk.Key.F11:
                 toggle_fullscreen();
                 break;
+            case Gdk.Key.Left:
+                if (Gdk.ModifierType.MOD1_MASK in event.state) {
+                    web_app.app_view.go_back ();
+                }
+                break;
+            case Gdk.Key.Right:
+                if (Gdk.ModifierType.MOD1_MASK in event.state) {
+                    web_app.app_view.go_forward ();
+                }
+                break;
             default:
                 handled = false;
                 break;
