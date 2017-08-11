@@ -36,6 +36,7 @@ namespace Webpin {
         private DesktopFile file;
         private WebKit.CookieManager cookie_manager;
         private Gtk.Box container; //the spinner container
+        Granite.Widgets.Toast app_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void theme_color_changed(string color);
@@ -78,15 +79,21 @@ namespace Webpin {
             container.valign = Gtk.Align.FILL;
             container.pack_start(spinner, true, true, 0);
 
+            app_notification = new Granite.Widgets.Toast ("");
+
             //overlay trick to make snapshot work even with the spinner
             var overlay = new Gtk.Overlay ();
-            overlay.add(app_view);
-            overlay.add_overlay(container);
+            overlay.add (app_view);
+            overlay.add_overlay (container);
+            overlay.add_overlay (app_notification);
 
-            add(overlay);
+            add (overlay);
 
             app_view.create.connect ((action) => {
                 print("external request");
+                app_notification.title = _("Open request in an external application…");
+                app_notification.send_notification ();
+
                 external_request (action);
                 return new WebKit.WebView ();
             });
@@ -114,8 +121,6 @@ namespace Webpin {
                 if (load_event == WebKit.LoadEvent.FINISHED) {
                     debug ("determine color");
                     determine_theme_color.begin();
-                } else {
-                    container.set_visible(true);
                 }
             });
         }
