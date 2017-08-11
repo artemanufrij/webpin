@@ -152,11 +152,15 @@ namespace Webpin {
             case Gdk.Key.Left:
                 if (Gdk.ModifierType.MOD1_MASK in event.state) {
                     web_app.app_view.go_back ();
+                } else {
+                    handled = false;
                 }
                 break;
             case Gdk.Key.Right:
                 if (Gdk.ModifierType.MOD1_MASK in event.state) {
                     web_app.app_view.go_forward ();
+                } else {
+                    handled = false;
                 }
                 break;
             default:
