@@ -85,6 +85,7 @@ namespace Webpin {
             add_named (container, "splash");
             add_named (overlay, "app");
 
+            transition_duration = 350;
             transition_type = Gtk.StackTransitionType.SLIDE_UP;
 
             app_view.create.connect ((action) => {
