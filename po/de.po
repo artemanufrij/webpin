@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webby-browser\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-05 11:01+0200\n"
-"PO-Revision-Date: 2017-08-05 11:04+0200\n"
+"POT-Creation-Date: 2017-08-11 21:36+0200\n"
+"PO-Revision-Date: 2017-08-11 21:37+0200\n"
 "Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "Language: de\n"
@@ -85,6 +85,10 @@ msgstr "Abbrechen"
 #: ../src/Widgets/Assistant.vala:239
 msgid "Open"
 msgstr "Öffnen"
+
+#: ../src/Widgets/WebApp.vala:93
+msgid "Open request in an external application…"
+msgstr "Öffne Anfrage in einer externen Anwendung…"
 
 #: ../src/MainWindow.vala:56
 msgid "Applications"
