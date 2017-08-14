@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: webby-browser\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 21:36+0200\n"
-"PO-Revision-Date: 2017-08-11 21:37+0200\n"
+"POT-Creation-Date: 2017-08-14 18:27+0200\n"
+"PO-Revision-Date: 2017-08-14 18:27+0200\n"
 "Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "Language: de\n"
@@ -99,7 +99,7 @@ msgid "Add a new Web App"
 msgstr "Eine neue Webapp hinzufügen"
 
 #: ../src/MainWindow.vala:65
-msgid "No Web Apps Availible"
+msgid "No Web Apps Available"
 msgstr "Es sind keine Webapps vorhanden"
 
 #: ../src/MainWindow.vala:65
@@ -113,6 +113,9 @@ msgstr "App erstellen"
 #: ../src/MainWindow.vala:66
 msgid "Create a new web app with Webpin"
 msgstr "Erstelle eine neue Webapp mit Webpin"
+
+#~ msgid "No Web Apps Availible"
+#~ msgstr "Es sind keine Webapps vorhanden"
 
 #~ msgid "Create a new Webpin Web App."
 #~ msgstr "Erstelle eine neue Webapp mit Webpin"
