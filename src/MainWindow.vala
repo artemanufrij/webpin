@@ -62,7 +62,7 @@ namespace Webpin {
             add_button.tooltip_text = _("Add a new Web App");
             headerbar.pack_start (add_button);
 
-            var welcome = new Granite.Widgets.Welcome (_("No Web Apps Availible"), _("Manage your web apps."));
+            var welcome = new Granite.Widgets.Welcome (_("No Web Apps Available"), _("Manage your web apps."));
             welcome.append ("document-new", _("Create App"), _("Create a new web app with Webpin"));
             welcome.activated.connect ((index) => {
                 switch (index) {
