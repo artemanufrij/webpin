@@ -52,7 +52,7 @@ namespace Webpin {
 
         public DesktopFile (string name, string url, string icon) {
             this.name = name;
-            this.url = url;
+            this.url = url.replace ("%", "%%");
             this.icon = icon;
 
             file = new GLib.KeyFile();
@@ -153,7 +153,7 @@ namespace Webpin {
 
                 var desktop_app = new GLib.DesktopAppInfo(app.get_id ());
 
-                var exec = desktop_app.get_string ("Exec");
+                var exec = desktop_app.get_string ("Exec").replace ("%%", "%");
 
                 if (exec != null && exec.contains (url)) {
                     return desktop_app;

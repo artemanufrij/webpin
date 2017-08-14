@@ -298,7 +298,7 @@ namespace Webpin {
 
             string icon = icon_name_entry.get_text ();
             string name = app_name_entry.get_text ();
-            string url = app_url_entry.get_text ();
+            string url = app_url_entry.get_text ().replace ("%", "%%");
 
             if (icon == "")
                 icon = default_app_icon;
@@ -320,7 +320,7 @@ namespace Webpin {
             mode = assistant_mode.edit_app;
             app_name_entry.text = desktop_file.name;
             app_name_entry.set_sensitive (false);
-            app_url_entry.text = desktop_file.url;
+            app_url_entry.text = desktop_file.url.replace ("%%", "%");
             icon_name_entry.text = desktop_file.icon;
             update_app_icon ();
         }

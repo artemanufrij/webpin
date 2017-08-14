@@ -56,7 +56,7 @@ namespace Webpin {
                 if ((child as Gtk.FlowBoxChild).get_child () is ApplicationIcon) {
                     var app_icon = (child as Gtk.FlowBoxChild).get_child () as ApplicationIcon;
                     try {
-                        Process.spawn_command_line_async ("com.github.artemanufrij.webpin " + app_icon.desktop_file.url);
+                        Process.spawn_command_line_async ("com.github.artemanufrij.webpin " + app_icon.desktop_file.url.replace("%%", "%"));
                     } catch (SpawnError e) {
                         debug ("Error: %s\n", e.message);
                     }
