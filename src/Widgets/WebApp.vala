@@ -199,7 +199,7 @@ namespace Webpin {
 
 		        var color = "#%02x%02x%02x".printf (r, g, b);
 
-                if (color != ui_color) {
+                if (color != ui_color && color != "#ffffff") {
                     ui_color = color;
                     Gdk.RGBA background = {};
                     background.parse (ui_color);
