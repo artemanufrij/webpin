@@ -199,14 +199,15 @@ namespace Webpin {
 
 		        var color = "#%02x%02x%02x".printf (r, g, b);
 
-                if (color != ui_color && color != "#ffffff") {
+                if (color != ui_color && color != "#fefefe") {
                     ui_color = color;
                     Gdk.RGBA background = {};
                     background.parse (ui_color);
                     container.override_background_color (Gtk.StateFlags.NORMAL, background);
-                    theme_color_changed(ui_color);
-                    if (file != null)
+                    theme_color_changed (ui_color);
+                    if (file != null) {
                         file.edit_propertie ("WebpinThemeColor", ui_color);
+                    }
                 }
             }
             visible_child_name = "app";
