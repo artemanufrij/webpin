@@ -37,6 +37,7 @@ namespace Webpin {
         private WebKit.CookieManager cookie_manager;
         private Gtk.Box container;
         Granite.Widgets.Toast app_notification;
+        Notification desktop_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void theme_color_changed(string color);
@@ -76,6 +77,7 @@ namespace Webpin {
             container.valign = Gtk.Align.FILL;
 
             app_notification = new Granite.Widgets.Toast ("");
+            desktop_notification = new Notification ("");
 
             //overlay trick to make snapshot work even with the spinner
             var overlay = new Gtk.Overlay ();
@@ -114,6 +116,7 @@ namespace Webpin {
             if (icon_file.query_exists ()) {
                 try {
                     icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (file.icon, 48, 48, true));
+
                 } catch (Error e) {
                     warning (e.message);
                     icon = new Gtk.Image.from_icon_name ("artemanufrij.webpin", Gtk.IconSize.DIALOG);
@@ -136,6 +139,21 @@ namespace Webpin {
                     debug ("determine color");
                     determine_theme_color.begin();
                 }
+            });
+
+            app_view.show_notification.connect ((notification) => {
+                desktop_notification.set_title (notification.title);
+                desktop_notification.set_body (notification.body);
+                WebpinApp.instance.send_notification (null, desktop_notification);
+                return false;
+            });
+
+            app_view.permission_request.connect ((permission) => {
+                var permission_type = permission as WebKit.NotificationPermissionRequest;
+                if (permission_type != null) {
+                    permission_type.allow ();
+                }
+                return false;
             });
         }
 
@@ -192,6 +210,9 @@ namespace Webpin {
                 }
             }
             visible_child_name = "app";
+            if (app_notification.reveal_child) {
+                app_notification.reveal_child = false;
+            }
             request_finished ();
 	    }
     }
