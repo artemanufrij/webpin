@@ -172,6 +172,8 @@ namespace Webpin {
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level += 0.1;
                     web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                } else {
+                    handled = false;
                 }
                 break;
             case Gdk.Key.KP_Subtract:
@@ -179,6 +181,8 @@ namespace Webpin {
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level -= 0.1;
                     web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                } else {
+                    handled = false;
                 }
                 break;
             case Gdk.Key.KP_0:
@@ -186,6 +190,8 @@ namespace Webpin {
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level = 1;
                     web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                } else {
+                    handled = false;
                 }
                 break;
             case Gdk.Key.F5:
