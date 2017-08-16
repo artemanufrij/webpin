@@ -84,6 +84,7 @@ namespace Webpin {
             var width = info.get_string ("WebpinWindowWidth");
             var height = info.get_string ("WebpinWindowHeight");
             var state = info.get_string ("WebpinWindowMaximized");
+            var zoom = info.get_string ("WebpinWindowZoom");
 
             if (width != null && height != null) {
                 set_default_size (int.parse(width), int.parse(height));
@@ -93,6 +94,10 @@ namespace Webpin {
 
             if (state != null && state == "max") {
                 this.maximize ();
+            }
+
+            if (zoom != null) {
+                web_app.app_view.zoom_level = double.parse (zoom);
             }
 
             this.delete_event.connect (() => {
@@ -161,6 +166,27 @@ namespace Webpin {
                 break;
             case Gdk.Key.F11:
                 toggle_fullscreen();
+                break;
+            case Gdk.Key.KP_Add:
+            case Gdk.Key.plus:
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    web_app.app_view.zoom_level += 0.1;
+                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                }
+                break;
+            case Gdk.Key.KP_Subtract:
+            case Gdk.Key.minus:
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    web_app.app_view.zoom_level -= 0.1;
+                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                }
+                break;
+            case Gdk.Key.KP_0:
+            case Gdk.Key.@0:
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    web_app.app_view.zoom_level = 1;
+                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                }
                 break;
             case Gdk.Key.F5:
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
