@@ -27,7 +27,7 @@
  */
 
 namespace Webpin {
-    public class WebWindow : Gtk.ApplicationWindow {
+    public class WebWindow : Gtk.Window {
 
         private bool is_full_screen = false;
 
@@ -38,13 +38,17 @@ namespace Webpin {
 
         Gtk.Spinner spinner;
 
-        public WebWindow (string webapp_name, string webapp_uri) {
+        public DesktopFile desktop_file { get; private set; }
 
-            set_wmclass(webapp_uri, webapp_uri);
-            web_app = new WebApp(webapp_name, webapp_uri);
+        public WebWindow (DesktopFile desktop_file) {
+            this.desktop_file = desktop_file;
+            this.events |= Gdk.EventMask.STRUCTURE_MASK;
+
+            set_wmclass(desktop_file.url, desktop_file.url);
+            web_app = new WebApp(desktop_file.name, desktop_file.url);
 
             var headerbar = new Gtk.HeaderBar ();
-            headerbar.title = webapp_name;
+            headerbar.title = desktop_file.name;
             headerbar.show_close_button = true;
 
             spinner = new Gtk.Spinner ();
@@ -61,7 +65,7 @@ namespace Webpin {
                     headerbar.get_style_context ().add_provider (style_provider, -1);
                     Gtk.Settings.get_default ().set ("gtk-application-prefer-dark-theme", should_use_dark_theme (web_app.ui_color));
                 } catch (GLib.Error err) {
-         	        warning("Loading style failed");
+                    warning("Loading style failed");
                 }
             }
 
@@ -74,17 +78,16 @@ namespace Webpin {
                     headerbar.get_style_context ().add_provider (style_provider, -1);
                     Gtk.Settings.get_default ().set ("gtk-application-prefer-dark-theme", should_use_dark_theme (color));
                 } catch (GLib.Error err) {
-         	        warning("Loading style failed");
+                    warning("Loading style failed");
                 }
             });
 
             this.set_titlebar (headerbar);
 
-            var info = DesktopFile.get_app_by_url(webapp_uri);
-            var width = info.get_string ("WebpinWindowWidth");
-            var height = info.get_string ("WebpinWindowHeight");
-            var state = info.get_string ("WebpinWindowMaximized");
-            var zoom = info.get_string ("WebpinWindowZoom");
+            var width = desktop_file.info.get_string ("WebpinWindowWidth");
+            var height = desktop_file.info.get_string ("WebpinWindowHeight");
+            var state = desktop_file.info.get_string ("WebpinWindowMaximized");
+            var zoom = desktop_file.info.get_string ("WebpinWindowZoom");
 
             if (width != null && height != null) {
                 set_default_size (int.parse(width), int.parse(height));
@@ -102,10 +105,11 @@ namespace Webpin {
 
             this.delete_event.connect (() => {
                 update_window_state(this.get_allocated_width (), this.get_allocated_height (), this.is_maximized);
-                return false;
+                if (desktop_file.hide_on_close) {
+                    this.hide ();
+                }
+                return desktop_file.hide_on_close;
             });
-
-            this.destroy.connect(Gtk.main_quit);
 
             web_app.external_request.connect ((action) => {
                 debug ("Web app external request: %s", action.get_request ().uri);

@@ -45,15 +45,30 @@ namespace Webpin {
                                     WebpinThemeColor=none""";
 
         private GLib.KeyFile file;
+        public DesktopAppInfo info { get; set; }
 
         public string name { get; private set; }
         public string url { get; private set; }
         public string icon { get; private set; }
+        public bool stay_open { get; private set; }
+        public bool hide_on_close {
+            get {
+                this.file = new GLib.KeyFile();
+                try {
+                    file.load_from_file (info.filename, KeyFileFlags.NONE);
+                    return file.get_string ("Desktop Entry", "WebpinStayOpen") == "true";
+                } catch (Error e) {
+                    warning (e.message);
+                }
+                return false;
+            }
+        }
 
-        public DesktopFile (string name, string url, string icon) {
+        public DesktopFile (string name, string url, string icon, bool stay_open) {
             this.name = name;
             this.url = url.replace ("%", "%%");
             this.icon = icon;
+            this.stay_open = stay_open;
 
             file = new GLib.KeyFile();
             try {
@@ -68,10 +83,12 @@ namespace Webpin {
             file.set_string ("Desktop Entry", "Exec", "com.github.artemanufrij.webpin " + url);
             file.set_string ("Desktop Entry", "Icon", icon);
             file.set_string ("Desktop Entry", "StartupWMClass", url);
+            file.set_string ("Desktop Entry", "WebpinStayOpen", stay_open.to_string ());
         }
 
         public DesktopFile.from_desktopappinfo(GLib.DesktopAppInfo info) {
-            file = new GLib.KeyFile();
+            this.info = info;
+            this.file = new GLib.KeyFile();
             try {
                 file.load_from_file (info.filename, KeyFileFlags.NONE);
             } catch (Error e) {
@@ -81,6 +98,7 @@ namespace Webpin {
             this.icon = info.get_icon ().to_string ();
             try {
                 this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
+                this.stay_open = file.get_string ("Desktop Entry", "WebpinStayOpen") == "true";
             } catch (Error e) {
                 warning (e.message);
             }
@@ -111,19 +129,18 @@ namespace Webpin {
             } catch (Error e) {
                 warning (e.message);
             }
-
             return return_value;
         }
 
         public bool delete_file () {
             try {
                 string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-	            File file = File.new_for_path (filename);
-		        file.delete ();
-	        } catch (Error e) {
+                File file = File.new_for_path (filename);
+                file.delete ();
+            } catch (Error e) {
                 print(e.message + "\n");
                 return false;
-	        }
+            }
             return true;
         }
 

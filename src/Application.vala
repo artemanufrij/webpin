@@ -31,6 +31,8 @@ namespace Webpin {
 
         static WebpinApp _instance = null;
 
+        public GLib.List<WebWindow> app_list;
+
         public static WebpinApp instance {
             get {
                 if (_instance == null)
@@ -40,10 +42,12 @@ namespace Webpin {
         }
 
         construct {
-            program_name = "Image Burner";
+            program_name = "Webpin";
             exec_name = "com.github.artemanufrij.webpin";
             application_id = "com.github.artemanufrij.webpin";
             app_launcher = application_id + ".desktop";
+            flags |= GLib.ApplicationFlags.HANDLES_OPEN;
+            app_list = new GLib.List<WebWindow> ();
         }
 
         public Gtk.Window mainwindow;
@@ -55,23 +59,34 @@ namespace Webpin {
             }
 
             mainwindow = new MainWindow ();
+            mainwindow.destroy.connect (() => { mainwindow = null; });
             mainwindow.set_application(this);
+        }
+
+        public override void open (File[] files, string hint) {
+            debug (files [0].get_uri ());
+            start_webapp (files [0].get_uri ());
+        }
+        
+        public void start_webapp (string url) {
+            foreach (var item in app_list) {
+                if (item.desktop_file.url == url) {
+                    item.present ();
+                    return;
+                }
+            }
+
+            var app_info = Webpin.DesktopFile.get_app_by_url (url);
+            var desktop_file = new Webpin.DesktopFile.from_desktopappinfo(app_info);
+            var app = new WebWindow(desktop_file);
+            app.destroy.connect (() => { app_list.remove (app); });
+            app.set_application (this);
+            app_list.append (app);
         }
     }
 }
 static int main (string[] args) {
-
     Gtk.init (ref args);
-
-    if (args.length < 2 || args[1] == "--about" || args[1] == "-d") {
-        var app = Webpin.WebpinApp.instance;
-        return app.run (args);
-    } else {
-        var app_info = Webpin.DesktopFile.get_app_by_url (args[1]);
-        var app = new Webpin.WebWindow(app_info.get_display_name (), args[1]);
-        app.show_all ();
-    }
-
-    Gtk.main ();
-    return 0;
+    var app = Webpin.WebpinApp.instance;
+    return app.run (args);
 }

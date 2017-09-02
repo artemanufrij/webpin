@@ -41,6 +41,7 @@ namespace Webpin {
         private Gtk.Entry icon_name_entry;
         private Gtk.CheckButton save_cookies_check;
         private Gtk.CheckButton save_password_check;
+        private Gtk.CheckButton stay_open_when_closed;
         private Gtk.Popover icon_selector_popover;
         private Gtk.FileChooserDialog file_chooser;
         private Gtk.Button accept_button;
@@ -114,6 +115,8 @@ namespace Webpin {
             save_cookies_check.active = true;
             save_password_check = new Gtk.CheckButton.with_label (_("Save login information"));
             save_password_check.active = false;
+            stay_open_when_closed = new Gtk.CheckButton.with_label (_("Run in background when closed"));
+            stay_open_when_closed.active = false;
 
             //app information section
             var app_input_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
@@ -131,8 +134,8 @@ namespace Webpin {
             var app_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
             app_options_box.pack_start (save_cookies_check, true, false, 0);
             app_options_box.pack_start (save_password_check, true, false, 0);
+            app_options_box.pack_start (stay_open_when_closed, true, false, 0);
             app_options_box.halign = Gtk.Align.CENTER;
-
 
             //create button
             accept_button = new Gtk.Button.with_label(_("Save app"));
@@ -221,17 +224,17 @@ namespace Webpin {
         }
 
         private void on_icon_chooser_activate () {
-	        var filter = new Gtk.FileFilter ();
+            var filter = new Gtk.FileFilter ();
 
-	        filter.set_filter_name (_("Images"));
-	        filter.add_pattern ("*.png");
-	        filter.add_pattern ("*.svg");
-	        filter.add_pattern ("*.jpg");
-	        filter.add_pattern ("*.jpeg");
-	        filter.add_pattern ("*.PNG");
-	        filter.add_pattern ("*.SVG");
-	        filter.add_pattern ("*.JPG");
-	        filter.add_pattern ("*.JPEG");
+            filter.set_filter_name (_("Images"));
+            filter.add_pattern ("*.png");
+            filter.add_pattern ("*.svg");
+            filter.add_pattern ("*.jpg");
+            filter.add_pattern ("*.jpeg");
+            filter.add_pattern ("*.PNG");
+            filter.add_pattern ("*.SVG");
+            filter.add_pattern ("*.JPG");
+            filter.add_pattern ("*.JPEG");
 
             file_chooser = new Gtk.FileChooserDialog ("", null,
                                                        Gtk.FileChooserAction.OPEN,
@@ -299,12 +302,13 @@ namespace Webpin {
             string icon = icon_name_entry.get_text ();
             string name = app_name_entry.get_text ();
             string url = app_url_entry.get_text ().replace ("%", "%%");
+            bool stay_open = stay_open_when_closed.active;
 
             if (icon == "")
                 icon = default_app_icon;
 
             if (app_icon_valid && app_name_valid && app_url_valid) {
-                var desktop_file = new DesktopFile (name, url, icon);
+                var desktop_file = new DesktopFile (name, url, icon, stay_open);
                 switch (mode) {
                     case assistant_mode.new_app:
                         application_created (desktop_file.save_to_file ());
@@ -322,6 +326,7 @@ namespace Webpin {
             app_name_entry.set_sensitive (false);
             app_url_entry.text = desktop_file.url.replace ("%%", "%");
             icon_name_entry.text = desktop_file.icon;
+            stay_open_when_closed.active = desktop_file.stay_open;
             update_app_icon ();
         }
     }
