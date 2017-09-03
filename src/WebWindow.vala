@@ -57,11 +57,12 @@ namespace Webpin {
             
             var stay_open = new Gtk.ToggleButton ();
             stay_open.active = desktop_file.hide_on_close;
+            stay_open.tooltip_text = _("Run in background when closed");
+            stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
             stay_open.toggled.connect (() => {
                 desktop_file.edit_propertie ("WebpinStayOpen", stay_open.active.to_string ());
                 desktop_file.save_to_file ();
             });
-            stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
             headerbar.pack_start (stay_open);
 
             //style
