@@ -101,14 +101,6 @@ namespace Webpin {
 
             info = DesktopFile.get_app_by_url(app_url);
             file = new DesktopFile.from_desktopappinfo(info);
-            //load theme color saved in desktop file
-            if (info != null && info.has_key("WebpinThemeColor")) {
-                var color = info.get_string("WebpinThemeColor");
-                debug("COLOR: " + color+"\n");
-                if(color != "none") {
-                    ui_color = color;
-                }
-            }
 
             var icon_file = File.new_for_path (file.icon);
 
@@ -132,12 +124,14 @@ namespace Webpin {
             }
             container.override_background_color (Gtk.StateFlags.NORMAL, background);
 
-            //update theme color if changed
             app_view.load_changed.connect ( (load_event) => {
                 request_begin ();
                 if (load_event == WebKit.LoadEvent.FINISHED) {
-                    debug ("determine color");
-                    determine_theme_color.begin();
+                    visible_child_name = "app";
+                    if (app_notification.reveal_child) {
+                        app_notification.reveal_child = false;
+                    }
+                    request_finished ();
                 }
             });
 
@@ -160,61 +154,5 @@ namespace Webpin {
         public DesktopFile get_desktop_file () {
             return this.file;
         }
-
-	    /**Taken from WebView.vala in lp:midori
-	     * Check for the theme-color meta tag in the page and if that one can't be
-	     * found grabs the color from the current page and uses the first 3 rows
-	     * of pixels to get a good representative color of the page
-	     */
-	    public async void determine_theme_color () {
-
-            //FIXME: This is useless without JSCore
-            /*string script = "var t = document.getElementsByTagName('meta').filter(function(e){return e.name == 'theme-color';)[0]; t ? t.value : null;";
-		    app_view.run_javascript.begin (script, null, (obj, res)=> {
-
-            });*/
-
-            Cairo.ImageSurface snap = null;
-
-            try {
-                snap = (Cairo.ImageSurface) yield app_view.get_snapshot (WebKit.SnapshotRegion.VISIBLE, WebKit.SnapshotOptions.NONE, null);
-            } catch (Error e) {
-                warning (e.message);
-            }
-
-            if (snap != null) {
-                // data ist in BGRA apparently (according to testing). Docs said ARGB, but that
-                // appears not to be the case
-                unowned uint8[] data = snap.get_data ();
-
-		        uint8 r = data[2];
-                uint8 g = data[1];
-                uint8 b = data[0];
-
-		        for (var i = 4; i < snap.get_width () * 3 * 4; i += 4) {
-			        r = (r + data[i + 2]) / 2;
-			        g = (g + data[i + 1]) / 2;
-			        b = (b + data[i + 0]) / 2;
-		        }
-
-		        var color = "#%02x%02x%02x".printf (r, g, b);
-
-                if (color != ui_color && color != "#fefefe") {
-                    ui_color = color;
-                    Gdk.RGBA background = {};
-                    background.parse (ui_color);
-                    container.override_background_color (Gtk.StateFlags.NORMAL, background);
-                    theme_color_changed (ui_color);
-                    if (file != null) {
-                        file.edit_propertie ("WebpinThemeColor", ui_color);
-                    }
-                }
-            }
-            visible_child_name = "app";
-            if (app_notification.reveal_child) {
-                app_notification.reveal_child = false;
-            }
-            request_finished ();
-	    }
     }
 }

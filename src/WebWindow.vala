@@ -31,8 +31,6 @@ namespace Webpin {
 
         private bool is_full_screen = false;
 
-        private string style_str = """@define-color titlebar_color @titlebar_color;""";
-
         //widgets
         private WebApp web_app;
 
@@ -64,33 +62,6 @@ namespace Webpin {
                 desktop_file.save_to_file ();
             });
             headerbar.pack_start (stay_open);
-
-            //style
-            if (web_app.ui_color != "none") {
-                try {
-                    debug ("set color");
-                    var style_cp = style_str.replace ("@titlebar_color", web_app.ui_color);
-                    var style_provider = new Gtk.CssProvider ();
-                    style_provider.load_from_data (style_cp, -1);
-                    headerbar.get_style_context ().add_provider (style_provider, -1);
-                    Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = should_use_dark_theme (web_app.ui_color);
-                } catch (GLib.Error err) {
-                    warning("Loading style failed");
-                }
-            }
-
-            web_app.theme_color_changed.connect( (color)=> {
-                try {
-                    debug ("set color");
-                    var style_cp = style_str.replace ("@titlebar_color", color);
-                    var style_provider = new Gtk.CssProvider ();
-                    style_provider.load_from_data (style_cp, -1);
-                    headerbar.get_style_context ().add_provider (style_provider, -1);
-                    Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = should_use_dark_theme (color);
-                } catch (GLib.Error err) {
-                    warning("Loading style failed");
-                }
-            });
 
             this.set_titlebar (headerbar);
 
@@ -238,17 +209,6 @@ namespace Webpin {
                 return true;
 
             return (base.key_press_event != null) ? base.key_press_event (event) : true;
-        }
-
-        private bool should_use_dark_theme (string theme_color) {
-            Gdk.RGBA color = {};
-            color.parse (theme_color);
-
-            double prom = (color.red + color.blue + color.green)/3;
-
-            if (prom < 0.5)
-                return true;
-            return false;
         }
     }
 }
