@@ -31,7 +31,7 @@ namespace Webpin {
 
         private bool is_full_screen = false;
 
-        private string style_str =   """@define-color titlebar_color @titlebar_color;""";
+        private string style_str = """@define-color titlebar_color @titlebar_color;""";
 
         //widgets
         private WebApp web_app;
@@ -54,6 +54,15 @@ namespace Webpin {
             spinner = new Gtk.Spinner ();
             spinner.set_size_request (16, 16);
             headerbar.pack_end (spinner);
+            
+            var stay_open = new Gtk.ToggleButton ();
+            stay_open.active = desktop_file.hide_on_close;
+            stay_open.toggled.connect (() => {
+                desktop_file.edit_propertie ("WebpinStayOpen", stay_open.active.to_string ());
+                desktop_file.save_to_file ();
+            });
+            stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
+            headerbar.pack_start (stay_open);
 
             //style
             if (web_app.ui_color != "none") {
@@ -63,7 +72,7 @@ namespace Webpin {
                     var style_provider = new Gtk.CssProvider ();
                     style_provider.load_from_data (style_cp, -1);
                     headerbar.get_style_context ().add_provider (style_provider, -1);
-                    Gtk.Settings.get_default ().set ("gtk-application-prefer-dark-theme", should_use_dark_theme (web_app.ui_color));
+                    Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = should_use_dark_theme (web_app.ui_color);
                 } catch (GLib.Error err) {
                     warning("Loading style failed");
                 }
@@ -76,7 +85,7 @@ namespace Webpin {
                     var style_provider = new Gtk.CssProvider ();
                     style_provider.load_from_data (style_cp, -1);
                     headerbar.get_style_context ().add_provider (style_provider, -1);
-                    Gtk.Settings.get_default ().set ("gtk-application-prefer-dark-theme", should_use_dark_theme (color));
+                    Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = should_use_dark_theme (color);
                 } catch (GLib.Error err) {
                     warning("Loading style failed");
                 }
@@ -106,7 +115,7 @@ namespace Webpin {
             this.delete_event.connect (() => {
                 update_window_state(this.get_allocated_width (), this.get_allocated_height (), this.is_maximized);
                 if (desktop_file.hide_on_close) {
-                    this.hide ();
+                    this.hide_on_delete ();
                 }
                 return desktop_file.hide_on_close;
             });

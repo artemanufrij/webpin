@@ -50,7 +50,6 @@ namespace Webpin {
         public string name { get; private set; }
         public string url { get; private set; }
         public string icon { get; private set; }
-        public bool stay_open { get; private set; }
         public bool hide_on_close {
             get {
                 this.file = new GLib.KeyFile();
@@ -68,7 +67,6 @@ namespace Webpin {
             this.name = name;
             this.url = url.replace ("%", "%%");
             this.icon = icon;
-            this.stay_open = stay_open;
 
             file = new GLib.KeyFile();
             try {
@@ -98,7 +96,6 @@ namespace Webpin {
             this.icon = info.get_icon ().to_string ();
             try {
                 this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
-                this.stay_open = file.get_string ("Desktop Entry", "WebpinStayOpen") == "true";
             } catch (Error e) {
                 warning (e.message);
             }

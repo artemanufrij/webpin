@@ -326,7 +326,7 @@ namespace Webpin {
             app_name_entry.set_sensitive (false);
             app_url_entry.text = desktop_file.url.replace ("%%", "%");
             icon_name_entry.text = desktop_file.icon;
-            stay_open_when_closed.active = desktop_file.stay_open;
+            stay_open_when_closed.active = desktop_file.hide_on_close;
             update_app_icon ();
         }
     }
