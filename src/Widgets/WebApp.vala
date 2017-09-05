@@ -40,7 +40,6 @@ namespace Webpin {
         Notification desktop_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
-        public signal void theme_color_changed(string color);
         public signal void request_begin ();
         public signal void request_finished ();
 
