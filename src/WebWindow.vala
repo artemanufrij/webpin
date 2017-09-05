@@ -42,8 +42,8 @@ namespace Webpin {
             this.desktop_file = desktop_file;
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
 
-            set_wmclass(desktop_file.url, desktop_file.url);
-            web_app = new WebApp(desktop_file.name, desktop_file.url);
+            set_wmclass (desktop_file.url, desktop_file.url);
+            web_app = new WebApp (desktop_file.url);
 
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
@@ -124,10 +124,12 @@ namespace Webpin {
         }
 
         public void toggle_fullscreen() {
-            if(is_full_screen)
+            if(is_full_screen) {
                 unfullscreen();
-            else
+            }
+            else {
                 fullscreen();
+            }
             is_full_screen = !is_full_screen;
         }
 

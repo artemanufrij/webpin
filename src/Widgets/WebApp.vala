@@ -44,7 +44,7 @@ namespace Webpin {
         public signal void request_finished ();
 
 
-        public WebApp (string webapp_name, string app_url) {
+        public WebApp (string app_url) {
 
             this.app_url = app_url;
 
