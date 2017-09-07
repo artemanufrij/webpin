@@ -63,6 +63,19 @@ namespace Webpin {
             }
         }
 
+        public bool mute_notifications {
+            get {
+                this.file = new GLib.KeyFile();
+                try {
+                    file.load_from_file (info.filename, KeyFileFlags.NONE);
+                    return file.get_string ("Desktop Entry", "WebpinMuteNotifications") == "true";
+                } catch (Error e) {
+                    warning (e.message);
+                }
+                return false;
+            }
+        }
+
         public DesktopFile (string name, string url, string icon, bool stay_open) {
             this.name = name;
             this.url = url.replace ("%", "%%");

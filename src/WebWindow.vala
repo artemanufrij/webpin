@@ -37,6 +37,7 @@ namespace Webpin {
         Gtk.Spinner spinner;
 
         public DesktopFile desktop_file { get; private set; }
+        private Notification desktop_notification;
 
         public WebWindow (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
@@ -45,6 +46,8 @@ namespace Webpin {
             set_wmclass (desktop_file.url, desktop_file.url);
             web_app = new WebApp (desktop_file.url);
 
+            desktop_notification = new Notification ("");
+
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
             headerbar.show_close_button = true;
@@ -52,7 +55,7 @@ namespace Webpin {
             spinner = new Gtk.Spinner ();
             spinner.set_size_request (16, 16);
             headerbar.pack_end (spinner);
-            
+
             var stay_open = new Gtk.ToggleButton ();
             stay_open.active = desktop_file.hide_on_close;
             stay_open.tooltip_text = _("Run in background when closed");
@@ -62,6 +65,31 @@ namespace Webpin {
                 desktop_file.save_to_file ();
             });
             headerbar.pack_start (stay_open);
+
+            var mute_notifications = new Gtk.ToggleButton ();
+            mute_notifications.active = desktop_file.mute_notifications;
+            if (mute_notifications.active) {
+                mute_notifications.image = new Gtk.Image.from_icon_name ("notification-disabled-symbolic", Gtk.IconSize.MENU);
+                mute_notifications.tooltip_text = _("Unmute notifications");
+            } else {
+                mute_notifications.image = new Gtk.Image.from_icon_name ("notification-symbolic", Gtk.IconSize.MENU);
+                mute_notifications.tooltip_text = _("Mute notifications");
+            }
+            mute_notifications.toggled.connect (() => {
+                desktop_file.edit_propertie ("WebpinMuteNotifications", mute_notifications.active.to_string ());
+                desktop_file.save_to_file ();
+                if (mute_notifications.active) {
+                    mute_notifications.image = new Gtk.Image.from_icon_name ("notification-disabled-symbolic", Gtk.IconSize.MENU);
+                    mute_notifications.tooltip_text = _("Unmute notifications");
+                } else {
+                    mute_notifications.image = new Gtk.Image.from_icon_name ("notification-symbolic", Gtk.IconSize.MENU);
+                    mute_notifications.tooltip_text = _("Mute notifications");
+                    desktop_notification.set_title (desktop_file.name);
+                    desktop_notification.set_body (_("Desktop notifications are enabled"));
+                    WebpinApp.instance.send_notification (null, desktop_notification);
+                }
+            });
+            headerbar.pack_start (mute_notifications);
 
             this.set_titlebar (headerbar);
 
@@ -98,6 +126,14 @@ namespace Webpin {
                     Process.spawn_command_line_async ("xdg-open " + action.get_request ().uri);
                 } catch (Error e) {
                     warning (e.message);
+                }
+            });
+
+            web_app.desktop_notification.connect ((title, body) => {
+                if (!desktop_file.mute_notifications) {
+                    desktop_notification.set_title (title);
+                    desktop_notification.set_body (body);
+                    WebpinApp.instance.send_notification (null, desktop_notification);
                 }
             });
 

@@ -37,11 +37,11 @@ namespace Webpin {
         private WebKit.CookieManager cookie_manager;
         private Gtk.Box container;
         Granite.Widgets.Toast app_notification;
-        Notification desktop_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void request_begin ();
         public signal void request_finished ();
+        public signal void desktop_notification (string title, string body);
 
 
         public WebApp (string app_url) {
@@ -76,7 +76,6 @@ namespace Webpin {
             container.valign = Gtk.Align.FILL;
 
             app_notification = new Granite.Widgets.Toast ("");
-            desktop_notification = new Notification ("");
 
             //overlay trick to make snapshot work even with the spinner
             var overlay = new Gtk.Overlay ();
@@ -135,9 +134,7 @@ namespace Webpin {
             });
 
             app_view.show_notification.connect ((notification) => {
-                desktop_notification.set_title (notification.title);
-                desktop_notification.set_body (notification.body);
-                WebpinApp.instance.send_notification (null, desktop_notification);
+                desktop_notification (notification.title, notification.body);
                 return false;
             });
 
