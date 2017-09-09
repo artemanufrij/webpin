@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-14 18:27+0200\n"
+"POT-Creation-Date: 2017-09-09 21:07+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,76 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../src/WebWindow.vala:61 ../src/Widgets/Assistant.vala:118
+msgid "Run in background when closed"
+msgstr ""
+
+#: ../src/WebWindow.vala:73 ../src/WebWindow.vala:83
+msgid "Unmute notifications"
+msgstr ""
+
+#: ../src/WebWindow.vala:76 ../src/WebWindow.vala:86
+msgid "Mute notifications"
+msgstr ""
+
+#: ../src/WebWindow.vala:88
+msgid "Desktop notifications are enabled"
+msgstr ""
+
 #: ../src/Dialogs/InfoDialog.vala:44
 msgid "Accept"
-msgstr ""
-
-#: ../src/Widgets/ApplicationIcon.vala:142
-msgid "Delete Webapp"
-msgstr ""
-
-#: ../src/Widgets/ApplicationIcon.vala:147
-msgid "Edit Webapp Properties"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:73
-msgid "Create a new web app"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:81
-msgid "Application name"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:84
-msgid "http://myapp.domain"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:94
-msgid "theme icon name"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:96
-msgid "or"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:97
-msgid "Set from file..."
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:113
-msgid "Save cookies"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:115
-msgid "Save login information"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:138
-msgid "Save app"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:160
-msgid "url must start with http:// or https://"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:173
-msgid "App already exist"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:226
-msgid "Images"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:238
-msgid "Cancel"
-msgstr ""
-
-#: ../src/Widgets/Assistant.vala:239
-msgid "Open"
-msgstr ""
-
-#: ../src/Widgets/WebApp.vala:93
-msgid "Open request in an external application…"
 msgstr ""
 
 #: ../src/MainWindow.vala:56
@@ -111,4 +59,72 @@ msgstr ""
 
 #: ../src/MainWindow.vala:66
 msgid "Create a new web app with Webpin"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:74
+msgid "Create a new web app"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:82
+msgid "Application name"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:85
+msgid "http://myapp.domain"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:95
+msgid "theme icon name"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:97
+msgid "or"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:98
+msgid "Set from file..."
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:114
+msgid "Save cookies"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:116
+msgid "Save login information"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:141
+msgid "Save app"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:163
+msgid "url must start with http:// or https://"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:176
+msgid "App already exist"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:229
+msgid "Images"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:241
+msgid "Cancel"
+msgstr ""
+
+#: ../src/Widgets/Assistant.vala:242
+msgid "Open"
+msgstr ""
+
+#: ../src/Widgets/ApplicationIcon.vala:142
+msgid "Delete Webapp"
+msgstr ""
+
+#: ../src/Widgets/ApplicationIcon.vala:147
+msgid "Edit Webapp Properties"
+msgstr ""
+
+#: ../src/Widgets/WebApp.vala:93
+msgid "Open request in an external application…"
 msgstr ""
