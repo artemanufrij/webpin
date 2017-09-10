@@ -48,6 +48,15 @@ namespace Webpin {
             app_launcher = application_id + ".desktop";
             flags |= GLib.ApplicationFlags.HANDLES_OPEN;
             app_list = new GLib.List<WebWindow> ();
+
+            var open_web_app = new SimpleAction ("open-web-app", GLib.VariantType.STRING);
+            add_action (open_web_app);
+            open_web_app.activate.connect ((parameter) => {
+                if (parameter != null) {
+                    debug ("start web app over action: '%s'", parameter.get_string ());
+                    start_webapp (parameter.get_string ());
+                }
+            });
         }
 
         public Gtk.Window mainwindow;
@@ -64,24 +73,27 @@ namespace Webpin {
         }
 
         public override void open (File[] files, string hint) {
-            debug (files [0].get_uri ());
+            debug ("%s", files [0].get_uri ());
             start_webapp (files [0].get_uri ());
         }
-        
+
         public void start_webapp (string url) {
             foreach (var item in app_list) {
+                debug ("running webapp: %s", item.desktop_file.url);
                 if (item.desktop_file.url == url) {
+                    debug ("open runing app: %s", url);
                     item.present ();
                     return;
                 }
             }
 
+            debug ("create a new web app: %s", url);
             var app_info = Webpin.DesktopFile.get_app_by_url (url);
             var desktop_file = new Webpin.DesktopFile.from_desktopappinfo(app_info);
-            var app = new WebWindow(desktop_file);
+            var app = new WebWindow (desktop_file);
+            app_list.append (app);
             app.destroy.connect (() => { app_list.remove (app); });
             app.set_application (this);
-            app_list.append (app);
         }
     }
 }

@@ -37,7 +37,6 @@ namespace Webpin {
         Gtk.Spinner spinner;
 
         public DesktopFile desktop_file { get; private set; }
-        private Notification desktop_notification;
 
         public WebWindow (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
@@ -45,8 +44,6 @@ namespace Webpin {
 
             set_wmclass (desktop_file.url, desktop_file.url);
             web_app = new WebApp (desktop_file.url);
-
-            desktop_notification = new Notification ("");
 
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
@@ -105,9 +102,10 @@ namespace Webpin {
             });
 
             web_app.desktop_notification.connect ((title, body, icon) => {
-                desktop_notification.set_title (title);
+                var desktop_notification = new Notification (title);
                 desktop_notification.set_body (body);
                 desktop_notification.set_icon (icon);
+                desktop_notification.add_button_with_target_value (_("Open %s").printf (desktop_file.name), "app.open-web-app", new GLib.Variant.string (desktop_file.url));
                 WebpinApp.instance.send_notification (null, desktop_notification);
             });
 

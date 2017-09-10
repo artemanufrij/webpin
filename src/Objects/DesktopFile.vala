@@ -180,10 +180,13 @@ namespace Webpin {
 
                 var desktop_app = new GLib.DesktopAppInfo(app.get_id ());
 
-                var exec = desktop_app.get_string ("Exec").replace ("%%", "%");
+                var exec = desktop_app.get_string ("Exec");
 
-                if (exec != null && exec.contains (url)) {
-                    return desktop_app;
+                if (exec != null) {
+                    exec = exec.replace ("%%", "%");
+                    if (exec.contains (url)) {
+                        return desktop_app;
+                    }
                 }
             }
             return null;

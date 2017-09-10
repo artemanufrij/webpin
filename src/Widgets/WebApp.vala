@@ -108,7 +108,6 @@ namespace Webpin {
                 try {
                     icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (file.icon, 48, 48, true));
                     icon_for_notification = GLib.Icon.new_for_string (file.icon);
-
                 } catch (Error e) {
                     warning (e.message);
                     icon = new Gtk.Image.from_icon_name ("artemanufrij.webpin", Gtk.IconSize.DIALOG);
