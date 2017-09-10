@@ -37,11 +37,12 @@ namespace Webpin {
         private WebKit.CookieManager cookie_manager;
         private Gtk.Box container;
         Granite.Widgets.Toast app_notification;
+        GLib.Icon icon_for_notification;
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void request_begin ();
         public signal void request_finished ();
-        public signal void desktop_notification (string title, string body);
+        public signal void desktop_notification (string title, string body, GLib.Icon icon);
 
 
         public WebApp (string app_url) {
@@ -106,6 +107,7 @@ namespace Webpin {
             if (icon_file.query_exists ()) {
                 try {
                     icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (file.icon, 48, 48, true));
+                    icon_for_notification = GLib.Icon.new_for_string (file.icon);
 
                 } catch (Error e) {
                     warning (e.message);
@@ -113,6 +115,7 @@ namespace Webpin {
                 }
             } else {
                 icon = new Gtk.Image.from_icon_name (file.icon, Gtk.IconSize.DIALOG);
+                icon_for_notification = new GLib.ThemedIcon (file.icon);
             }
             container.pack_start(icon, true, true, 0);
 
@@ -134,8 +137,8 @@ namespace Webpin {
             });
 
             app_view.show_notification.connect ((notification) => {
-                desktop_notification (notification.title, notification.body);
-                return false;
+                desktop_notification (notification.title, notification.body, icon_for_notification);
+                return true;
             });
 
             app_view.permission_request.connect ((permission) => {

@@ -66,31 +66,6 @@ namespace Webpin {
             });
             headerbar.pack_start (stay_open);
 
-            var mute_notifications = new Gtk.ToggleButton ();
-            mute_notifications.active = desktop_file.mute_notifications;
-            if (mute_notifications.active) {
-                mute_notifications.image = new Gtk.Image.from_icon_name ("notification-disabled-symbolic", Gtk.IconSize.MENU);
-                mute_notifications.tooltip_text = _("Unmute notifications");
-            } else {
-                mute_notifications.image = new Gtk.Image.from_icon_name ("notification-symbolic", Gtk.IconSize.MENU);
-                mute_notifications.tooltip_text = _("Mute notifications");
-            }
-            mute_notifications.toggled.connect (() => {
-                desktop_file.edit_propertie ("WebpinMuteNotifications", mute_notifications.active.to_string ());
-                desktop_file.save_to_file ();
-                if (mute_notifications.active) {
-                    mute_notifications.image = new Gtk.Image.from_icon_name ("notification-disabled-symbolic", Gtk.IconSize.MENU);
-                    mute_notifications.tooltip_text = _("Unmute notifications");
-                } else {
-                    mute_notifications.image = new Gtk.Image.from_icon_name ("notification-symbolic", Gtk.IconSize.MENU);
-                    mute_notifications.tooltip_text = _("Mute notifications");
-                    desktop_notification.set_title (desktop_file.name);
-                    desktop_notification.set_body (_("Desktop notifications are enabled"));
-                    WebpinApp.instance.send_notification (null, desktop_notification);
-                }
-            });
-            headerbar.pack_start (mute_notifications);
-
             this.set_titlebar (headerbar);
 
             var width = desktop_file.info.get_string ("WebpinWindowWidth");
@@ -129,12 +104,11 @@ namespace Webpin {
                 }
             });
 
-            web_app.desktop_notification.connect ((title, body) => {
-                if (!desktop_file.mute_notifications) {
-                    desktop_notification.set_title (title);
-                    desktop_notification.set_body (body);
-                    WebpinApp.instance.send_notification (null, desktop_notification);
-                }
+            web_app.desktop_notification.connect ((title, body, icon) => {
+                desktop_notification.set_title (title);
+                desktop_notification.set_body (body);
+                desktop_notification.set_icon (icon);
+                WebpinApp.instance.send_notification (null, desktop_notification);
             });
 
             web_app.request_begin.connect (() => {
