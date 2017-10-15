@@ -49,7 +49,7 @@ namespace Webpin {
             headerbar.title = desktop_file.name;
             headerbar.show_close_button = true;
 
-            var copy_url = new Gtk.Button.from_icon_name ("edit-copy-symbolic", Gtk.IconSize.MENU);
+            var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
             copy_url.tooltip_text = _("Copy URI into clipboard");
             copy_url.clicked.connect (() => {
                 Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (web_app.app_view.uri, -1);
