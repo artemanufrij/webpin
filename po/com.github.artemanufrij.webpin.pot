@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-09 21:07+0400\n"
+"POT-Creation-Date: 2017-10-15 19:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/WebWindow.vala:61 ../src/Widgets/Assistant.vala:118
+#: ../src/Dialogs/InfoDialog.vala:44
+msgid "Accept"
+msgstr ""
+
+#: ../src/WebWindow.vala:53
+msgid "Copy URI into clipboard"
+msgstr ""
+
+#: ../src/WebWindow.vala:65 ../src/Widgets/Assistant.vala:118
 msgid "Run in background when closed"
 msgstr ""
 
-#: ../src/WebWindow.vala:73 ../src/WebWindow.vala:83
-msgid "Unmute notifications"
-msgstr ""
-
-#: ../src/WebWindow.vala:76 ../src/WebWindow.vala:86
-msgid "Mute notifications"
-msgstr ""
-
-#: ../src/WebWindow.vala:88
-msgid "Desktop notifications are enabled"
-msgstr ""
-
-#: ../src/Dialogs/InfoDialog.vala:44
-msgid "Accept"
+#: ../src/WebWindow.vala:115
+msgid "Open %s"
 msgstr ""
 
 #: ../src/MainWindow.vala:56
@@ -59,6 +55,10 @@ msgstr ""
 
 #: ../src/MainWindow.vala:66
 msgid "Create a new web app with Webpin"
+msgstr ""
+
+#: ../src/Widgets/WebApp.vala:94
+msgid "Open request in an external application…"
 msgstr ""
 
 #: ../src/Widgets/Assistant.vala:74
@@ -123,8 +123,4 @@ msgstr ""
 
 #: ../src/Widgets/ApplicationIcon.vala:147
 msgid "Edit Webapp Properties"
-msgstr ""
-
-#: ../src/Widgets/WebApp.vala:93
-msgid "Open request in an external application…"
 msgstr ""
