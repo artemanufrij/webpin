@@ -42,7 +42,6 @@ namespace Webpin {
         construct {
             program_name = "Webpin";
             exec_name = "com.github.artemanufrij.webpin";
-            application_id = "com.github.artemanufrij.webpin";
             app_launcher = application_id + ".desktop";
             flags |= GLib.ApplicationFlags.HANDLES_OPEN;
 
@@ -61,12 +60,9 @@ namespace Webpin {
         protected override void activate () {
             if (mainwindow != null) {
                 mainwindow.present ();
-
                 return;
             }
-
             mainwindow = new MainWindow ();
-            mainwindow.destroy.connect (() => { mainwindow = null; });
             mainwindow.set_application(this);
         }
 

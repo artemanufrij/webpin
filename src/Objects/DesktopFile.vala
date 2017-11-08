@@ -79,7 +79,9 @@ namespace Webpin {
                 }
                 return return_value;
             } set {
-                edit_propertie ("WebpinPrimaryColor", value.to_string ());
+                if (value != null) {
+                    edit_propertie ("WebpinPrimaryColor", value.to_string ());
+                }
             }
         }
 

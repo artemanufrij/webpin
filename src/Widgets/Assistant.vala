@@ -313,7 +313,6 @@ namespace Webpin {
 
             if (app_icon_valid && app_name_valid && app_url_valid) {
                 var desktop_file = new DesktopFile (name, url, icon, stay_open);
-                desktop_file.color = primary_color_button.rgba;
                 switch (mode) {
                     case assistant_mode.new_app:
                         application_created (desktop_file.save_to_file ());
@@ -322,6 +321,7 @@ namespace Webpin {
                         application_edited (desktop_file.save_to_file ());
                         break;
                 }
+                desktop_file.color = primary_color_button.rgba;
             }
         }
 
@@ -334,6 +334,8 @@ namespace Webpin {
             stay_open_when_closed.active = desktop_file.hide_on_close;
             if (desktop_file.color != null) {
                 primary_color_button.set_rgba (desktop_file.color);
+            } else {
+                primary_color_button.set_rgba ({ 222, 222, 222, 255 });
             }
             update_app_icon ();
         }
