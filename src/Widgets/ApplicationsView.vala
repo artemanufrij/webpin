@@ -48,10 +48,9 @@ namespace Webpin {
             icon_view.valign = Gtk.Align.START;
             icon_view.vexpand = false;
             icon_view.homogeneous = true;
-            icon_view.column_spacing = 15;
-            icon_view.row_spacing = 15;
-            icon_view.margin = 15;
-            icon_view.activate_on_single_click = false;
+            icon_view.column_spacing = 24;
+            icon_view.row_spacing = 24;
+            icon_view.margin = 24;
             icon_view.child_activated.connect ((child) => {
                 if ((child as Gtk.FlowBoxChild).get_child () is ApplicationIcon) {
                     var app_icon = (child as Gtk.FlowBoxChild).get_child () as ApplicationIcon;
