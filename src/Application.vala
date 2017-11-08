@@ -31,8 +31,6 @@ namespace Webpin {
 
         static WebpinApp _instance = null;
 
-        public GLib.List<WebWindow> app_list;
-
         public static WebpinApp instance {
             get {
                 if (_instance == null)
@@ -47,7 +45,6 @@ namespace Webpin {
             application_id = "com.github.artemanufrij.webpin";
             app_launcher = application_id + ".desktop";
             flags |= GLib.ApplicationFlags.HANDLES_OPEN;
-            app_list = new GLib.List<WebWindow> ();
 
             var open_web_app = new SimpleAction ("open-web-app", GLib.VariantType.STRING);
             add_action (open_web_app);
@@ -64,6 +61,7 @@ namespace Webpin {
         protected override void activate () {
             if (mainwindow != null) {
                 mainwindow.present ();
+
                 return;
             }
 
@@ -73,32 +71,31 @@ namespace Webpin {
         }
 
         public override void open (File[] files, string hint) {
-            debug ("%s", files [0].get_uri ());
             start_webapp (files [0].get_uri ());
         }
 
         public void start_webapp (string url) {
-            foreach (var item in app_list) {
-                debug ("running webapp: %s", item.desktop_file.url);
-                if (item.desktop_file.url == url) {
-                    debug ("open runing app: %s", url);
-                    item.present ();
-                    return;
-                }
+            if (mainwindow != null ) {
+                mainwindow.present ();
+                return;
             }
-
-            debug ("create a new web app: %s", url);
             var app_info = Webpin.DesktopFile.get_app_by_url (url);
             var desktop_file = new Webpin.DesktopFile.from_desktopappinfo(app_info);
-            var app = new WebWindow (desktop_file);
-            app_list.append (app);
-            app.destroy.connect (() => { app_list.remove (app); });
-            app.set_application (this);
+            mainwindow = new WebWindow (desktop_file);
+            mainwindow.set_application (this);
         }
     }
 }
 static int main (string[] args) {
     Gtk.init (ref args);
     var app = Webpin.WebpinApp.instance;
+    if (args.length > 1) {
+        var checksum = new GLib.Checksum (GLib.ChecksumType.MD5);
+        checksum.update (args[1].data, args[1].length);
+        var id = "a" + checksum.get_string ().substring (0, 5) + "a.artemanufrij.webpin";
+        app.application_id = id;
+    } else {
+        app.application_id = "com.github.artemanufrij.webpin";
+    }
     return app.run (args);
 }

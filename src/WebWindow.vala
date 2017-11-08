@@ -41,6 +41,9 @@ namespace Webpin {
         public WebWindow (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
+            if (desktop_file.color != null) {
+                Granite.Widgets.Utils.set_color_primary (this, desktop_file.color);
+            }
 
             set_wmclass (desktop_file.url, desktop_file.url);
             web_app = new WebApp (desktop_file.url);

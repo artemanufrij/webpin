@@ -63,6 +63,26 @@ namespace Webpin {
             }
         }
 
+        public Gdk.RGBA? color {
+            get {
+                Gdk.RGBA return_value = {0, 0, 0, 255};
+                this.file = new GLib.KeyFile();
+                try {
+                    file.load_from_file (info.filename, KeyFileFlags.NONE);
+                    var property = file.get_string ("Desktop Entry", "WebpinPrimaryColor");
+                    if (property == "" || !return_value.parse (property)) {
+                        return null;
+                    }
+                } catch (Error e) {
+                    warning (e.message);
+                    return null;
+                }
+                return return_value;
+            } set {
+                edit_propertie ("WebpinPrimaryColor", value.to_string ());
+            }
+        }
+
         public bool mute_notifications {
             get {
                 this.file = new GLib.KeyFile();
@@ -113,6 +133,8 @@ namespace Webpin {
                 warning (e.message);
             }
         }
+
+
 
         public bool edit_propertie (string propertie, string val) {
             bool return_value = false;
