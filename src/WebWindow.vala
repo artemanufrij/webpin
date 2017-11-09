@@ -42,6 +42,10 @@ namespace Webpin {
             this.desktop_file = desktop_file;
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
             if (desktop_file.color != null) {
+                var mid = desktop_file.color.red + desktop_file.color.blue + desktop_file.color.green;
+                if (mid / 3 < 0.3) {
+                    Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = true;
+                }
                 Granite.Widgets.Utils.set_color_primary (this, desktop_file.color);
             }
 
