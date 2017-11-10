@@ -7,7 +7,7 @@
     <name>Webpin</name>
     <summary>A simple app to pin websites on the desktop</summary>
     <description>
-        <p>Pin your any favorite website on Applications Menu or Plank like a regular desktop app</p>
+        <p>Create your own WebApps. Pin your any favorite website on Applications Menu or Plank like a regular desktop app.</p>
     </description>
     <categories>
         <category>Utility</category>
@@ -32,6 +32,22 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="0.1.10" date="2017-11-11">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Set custom color for headerbar</li>
+                </ul>
+                <p>Fix:</p>
+                <ul>
+                    <li>Open application on clicking desktop notification</li>
+                </ul>
+                <p>Translation:</p>
+                <ul>
+                    <li>Lithuanian (by welaq)</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.1.9" date="2017-10-15">
             <description>
                 <p>New:</p>
