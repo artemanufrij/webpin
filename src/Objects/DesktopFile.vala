@@ -80,7 +80,8 @@ namespace Webpin {
                 return return_value;
             } set {
                 if (value != null) {
-                    edit_propertie ("WebpinPrimaryColor", value.to_string ());
+                    var color = "#%02x%02x%02x".printf ((int)(value.red * 255), (int)(value.green * 255), (int)(value.blue * 255));
+                    edit_propertie ("WebpinPrimaryColor", color);
                 }
             }
         }
