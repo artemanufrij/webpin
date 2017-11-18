@@ -32,6 +32,14 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="0.2.1" date="2017-11-18">
+            <description>
+                <p>Fix:</p>
+                <ul>
+                    <li>Set custom color</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.1.13" date="2017-11-18">
             <description>
                 <p>Fix:</p>

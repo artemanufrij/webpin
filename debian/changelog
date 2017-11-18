@@ -1,3 +1,9 @@
+com.github.artemanufrij.webpin (0.2.1) xenial; urgency=low
+
+  * Fixed custom color.
+
+ -- Artem Anufrij <artem.anufrij@live.de>  Sun, 19 Nov 2017 04:53:39 +0100
+
 com.github.artemanufrij.webpin (0.1.3) xenial; urgency=low
 
   * Initial Release.
