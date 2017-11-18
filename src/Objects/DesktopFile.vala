@@ -55,7 +55,7 @@ namespace Webpin {
                 this.file = new GLib.KeyFile();
                 try {
                     file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    return file.get_string ("Desktop Entry", "WebpinStayOpen") == "true";
+                    return file.get_string ("Desktop Entry", "X-Webpin-StayOpen") == "true";
                 } catch (Error e) {
                     warning (e.message);
                 }
@@ -69,7 +69,7 @@ namespace Webpin {
                 this.file = new GLib.KeyFile();
                 try {
                     file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    var property = file.get_string ("Desktop Entry", "WebpinPrimaryColor");
+                    var property = file.get_string ("Desktop Entry", "X-Webpin-PrimaryColor");
                     if (property == "" || !return_value.parse (property)) {
                         return null;
                     }
@@ -81,21 +81,8 @@ namespace Webpin {
             } set {
                 if (value != null) {
                     var color = "#%02x%02x%02x".printf ((int)(value.red * 255), (int)(value.green * 255), (int)(value.blue * 255));
-                    edit_propertie ("WebpinPrimaryColor", color);
+                    edit_propertie ("X-Webpin-PrimaryColor", color);
                 }
-            }
-        }
-
-        public bool mute_notifications {
-            get {
-                this.file = new GLib.KeyFile();
-                try {
-                    file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    return file.get_string ("Desktop Entry", "WebpinMuteNotifications") == "true";
-                } catch (Error e) {
-                    warning (e.message);
-                }
-                return false;
             }
         }
 
@@ -117,7 +104,7 @@ namespace Webpin {
             file.set_string ("Desktop Entry", "Exec", "com.github.artemanufrij.webpin " + url);
             file.set_string ("Desktop Entry", "Icon", icon);
             file.set_string ("Desktop Entry", "StartupWMClass", url);
-            file.set_string ("Desktop Entry", "WebpinStayOpen", stay_open.to_string ());
+            file.set_string ("Desktop Entry", "X-Webpin-StayOpen", stay_open.to_string ());
         }
 
         public DesktopFile.from_desktopappinfo(GLib.DesktopAppInfo info) {

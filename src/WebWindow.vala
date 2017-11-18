@@ -72,17 +72,17 @@ namespace Webpin {
             stay_open.tooltip_text = _("Run in background when closed");
             stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
             stay_open.toggled.connect (() => {
-                desktop_file.edit_propertie ("WebpinStayOpen", stay_open.active.to_string ());
+                desktop_file.edit_propertie ("X-Webpin-StayOpen", stay_open.active.to_string ());
                 desktop_file.save_to_file ();
             });
             headerbar.pack_start (stay_open);
 
             this.set_titlebar (headerbar);
 
-            var width = desktop_file.info.get_string ("WebpinWindowWidth");
-            var height = desktop_file.info.get_string ("WebpinWindowHeight");
-            var state = desktop_file.info.get_string ("WebpinWindowMaximized");
-            var zoom = desktop_file.info.get_string ("WebpinWindowZoom");
+            var width = desktop_file.info.get_string ("X-Webpin-WindowWidth");
+            var height = desktop_file.info.get_string ("X-Webpin-WindowHeight");
+            var state = desktop_file.info.get_string ("X-Webpin-WindowMaximized");
+            var zoom = desktop_file.info.get_string ("X-Webpin-WindowZoom");
 
             if (width != null && height != null) {
                 set_default_size (int.parse(width), int.parse(height));
@@ -159,11 +159,11 @@ namespace Webpin {
             var file = web_app.get_desktop_file();
 
             if (is_maximized) {
-                file.edit_propertie ("WebpinWindowMaximized", "max");
+                file.edit_propertie ("X-Webpin-WindowMaximized", "max");
             } else {
-                file.edit_propertie ("WebpinWindowWidth", width.to_string());
-                file.edit_propertie ("WebpinWindowHeight", height.to_string());
-                file.edit_propertie ("WebpinWindowMaximized", "norm");
+                file.edit_propertie ("X-Webpin-WindowWidth", width.to_string());
+                file.edit_propertie ("X-Webpin-WindowHeight", height.to_string());
+                file.edit_propertie ("X-Webpin-WindowMaximized", "norm");
             }
         }
 
@@ -180,7 +180,7 @@ namespace Webpin {
             case Gdk.Key.plus:
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level += 0.1;
-                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                    web_app.get_desktop_file().edit_propertie ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
                 } else {
                     handled = false;
                 }
@@ -189,7 +189,7 @@ namespace Webpin {
             case Gdk.Key.minus:
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level -= 0.1;
-                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                    web_app.get_desktop_file().edit_propertie ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
                 } else {
                     handled = false;
                 }
@@ -198,7 +198,7 @@ namespace Webpin {
             case Gdk.Key.@0:
                 if (Gdk.ModifierType.CONTROL_MASK in event.state) {
                     web_app.app_view.zoom_level = 1;
-                    web_app.get_desktop_file().edit_propertie ("WebpinWindowZoom", web_app.app_view.zoom_level.to_string ());
+                    web_app.get_desktop_file().edit_propertie ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
                 } else {
                     handled = false;
                 }

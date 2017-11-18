@@ -110,7 +110,7 @@ namespace Webpin {
                     icon_for_notification = GLib.Icon.new_for_string (file.icon);
                 } catch (Error e) {
                     warning (e.message);
-                    icon = new Gtk.Image.from_icon_name ("artemanufrij.webpin", Gtk.IconSize.DIALOG);
+                    icon = new Gtk.Image.from_icon_name ("com.github.artemanufrij.webpin", Gtk.IconSize.DIALOG);
                 }
             } else {
                 icon = new Gtk.Image.from_icon_name (file.icon, Gtk.IconSize.DIALOG);
