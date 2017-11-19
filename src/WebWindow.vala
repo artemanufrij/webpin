@@ -41,12 +41,14 @@ namespace Webpin {
         public WebWindow (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
-            if (desktop_file.color != null) {
-                var mid = desktop_file.color.red + desktop_file.color.blue + desktop_file.color.green;
+
+            var color = desktop_file.color;
+            if (color != null) {
+                var mid = color.red + color.blue + color.green;
                 if (mid / 3 < 0.3) {
                     Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = true;
                 }
-                Granite.Widgets.Utils.set_color_primary (this, desktop_file.color);
+                Granite.Widgets.Utils.set_color_primary (this, color);
             }
 
             set_wmclass (desktop_file.url, desktop_file.url);
