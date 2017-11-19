@@ -45,7 +45,7 @@ namespace Webpin {
             var color = desktop_file.color;
             if (color != null) {
                 var mid = color.red + color.blue + color.green;
-                if (mid / 3 < 0.3) {
+                if (mid / 3 < 0.5) {
                     Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = true;
                 }
                 Granite.Widgets.Utils.set_color_primary (this, color);

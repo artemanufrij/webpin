@@ -32,7 +32,15 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="0.2.2" date="2017-11-18">
+        <release version="0.2.3" date="2017-11-20">
+            <description>
+                <p>Fix:</p>
+                <ul>
+                    <li>Custom settings in .desktop</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.2.2" date="2017-11-20">
             <description>
                 <p>Fix:</p>
                 <ul>

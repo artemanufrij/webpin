@@ -63,24 +63,29 @@ namespace Webpin {
             }
         }
 
+        Gdk.RGBA? _color;
         public Gdk.RGBA? color {
             get {
-                Gdk.RGBA return_value = {0, 0, 0, 255};
-                this.file = new GLib.KeyFile();
-                try {
-                    file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    var property = file.get_string ("Desktop Entry", "X-Webpin-PrimaryColor");
-                    if (property == "" || !return_value.parse (property)) {
+                if (_color == null) {
+                    Gdk.RGBA return_value = {0, 0, 0, 0};
+                    this.file = new GLib.KeyFile();
+                    try {
+                        file.load_from_file (info.filename, KeyFileFlags.NONE);
+                        var property = file.get_string ("Desktop Entry", "X-Webpin-PrimaryColor");
+                        if (property == "" || !return_value.parse (property)) {
+                            return null;
+                        }
+                    } catch (Error e) {
+                        warning (e.message);
                         return null;
                     }
-                } catch (Error e) {
-                    warning (e.message);
-                    return null;
+                    _color = return_value;
                 }
-                return return_value;
+                return _color;
             } set {
                 if (value != null) {
-                    var color = "#%02x%02x%02x".printf ((int)(value.red * 255), (int)(value.green * 255), (int)(value.blue * 255));
+                    _color = value;
+                    var color = "rgba (%d,%d,%d,1)".printf ((int)(value.red * 255), (int)(value.green * 255), (int)(value.blue * 255));
                     edit_propertie ("X-Webpin-PrimaryColor", color);
                 }
             }
