@@ -4,9 +4,9 @@ vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
     Widgets/Assistant.vala
     Widgets/WebApp.vala
     Objects/DesktopFile.vala
-    Dialogs/InfoDialog.vala
+    Dialogs/Preferences.vala
+    Services/DesktopFilesManager.vala
     Settings.vala
-    UrlEntry.vala
     MainWindow.vala
     WebWindow.vala
     Application.vala

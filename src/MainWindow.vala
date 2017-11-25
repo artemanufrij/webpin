@@ -28,23 +28,35 @@
 
 namespace Webpin {
     public class MainWindow : Gtk.ApplicationWindow {
-        private Settings settings;
+        Settings settings;
 
-        private Gtk.Stack stack;
-        private Gtk.HeaderBar headerbar;
-        private Gtk.Button back_button;
-        private Gtk.Button add_button;
+        Gtk.Stack stack;
+        Gtk.HeaderBar headerbar;
+        Gtk.Button back_button;
+        Gtk.Button add_button;
+        Gtk.MenuButton app_menu;
 
-        private Assistant assistant;
-        private ApplicationsView apps_view;
+        Assistant assistant;
+        ApplicationsView apps_view;
+
+        construct {
+            settings = Settings.get_default ();
+            settings.notify["use-dark-theme"].connect (() => {
+                Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = settings.use_dark_theme;
+                if (settings.use_dark_theme) {
+                    app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR));
+                } else {
+                    app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu", Gtk.IconSize.LARGE_TOOLBAR));
+                }
+            });
+        }
 
         public MainWindow () {
-            settings = Settings.get_default ();
-
             build_ui ();
         }
 
         private void build_ui () {
+            Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = settings.use_dark_theme;
             set_default_size (700, 500);
 
             //headerbar
@@ -55,12 +67,34 @@ namespace Webpin {
 
             back_button = new Gtk.Button.with_label (_("Applications"));
             back_button.get_style_context ().add_class ("back-button");
+            back_button.valign = Gtk.Align.CENTER;
             headerbar.pack_start (back_button);
 
             add_button = new Gtk.Button ();
             add_button.image = new Gtk.Image.from_icon_name ("document-new", Gtk.IconSize.LARGE_TOOLBAR);
             add_button.tooltip_text = _("Add a new Web App");
             headerbar.pack_start (add_button);
+
+            // SETTINGS MENU
+            app_menu = new Gtk.MenuButton ();
+            if (settings.use_dark_theme) {
+                app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR));
+            } else {
+                app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu", Gtk.IconSize.LARGE_TOOLBAR));
+            }
+
+            var settings_menu = new Gtk.Menu ();
+            var menu_item_preferences = new Gtk.MenuItem.with_label (_("Preferences"));
+            menu_item_preferences.activate.connect (() => {
+                var preferences = new Dialogs.Preferences (this);
+                preferences.run ();
+            });
+
+            settings_menu.append (menu_item_preferences);
+            settings_menu.show_all ();
+
+            app_menu.popup = settings_menu;
+            headerbar.pack_end (app_menu);
 
             var welcome = new Granite.Widgets.Welcome (_("No Web Apps Available"), _("Manage your web apps."));
             welcome.append ("document-new", _("Create App"), _("Create a new web app with Webpin"));
@@ -109,10 +143,11 @@ namespace Webpin {
             });
 
             back_button.clicked.connect (() => {
-                if (apps_view.has_items)
+                if (apps_view.has_items) {
                     show_apps_view ();
-                else
+                } else {
                     show_welcome_view ();
+                }
             });
 
             add_button.clicked.connect (() => {
@@ -127,10 +162,11 @@ namespace Webpin {
             this.restore_settings ();
             show_all ();
 
-            if (apps_view.has_items)
+            if (apps_view.has_items) {
                 show_apps_view (Gtk.StackTransitionType.NONE);
-            else
+            } else {
                 show_welcome_view (Gtk.StackTransitionType.NONE);
+            }
 
             this.present ();
         }
@@ -140,11 +176,7 @@ namespace Webpin {
             stack.set_visible_child_name("assistant");
             back_button.show_all ();
             add_button.hide ();
-            //fix ugly border at the bottom of headerbar
-            queue_draw ();
-
-            if (desktop_file != null)
-                assistant.edit_desktop_file (desktop_file);
+            assistant.edit_desktop_file (desktop_file);
         }
 
         private void show_apps_view (Gtk.StackTransitionType slide = Gtk.StackTransitionType.SLIDE_RIGHT) {
@@ -153,8 +185,6 @@ namespace Webpin {
             back_button.hide ();
             add_button.show_all ();
             assistant.reset_fields ();
-            //fix ugly border at the bottom of headerbar
-            queue_draw ();
         }
 
         private void show_welcome_view (Gtk.StackTransitionType slide = Gtk.StackTransitionType.SLIDE_RIGHT) {
@@ -163,15 +193,14 @@ namespace Webpin {
             back_button.hide ();
             add_button.hide ();
             assistant.reset_fields ();
-            //fix ugly border at the bottom of headerbar
-            queue_draw ();
         }
 
         private void restore_settings () {
             this.set_default_size (settings.window_width, settings.window_height);
 
-            if (settings.window_state == Settings.WindowState.MAXIMIZED)
+            if (settings.window_state == Settings.WindowState.MAXIMIZED) {
                 this.maximize ();
+            }
         }
 
         private void store_settings () {

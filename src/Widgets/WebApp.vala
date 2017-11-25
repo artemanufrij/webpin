@@ -28,14 +28,11 @@
 
 namespace Webpin {
     public class WebApp : Gtk.Stack {
+        public WebKit.WebView app_view { get; private set; }
+        public DesktopFile desktop_file { get; private set; }
 
-        public WebKit.WebView app_view;
-        public string ui_color = "none";
-        private string app_url;
-        private GLib.DesktopAppInfo info;
-        private DesktopFile file;
-        private WebKit.CookieManager cookie_manager;
-        private Gtk.Box container;
+        WebKit.CookieManager cookie_manager;
+        Gtk.Box container;
         Granite.Widgets.Toast app_notification;
         GLib.Icon icon_for_notification;
 
@@ -43,54 +40,60 @@ namespace Webpin {
         public signal void request_begin ();
         public signal void request_finished ();
         public signal void desktop_notification (string title, string body, GLib.Icon icon);
+        public signal void found_website_color (Gdk.RGBA color);
 
 
-        public WebApp (string app_url) {
-
-            this.app_url = app_url;
-
-            //configure cookies settings
-            cookie_manager = WebKit.WebContext.get_default ().get_cookie_manager ();
-            cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
+        public WebApp (DesktopFile desktop_file) {
+            this.desktop_file = desktop_file;
+            this.transition_duration = 350;
+            this.transition_type = Gtk.StackTransitionType.SLIDE_UP;
 
             string cookie_db = Environment.get_user_cache_dir () + "/webpin/cookies/";
-
             var dir = GLib.File.new_for_path (cookie_db);
-
             if (!dir.query_exists (null)) {
                 try {
                     dir.make_directory_with_parents (null);
-                    GLib.debug ("Directory '%s' created", dir.get_path ());
-                } catch (Error e) {
-                    GLib.error ("Could not create caching directory.");
+                } catch (Error err) {
+                    warning ("Could not create caching directory.");
                 }
             }
 
+            cookie_manager = WebKit.WebContext.get_default ().get_cookie_manager ();
+            cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
             cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
 
-            //load app viewer
             app_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
-            app_view.load_uri (app_url);
+            app_view.load_uri (desktop_file.url);
 
-            container = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-            container.halign = Gtk.Align.FILL;
-            container.valign = Gtk.Align.FILL;
+            container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
             app_notification = new Granite.Widgets.Toast ("");
 
-            //overlay trick to make snapshot work even with the spinner
             var overlay = new Gtk.Overlay ();
             overlay.add (app_view);
             overlay.add_overlay (app_notification);
 
-            add_named (container, "splash");
-            add_named (overlay, "app");
+            this.add_named (container, "splash");
+            this.add_named (overlay, "app");
 
-            transition_duration = 350;
-            transition_type = Gtk.StackTransitionType.SLIDE_UP;
+            var icon_file = File.new_for_path (desktop_file.icon);
+
+            Gtk.Image icon;
+            if (icon_file.query_exists ()) {
+                try {
+                    icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (desktop_file.icon, 48, 48, true));
+                    icon_for_notification = GLib.Icon.new_for_string (desktop_file.icon);
+                } catch (Error err) {
+                    warning (err.message);
+                    icon = new Gtk.Image.from_icon_name ("com.github.artemanufrij.webpin", Gtk.IconSize.DIALOG);
+                }
+            } else {
+                icon = new Gtk.Image.from_icon_name (desktop_file.icon, Gtk.IconSize.DIALOG);
+                icon_for_notification = new GLib.ThemedIcon (desktop_file.icon);
+            }
+            container.pack_start (icon, true, true, 0);
 
             app_view.create.connect ((action) => {
-                print("external request");
                 app_notification.title = _("Open request in an external application…");
                 app_notification.send_notification ();
 
@@ -98,33 +101,7 @@ namespace Webpin {
                 return new WebKit.WebView ();
             });
 
-            info = DesktopFile.get_app_by_url(app_url);
-            file = new DesktopFile.from_desktopappinfo(info);
-
-            var icon_file = File.new_for_path (file.icon);
-
-            Gtk.Image icon;
-            if (icon_file.query_exists ()) {
-                try {
-                    icon = new Gtk.Image.from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (file.icon, 48, 48, true));
-                    icon_for_notification = GLib.Icon.new_for_string (file.icon);
-                } catch (Error e) {
-                    warning (e.message);
-                    icon = new Gtk.Image.from_icon_name ("com.github.artemanufrij.webpin", Gtk.IconSize.DIALOG);
-                }
-            } else {
-                icon = new Gtk.Image.from_icon_name (file.icon, Gtk.IconSize.DIALOG);
-                icon_for_notification = new GLib.ThemedIcon (file.icon);
-            }
-            container.pack_start(icon, true, true, 0);
-
-            Gdk.RGBA background = {};
-            if (!background.parse (ui_color)){
-                background = {1,1,1,1};
-            }
-            container.override_background_color (Gtk.StateFlags.NORMAL, background);
-
-            app_view.load_changed.connect ( (load_event) => {
+            app_view.load_changed.connect ((load_event) => {
                 request_begin ();
                 if (load_event == WebKit.LoadEvent.FINISHED) {
                     visible_child_name = "app";
@@ -132,6 +109,23 @@ namespace Webpin {
                         app_notification.reveal_child = false;
                     }
                     request_finished ();
+                    var source = app_view.get_main_resource ();
+                    source.get_data.begin (null, (obj, res) => {
+                        try {
+                            var body = (string)source.get_data.end (res);
+                            var regex = new Regex ("(?<=<meta name=\"theme-color\" content=\")#[0-9a-fA-F]{6}");
+                            MatchInfo match_info;
+                            if (regex.match (body, 0, out match_info)) {
+                                var result = match_info.fetch (0);
+                                Gdk.RGBA return_value = {0, 0, 0, 1};
+                                if (return_value.parse (result)) {
+                                    found_website_color (return_value);
+                                }
+                            }
+                        } catch (Error err) {
+                            warning (err.message);
+                        }
+                    });
                 }
             });
 
@@ -147,10 +141,6 @@ namespace Webpin {
                 }
                 return false;
             });
-        }
-
-        public DesktopFile get_desktop_file () {
-            return this.file;
         }
     }
 }

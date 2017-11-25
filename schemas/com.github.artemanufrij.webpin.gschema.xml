@@ -20,5 +20,10 @@
 			<summary>The saved state of the window.</summary>
 			<description>The saved state of the window.</description>
 		</key>
+		<key name="use-dark-theme" type="b">
+			<default>false</default>
+			<summary>Use Dark Theme.</summary>
+			<description>Use Dark Theme.</description>
+		</key>
 	</schema>
 </schemalist>

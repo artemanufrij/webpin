@@ -33,8 +33,7 @@ namespace Webpin {
         public signal void edit_request(DesktopFile desktop_file);
         public signal void app_deleted ();
 
-        private Gtk.FlowBox icon_view;
-        private Gee.HashMap<string, GLib.DesktopAppInfo> applications;
+        Gtk.FlowBox icon_view;
 
         public bool has_items { get { return icon_view.get_children ().length () > 0; } }
 
@@ -56,20 +55,19 @@ namespace Webpin {
                     var app_icon = (child as Gtk.FlowBoxChild).get_child () as ApplicationIcon;
                     try {
                         Process.spawn_command_line_async ("com.github.artemanufrij.webpin " + app_icon.desktop_file.url.replace("%%", "%"));
-                    } catch (SpawnError e) {
-                        debug ("Error: %s\n", e.message);
+                    } catch (SpawnError err) {
+                        warning (err.message);
                     }
                 }
             });
             load_applications ();
 
-            scrolled.add(icon_view);
-            this.pack_start(scrolled, true, true, 0);
-
+            scrolled.add (icon_view);
+            this.pack_start (scrolled, true, true, 0);
         }
 
         public void load_applications () {
-            applications = DesktopFile.get_webpin_applications();
+            var applications = Services.DesktopFilesManager.get_webpin_applications ();
 
             foreach (GLib.DesktopAppInfo app in applications.values) {
                 this.add_button (app);

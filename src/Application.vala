@@ -27,7 +27,7 @@
  */
 
 namespace Webpin {
-    public class WebpinApp : Granite.Application {
+    public class WebpinApp : Gtk.Application {
 
         static WebpinApp _instance = null;
 
@@ -40,16 +40,12 @@ namespace Webpin {
         }
 
         construct {
-            program_name = "Webpin";
-            exec_name = "com.github.artemanufrij.webpin";
-            app_launcher = application_id + ".desktop";
             flags |= GLib.ApplicationFlags.HANDLES_OPEN;
 
             var open_web_app = new SimpleAction ("open-web-app", GLib.VariantType.STRING);
             add_action (open_web_app);
             open_web_app.activate.connect ((parameter) => {
                 if (parameter != null) {
-                    debug ("start web app over action: '%s'", parameter.get_string ());
                     start_webapp (parameter.get_string ());
                 }
             });
@@ -63,7 +59,7 @@ namespace Webpin {
                 return;
             }
             mainwindow = new MainWindow ();
-            mainwindow.set_application(this);
+            mainwindow.set_application (this);
         }
 
         public override void open (File[] files, string hint) {
@@ -75,13 +71,14 @@ namespace Webpin {
                 mainwindow.present ();
                 return;
             }
-            var app_info = Webpin.DesktopFile.get_app_by_url (url);
-            var desktop_file = new Webpin.DesktopFile.from_desktopappinfo(app_info);
+            var app_info = Services.DesktopFilesManager.get_app_by_url (url);
+            var desktop_file = new Webpin.DesktopFile.from_desktopappinfo (app_info);
             mainwindow = new WebWindow (desktop_file);
             mainwindow.set_application (this);
         }
     }
 }
+
 static int main (string[] args) {
     Gtk.init (ref args);
     var app = Webpin.WebpinApp.instance;

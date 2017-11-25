@@ -75,8 +75,9 @@ namespace Webpin {
             });
 
             event_box.leave_notify_event.connect ((event) => {
-                if (event.detail == Gdk.NotifyType.INFERIOR)
+                if (event.detail == Gdk.NotifyType.INFERIOR) {
                     return false;
+                }
                 menu.set_reveal_child (false);
                 return false;
             });
@@ -109,10 +110,11 @@ namespace Webpin {
                     new_height = new_height * pix.height / pix.width;
                     margin_vertical = (new_width - new_height) / 2;
                 }
-                if (image == null)
+                if (image == null) {
                     image = new Gtk.Image.from_pixbuf (pix.scale_simple (new_width, new_height, Gdk.InterpType.BILINEAR));
-                else
+                } else {
                     image.set_from_pixbuf (pix.scale_simple (new_width, new_height, Gdk.InterpType.BILINEAR));
+                }
 
                 image.margin_top = margin_vertical;
                 image.margin_bottom = margin_vertical;
