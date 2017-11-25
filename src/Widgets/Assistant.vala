@@ -234,16 +234,8 @@ namespace Webpin {
 
         private void on_icon_chooser_activate () {
             var filter = new Gtk.FileFilter ();
-
             filter.set_filter_name (_("Images"));
-            filter.add_pattern ("*.png");
-            filter.add_pattern ("*.svg");
-            filter.add_pattern ("*.jpg");
-            filter.add_pattern ("*.jpeg");
-            filter.add_pattern ("*.PNG");
-            filter.add_pattern ("*.SVG");
-            filter.add_pattern ("*.JPG");
-            filter.add_pattern ("*.JPEG");
+            filter.add_mime_type ("image/*");
 
             file_chooser = new Gtk.FileChooserDialog ("", null,
                                                        Gtk.FileChooserAction.OPEN,

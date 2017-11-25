@@ -64,7 +64,7 @@ namespace Webpin {
 
             var stay_open = new Gtk.ToggleButton ();
             stay_open.active = desktop_file.hide_on_close;
-            stay_open.tooltip_text = _("Run in background when closed");
+            stay_open.tooltip_text = _("Run in background if closed");
             stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
             stay_open.toggled.connect (() => {
                 desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
