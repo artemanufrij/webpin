@@ -54,7 +54,7 @@ namespace Webpin.Windows {
             var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
             copy_url.tooltip_text = _("Copy URL into clipboard");
             copy_url.clicked.connect (() => {
-                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.app_view.uri, -1);
+                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.web_view.uri, -1);
             });
             headerbar.pack_end (copy_url);
 
@@ -161,7 +161,7 @@ namespace Webpin.Windows {
             }
 
             if (zoom != null) {
-                browser.app_view.zoom_level = double.parse (zoom);
+                browser.web_view.zoom_level = double.parse (zoom);
             }
         }
 
@@ -186,43 +186,43 @@ namespace Webpin.Windows {
                 case Gdk.Key.KP_Add:
                 case Gdk.Key.plus:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.app_view.zoom_level += 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
+                        browser.web_view.zoom_level += 0.1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.KP_Subtract:
                 case Gdk.Key.minus:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.app_view.zoom_level -= 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
+                        browser.web_view.zoom_level -= 0.1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.KP_0:
                 case Gdk.Key.@0:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.app_view.zoom_level = 1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
+                        browser.web_view.zoom_level = 1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.F5:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.app_view.reload ();
+                        browser.web_view.reload ();
                     } else {
-                        browser.app_view.reload_bypass_cache ();
+                        browser.web_view.reload_bypass_cache ();
                     }
                     return true;
                 case Gdk.Key.Left:
                     if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        browser.app_view.go_back ();
+                        browser.web_view.go_back ();
                         return true;
                     }
                     break;
                 case Gdk.Key.Right:
                     if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        browser.app_view.go_forward ();
+                        browser.web_view.go_forward ();
                         return true;
                     }
                     break;

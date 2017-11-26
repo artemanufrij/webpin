@@ -67,6 +67,17 @@ namespace Webpin.Widgets {
 
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
+            if (desktop_file.color != null) {
+                var css_provider = Gtk.CssProvider.get_default ();
+                try {
+                    css_provider.load_from_data (""" .box { background: """ + desktop_file.color.to_string () + """; } """);
+                } catch (Error err) {
+                    warning (err.message);
+                }
+                container.get_style_context ().add_provider (css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+                container.get_style_context ().add_class ("box");
+            }
+
             app_notification = new Granite.Widgets.Toast ("");
 
             var overlay = new Gtk.Overlay ();
