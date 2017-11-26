@@ -28,7 +28,7 @@
 
 namespace Webpin.Widgets {
     public class Browser : Gtk.Stack {
-        public WebKit.WebView app_view { get; private set; }
+        public WebKit.WebView web_view { get; private set; }
         public DesktopFile desktop_file { get; private set; }
 
         WebKit.CookieManager cookie_manager;
@@ -62,15 +62,15 @@ namespace Webpin.Widgets {
             cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
             cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
 
-            app_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
-            app_view.load_uri (desktop_file.url);
+            web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
+            web_view.load_uri (desktop_file.url);
 
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
             app_notification = new Granite.Widgets.Toast ("");
 
             var overlay = new Gtk.Overlay ();
-            overlay.add (app_view);
+            overlay.add (web_view);
             overlay.add_overlay (app_notification);
 
             this.add_named (container, "splash");
@@ -93,7 +93,7 @@ namespace Webpin.Widgets {
             }
             container.pack_start (icon, true, true, 0);
 
-            app_view.create.connect ((action) => {
+            web_view.create.connect ((action) => {
                 app_notification.title = _("Open request in an external application…");
                 app_notification.send_notification ();
 
@@ -101,7 +101,7 @@ namespace Webpin.Widgets {
                 return new WebKit.WebView ();
             });
 
-            app_view.load_changed.connect ((load_event) => {
+            web_view.load_changed.connect ((load_event) => {
                 request_begin ();
                 if (load_event == WebKit.LoadEvent.FINISHED) {
                     visible_child_name = "app";
@@ -109,7 +109,7 @@ namespace Webpin.Widgets {
                         app_notification.reveal_child = false;
                     }
                     request_finished ();
-                    var source = app_view.get_main_resource ();
+                    var source = web_view.get_main_resource ();
                     source.get_data.begin (null, (obj, res) => {
                         try {
                             var body = (string)source.get_data.end (res);
@@ -129,12 +129,12 @@ namespace Webpin.Widgets {
                 }
             });
 
-            app_view.show_notification.connect ((notification) => {
+            web_view.show_notification.connect ((notification) => {
                 desktop_notification (notification.title, notification.body, icon_for_notification);
                 return true;
             });
 
-            app_view.permission_request.connect ((permission) => {
+            web_view.permission_request.connect ((permission) => {
                 var permission_type = permission as WebKit.NotificationPermissionRequest;
                 if (permission_type != null) {
                     permission_type.allow ();
