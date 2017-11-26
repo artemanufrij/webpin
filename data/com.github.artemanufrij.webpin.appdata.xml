@@ -37,6 +37,7 @@
                 <p>New:</p>
                 <ul>
                     <li>Option for Dark Theme</li>
+                    <li>Grab theme-color of called website if exists</li>
                 </ul>
             </description>
         </release>
