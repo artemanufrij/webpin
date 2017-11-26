@@ -26,17 +26,17 @@
  * Authored by: Artem Anufrij <artem.anufrij@live.de>
  */
 
-namespace Webpin {
-    public class WebWindow : Gtk.Window {
+namespace Webpin.Windows {
+    public class WebApp : Gtk.Window {
 
         Gdk.WindowState current_state;
 
-        WebApp web_app;
+        Widgets.Browser browser;
         Gtk.Spinner spinner;
 
         public DesktopFile desktop_file { get; private set; }
 
-        public WebWindow (DesktopFile desktop_file) {
+        public WebApp (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
             this.set_wmclass (desktop_file.url, desktop_file.url);
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
@@ -45,7 +45,7 @@ namespace Webpin {
             if (color != null) {
                 set_color (color);
             }
-            web_app = new WebApp (desktop_file);
+            browser = new Widgets.Browser (desktop_file);
 
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
@@ -54,7 +54,7 @@ namespace Webpin {
             var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
             copy_url.tooltip_text = _("Copy URL into clipboard");
             copy_url.clicked.connect (() => {
-                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (web_app.app_view.uri, -1);
+                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.app_view.uri, -1);
             });
             headerbar.pack_end (copy_url);
 
@@ -87,7 +87,7 @@ namespace Webpin {
                 return false;
             });
 
-            web_app.external_request.connect ((action) => {
+            browser.external_request.connect ((action) => {
                 debug ("Web app external request: %s", action.get_request ().uri);
                 try {
                     Process.spawn_command_line_async ("xdg-open " + action.get_request ().uri);
@@ -96,7 +96,7 @@ namespace Webpin {
                 }
             });
 
-            web_app.desktop_notification.connect ((title, body, icon) => {
+            browser.desktop_notification.connect ((title, body, icon) => {
                 var desktop_notification = new Notification (title);
                 desktop_notification.set_body (body);
                 desktop_notification.set_icon (icon);
@@ -104,15 +104,15 @@ namespace Webpin {
                 WebpinApp.instance.send_notification (null, desktop_notification);
             });
 
-            web_app.request_begin.connect (() => {
+            browser.request_begin.connect (() => {
                 spinner.active = true;
             });
 
-            web_app.request_finished.connect (() => {
+            browser.request_finished.connect (() => {
                 spinner.active = false;
             });
 
-            web_app.found_website_color.connect ((color) => {
+            browser.found_website_color.connect ((color) => {
                 int gray_val = (int)(desktop_file.color.red * 255);
                 if (desktop_file.color == null || (gray_val == 222 && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
                     set_color (color);
@@ -120,7 +120,7 @@ namespace Webpin {
                 }
             });
 
-            this.add (web_app);
+            this.add (browser);
 
             load_settings ();
 
@@ -161,7 +161,7 @@ namespace Webpin {
             }
 
             if (zoom != null) {
-                web_app.app_view.zoom_level = double.parse (zoom);
+                browser.app_view.zoom_level = double.parse (zoom);
             }
         }
 
@@ -186,43 +186,43 @@ namespace Webpin {
                 case Gdk.Key.KP_Add:
                 case Gdk.Key.plus:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        web_app.app_view.zoom_level += 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
+                        browser.app_view.zoom_level += 0.1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.KP_Subtract:
                 case Gdk.Key.minus:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        web_app.app_view.zoom_level -= 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
+                        browser.app_view.zoom_level -= 0.1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.KP_0:
                 case Gdk.Key.@0:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        web_app.app_view.zoom_level = 1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", web_app.app_view.zoom_level.to_string ());
+                        browser.app_view.zoom_level = 1;
+                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.app_view.zoom_level.to_string ());
                         return true;
                     }
                     break;
                 case Gdk.Key.F5:
                     if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        web_app.app_view.reload ();
+                        browser.app_view.reload ();
                     } else {
-                        web_app.app_view.reload_bypass_cache ();
+                        browser.app_view.reload_bypass_cache ();
                     }
                     return true;
                 case Gdk.Key.Left:
                     if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        web_app.app_view.go_back ();
+                        browser.app_view.go_back ();
                         return true;
                     }
                     break;
                 case Gdk.Key.Right:
                     if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        web_app.app_view.go_forward ();
+                        browser.app_view.go_forward ();
                         return true;
                     }
                     break;

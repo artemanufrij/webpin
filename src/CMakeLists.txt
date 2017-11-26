@@ -1,14 +1,14 @@
 vala_precompile(VALA_C ${CMAKE_PROJECT_NAME}
-    Widgets/ApplicationIcon.vala
-    Widgets/ApplicationsView.vala
-    Widgets/Assistant.vala
-    Widgets/WebApp.vala
+    Widgets/WebItem.vala
+    Widgets/Views/WebItemsView.vala
+    Widgets/Views/Editor.vala
+    Widgets/Browser.vala
+    Windows/WebApp.vala
     Objects/DesktopFile.vala
     Dialogs/Preferences.vala
     Services/DesktopFilesManager.vala
     Settings.vala
     MainWindow.vala
-    WebWindow.vala
     Application.vala
 PACKAGES
     gtk+-3.0

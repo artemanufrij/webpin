@@ -26,33 +26,33 @@
  * Authored by: Artem Anufrij <artem.anufrij@live.de>
  */
 
-namespace Webpin {
-    public class ApplicationsView : Gtk.Box {
+namespace Webpin.Widgets.Views {
+    public class WebItemsView : Gtk.Box {
 
-        public signal void add_request();
-        public signal void edit_request(DesktopFile desktop_file);
+        public signal void add_request ();
+        public signal void edit_request (DesktopFile desktop_file);
         public signal void app_deleted ();
 
-        Gtk.FlowBox icon_view;
+        Gtk.FlowBox web_items;
 
-        public bool has_items { get { return icon_view.get_children ().length () > 0; } }
+        public bool has_items { get { return web_items.get_children ().length () > 0; } }
 
-        public ApplicationsView () {
+        public WebItemsView () {
 
             GLib.Object (orientation: Gtk.Orientation.VERTICAL);
             var scrolled = new Gtk.ScrolledWindow (null, null);
             scrolled.hscrollbar_policy = Gtk.PolicyType.NEVER;
 
-            icon_view = new Gtk.FlowBox();
-            icon_view.valign = Gtk.Align.START;
-            icon_view.vexpand = false;
-            icon_view.homogeneous = true;
-            icon_view.column_spacing = 24;
-            icon_view.row_spacing = 24;
-            icon_view.margin = 24;
-            icon_view.child_activated.connect ((child) => {
-                if ((child as Gtk.FlowBoxChild).get_child () is ApplicationIcon) {
-                    var app_icon = (child as Gtk.FlowBoxChild).get_child () as ApplicationIcon;
+            web_items = new Gtk.FlowBox();
+            web_items.valign = Gtk.Align.START;
+            web_items.vexpand = false;
+            web_items.homogeneous = true;
+            web_items.column_spacing = 12;
+            web_items.row_spacing = 12;
+            web_items.margin = 24;
+            web_items.child_activated.connect ((child) => {
+                if (child is WebItem) {
+                    var app_icon = child as WebItem;
                     try {
                         Process.spawn_command_line_async ("com.github.artemanufrij.webpin " + app_icon.desktop_file.url.replace("%%", "%"));
                     } catch (SpawnError err) {
@@ -62,7 +62,7 @@ namespace Webpin {
             });
             load_applications ();
 
-            scrolled.add (icon_view);
+            scrolled.add (web_items);
             this.pack_start (scrolled, true, true, 0);
         }
 
@@ -70,40 +70,39 @@ namespace Webpin {
             var applications = Services.DesktopFilesManager.get_webpin_applications ();
 
             foreach (GLib.DesktopAppInfo app in applications.values) {
-                this.add_button (app);
+                this.add_web_item (app);
             }
         }
 
-        public void add_button (GLib.DesktopAppInfo app) {
-            var image = new ApplicationIcon (app);
-            image.edit_request.connect ((desktop_file) => {
+        public void add_web_item (GLib.DesktopAppInfo app) {
+            var web_item = new WebItem (app);
+            web_item.edit_request.connect ((desktop_file) => {
                 edit_request (desktop_file);
-                icon_view.unselect_all ();
+                web_items.unselect_all ();
             });
-            image.deleted.connect ((parent) => {
-                this.icon_view.remove (parent);
+            web_item.deleted.connect (() => {
                 app_deleted ();
             });
-            icon_view.add (image);
-            icon_view.show_all ();
+            web_items.add (web_item);
+            web_items.show_all ();
         }
 
         public void select_last_item () {
-            icon_view.select_child (icon_view.get_child_at_index ((int)icon_view.get_children ().length () - 1));
+            web_items.select_child (web_items.get_child_at_index ((int)web_items.get_children ().length () - 1));
         }
 
         public void select_first_item () {
-            icon_view.select_child (icon_view.get_child_at_index (0));
+            web_items.select_child (web_items.get_child_at_index (0));
         }
 
         public void update_button (GLib.DesktopAppInfo app) {
-            foreach (var item in icon_view.get_children ()) {
-                if ((item as Gtk.FlowBoxChild).get_child () is ApplicationIcon) {
-                    var app_icon = (item as Gtk.FlowBoxChild).get_child () as ApplicationIcon;
+            foreach (var item in web_items.get_children ()) {
+                if (item is WebItem) {
+                    var app_icon = item as WebItem;
 
                     if (app_icon.desktop_file.name == app.get_display_name ()) {
                         app_icon.set_new_desktopfile (new DesktopFile.from_desktopappinfo (app));
-                        icon_view.select_child (item as Gtk.FlowBoxChild);
+                        web_items.select_child (item as Gtk.FlowBoxChild);
                         break;
                     }
                 }

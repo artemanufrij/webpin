@@ -51,7 +51,7 @@ namespace Webpin {
             });
         }
 
-        public Gtk.Window mainwindow;
+        public Gtk.Window mainwindow { get; private set; default = null; }
 
         protected override void activate () {
             if (mainwindow != null) {
@@ -66,14 +66,14 @@ namespace Webpin {
             start_webapp (files [0].get_uri ());
         }
 
-        public void start_webapp (string url) {
+        private void start_webapp (string url) {
             if (mainwindow != null ) {
                 mainwindow.present ();
                 return;
             }
             var app_info = Services.DesktopFilesManager.get_app_by_url (url);
             var desktop_file = new Webpin.DesktopFile.from_desktopappinfo (app_info);
-            mainwindow = new WebWindow (desktop_file);
+            mainwindow = new Windows.WebApp (desktop_file);
             mainwindow.set_application (this);
         }
     }

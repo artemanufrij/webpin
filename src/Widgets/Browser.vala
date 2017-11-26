@@ -26,8 +26,8 @@
  * Authored by: Artem Anufrij <artem.anufrij@live.de>
  */
 
-namespace Webpin {
-    public class WebApp : Gtk.Stack {
+namespace Webpin.Widgets {
+    public class Browser : Gtk.Stack {
         public WebKit.WebView app_view { get; private set; }
         public DesktopFile desktop_file { get; private set; }
 
@@ -43,7 +43,7 @@ namespace Webpin {
         public signal void found_website_color (Gdk.RGBA color);
 
 
-        public WebApp (DesktopFile desktop_file) {
+        public Browser (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
             this.transition_duration = 350;
             this.transition_type = Gtk.StackTransitionType.SLIDE_UP;

@@ -26,8 +26,8 @@
  * Authored by: Artem Anufrij <artem.anufrij@live.de>
  */
 
-namespace Webpin {
-    public class Assistant : Gtk.Box {
+namespace Webpin.Widgets.Views {
+    public class Editor : Gtk.Box {
 
         public enum assistant_mode { new_app, edit_app }
 
@@ -63,7 +63,7 @@ namespace Webpin {
             default_color = { 222, 222, 222, 255 };
         }
 
-        public Assistant () {
+        public Editor () {
 
             GLib.Object (orientation: Gtk.Orientation.VERTICAL);
             apps = Services.DesktopFilesManager.get_applications ();

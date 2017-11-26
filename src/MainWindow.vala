@@ -36,8 +36,8 @@ namespace Webpin {
         Gtk.Button add_button;
         Gtk.MenuButton app_menu;
 
-        Assistant assistant;
-        ApplicationsView apps_view;
+        Widgets.Views.Editor editor;
+        Widgets.Views.WebItemsView web_items_view;
 
         construct {
             settings = Settings.get_default ();
@@ -106,44 +106,44 @@ namespace Webpin {
                 }
             });
 
-            apps_view = new ApplicationsView();
-            assistant = new Assistant();
+            web_items_view = new Widgets.Views.WebItemsView ();
+            editor = new Widgets.Views.Editor ();
             stack = new Gtk.Stack ();
             stack.set_transition_duration (500);
 
             stack.add_named (welcome, "welcome");
-            stack.add_named (apps_view, "apps_view");
-            stack.add_named (assistant, "assistant");
+            stack.add_named (web_items_view, "apps_view");
+            stack.add_named (editor, "editor");
 
             add (stack);
 
-            apps_view.add_request.connect (() => {
+            web_items_view.add_request.connect (() => {
                 show_assistant ();
             });
 
-            apps_view.edit_request.connect ((desktop_file) => {
+            web_items_view.edit_request.connect ((desktop_file) => {
                 show_assistant (desktop_file);
             });
 
-            apps_view.app_deleted.connect (() => {
-                if (!apps_view.has_items) {
+            web_items_view.app_deleted.connect (() => {
+                if (!web_items_view.has_items) {
                     show_welcome_view (Gtk.StackTransitionType.NONE);
                 }
             });
 
-            assistant.application_created.connect ((new_file) => {
-                apps_view.add_button (new_file);
-                apps_view.select_last_item ();
+            editor.application_created.connect ((new_file) => {
+                web_items_view.add_web_item (new_file);
+                web_items_view.select_last_item ();
                 show_apps_view ();
             });
 
-            assistant.application_edited.connect ((edited_file) => {
-                apps_view.update_button (edited_file);
+            editor.application_edited.connect ((edited_file) => {
+                web_items_view.update_button (edited_file);
                 show_apps_view ();
             });
 
             back_button.clicked.connect (() => {
-                if (apps_view.has_items) {
+                if (web_items_view.has_items) {
                     show_apps_view ();
                 } else {
                     show_welcome_view ();
@@ -162,7 +162,7 @@ namespace Webpin {
             this.restore_settings ();
             show_all ();
 
-            if (apps_view.has_items) {
+            if (web_items_view.has_items) {
                 show_apps_view (Gtk.StackTransitionType.NONE);
             } else {
                 show_welcome_view (Gtk.StackTransitionType.NONE);
@@ -173,10 +173,10 @@ namespace Webpin {
 
         private void show_assistant (DesktopFile? desktop_file = null) {
             stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
-            stack.set_visible_child_name("assistant");
+            stack.set_visible_child_name("editor");
             back_button.show_all ();
             add_button.hide ();
-            assistant.edit_desktop_file (desktop_file);
+            editor.edit_desktop_file (desktop_file);
         }
 
         private void show_apps_view (Gtk.StackTransitionType slide = Gtk.StackTransitionType.SLIDE_RIGHT) {
@@ -184,7 +184,7 @@ namespace Webpin {
             stack.set_visible_child_name ("apps_view");
             back_button.hide ();
             add_button.show_all ();
-            assistant.reset_fields ();
+            editor.reset_fields ();
         }
 
         private void show_welcome_view (Gtk.StackTransitionType slide = Gtk.StackTransitionType.SLIDE_RIGHT) {
@@ -192,7 +192,7 @@ namespace Webpin {
             stack.set_visible_child_name ("welcome");
             back_button.hide ();
             add_button.hide ();
-            assistant.reset_fields ();
+            editor.reset_fields ();
         }
 
         private void restore_settings () {

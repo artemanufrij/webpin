@@ -50,17 +50,54 @@ namespace Webpin.Services {
         }
 
         public static Gee.HashMap<string, GLib.DesktopAppInfo> get_webpin_applications () {
-            var list = new Gee.HashMap<string, GLib.DesktopAppInfo>();
+            var list = new Gee.HashMap<string, GLib.DesktopAppInfo> ();
 
-            foreach (GLib.AppInfo app in GLib.AppInfo.get_all()) {
-                var desktop_app = new GLib.DesktopAppInfo(app.get_id ());
+            foreach (GLib.AppInfo app in GLib.AppInfo.get_all ()) {
+                var desktop_app = new GLib.DesktopAppInfo (app.get_id ());
 
                 string keywords = desktop_app.get_string ("Keywords");
                 if (keywords != null && keywords.contains ("webpin")) {
-                    list.set(desktop_app.get_name(), desktop_app);
+                    list.set (desktop_app.get_name (), desktop_app);
                 }
             }
             return list;
+        }
+
+        public static Gdk.Pixbuf? align_and_scale_pixbuf (Gdk.Pixbuf p, int size) {
+            Gdk.Pixbuf? pixbuf = p;
+            if (pixbuf.width != pixbuf.height) {
+                if (pixbuf.width > pixbuf.height) {
+                    int dif = (pixbuf.width - pixbuf.height) / 2;
+                    pixbuf = new Gdk.Pixbuf.subpixbuf (pixbuf, dif, 0, pixbuf.height, pixbuf.height);
+                } else {
+                    int dif = (pixbuf.height - pixbuf.width) / 2;
+                    pixbuf = new Gdk.Pixbuf.subpixbuf (pixbuf, 0, dif, pixbuf.width, pixbuf.width);
+                }
+            }
+            pixbuf = pixbuf.scale_simple (size, size, Gdk.InterpType.BILINEAR);
+            return pixbuf;
+        }
+
+        public static string? choose_new_icon () {
+            string? return_value = null;
+            var dialog = new Gtk.FileChooserDialog (
+                _("Choose an image…"), WebpinApp.instance.mainwindow,
+                Gtk.FileChooserAction.OPEN,
+                _("_Cancel"), Gtk.ResponseType.CANCEL,
+                _("_Open"), Gtk.ResponseType.ACCEPT);
+
+            var filter = new Gtk.FileFilter ();
+            filter.set_filter_name (_("Images"));
+            filter.add_mime_type ("image/*");
+
+            dialog.add_filter (filter);
+
+            if (dialog.run () == Gtk.ResponseType.ACCEPT) {
+                return_value = dialog.get_filename ();
+            }
+
+            dialog.destroy();
+            return return_value;
         }
     }
 }
