@@ -32,12 +32,12 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="0.2.4" date="2017-11-30">
+        <release version="0.2.4" date="2017-11-27">
             <description>
                 <p>New:</p>
                 <ul>
                     <li>Option for Dark Theme</li>
-                    <li>Grab theme-color of called website if exists</li>
+                    <li>Grab 'theme-color' (if exists) from called website</li>
                 </ul>
             </description>
         </release>
