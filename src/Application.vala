@@ -27,11 +27,9 @@
  */
 
 namespace Webpin {
-    public class WebpinApp : Granite.Application {
+    public class WebpinApp : Gtk.Application {
 
         static WebpinApp _instance = null;
-
-        public GLib.List<WebWindow> app_list;
 
         public static WebpinApp instance {
             get {
@@ -42,51 +40,55 @@ namespace Webpin {
         }
 
         construct {
-            program_name = "Webpin";
-            exec_name = "com.github.artemanufrij.webpin";
-            application_id = "com.github.artemanufrij.webpin";
-            app_launcher = application_id + ".desktop";
             flags |= GLib.ApplicationFlags.HANDLES_OPEN;
-            app_list = new GLib.List<WebWindow> ();
+
+            var open_web_app = new SimpleAction ("open-web-app", GLib.VariantType.STRING);
+            add_action (open_web_app);
+            open_web_app.activate.connect ((parameter) => {
+                if (parameter != null) {
+                    start_webapp (parameter.get_string ());
+                }
+            });
         }
 
-        public Gtk.Window mainwindow;
+        public Gtk.Window mainwindow { get; private set; default = null; }
 
         protected override void activate () {
             if (mainwindow != null) {
                 mainwindow.present ();
                 return;
             }
-
             mainwindow = new MainWindow ();
-            mainwindow.destroy.connect (() => { mainwindow = null; });
-            mainwindow.set_application(this);
+            mainwindow.set_application (this);
         }
 
         public override void open (File[] files, string hint) {
-            debug (files [0].get_uri ());
             start_webapp (files [0].get_uri ());
         }
-        
-        public void start_webapp (string url) {
-            foreach (var item in app_list) {
-                if (item.desktop_file.url == url) {
-                    item.present ();
-                    return;
-                }
-            }
 
-            var app_info = Webpin.DesktopFile.get_app_by_url (url);
-            var desktop_file = new Webpin.DesktopFile.from_desktopappinfo(app_info);
-            var app = new WebWindow(desktop_file);
-            app.destroy.connect (() => { app_list.remove (app); });
-            app.set_application (this);
-            app_list.append (app);
+        private void start_webapp (string url) {
+            if (mainwindow != null ) {
+                mainwindow.present ();
+                return;
+            }
+            var app_info = Services.DesktopFilesManager.get_app_by_url (url);
+            var desktop_file = new Webpin.DesktopFile.from_desktopappinfo (app_info);
+            mainwindow = new Windows.WebApp (desktop_file);
+            mainwindow.set_application (this);
         }
     }
 }
+
 static int main (string[] args) {
     Gtk.init (ref args);
     var app = Webpin.WebpinApp.instance;
+    if (args.length > 1) {
+        var checksum = new GLib.Checksum (GLib.ChecksumType.MD5);
+        checksum.update (args[1].data, args[1].length);
+        var id = "a" + checksum.get_string ().substring (0, 5) + "a.artemanufrij.webpin";
+        app.application_id = id;
+    } else {
+        app.application_id = "com.github.artemanufrij.webpin";
+    }
     return app.run (args);
 }

@@ -26,29 +26,30 @@
  * Authored by: Artem Anufrij <artem.anufrij@live.de>
  */
 
-namespace Webpin {
-    public class Assistant : Gtk.Box {
+namespace Webpin.Widgets.Views {
+    public class Editor : Gtk.Box {
 
         public enum assistant_mode { new_app, edit_app }
 
         public signal void application_created (GLib.DesktopAppInfo? new_file);
         public signal void application_edited (GLib.DesktopAppInfo? new_file);
 
-        private Gtk.Label message;
-        private Gtk.Button icon_button;
-        private Gtk.Entry app_name_entry;
-        private Gtk.Entry app_url_entry;
-        private Gtk.Entry icon_name_entry;
-        private Gtk.CheckButton save_cookies_check;
-        private Gtk.CheckButton save_password_check;
-        private Gtk.CheckButton stay_open_when_closed;
-        private Gtk.Popover icon_selector_popover;
-        private Gtk.FileChooserDialog file_chooser;
-        private Gtk.Button accept_button;
-        private GLib.Regex protocol_regex;
-        private Gee.HashMap<string, GLib.AppInfo> apps;
+        Gtk.Label message;
+        Gtk.Button icon_button;
+        Gtk.Entry app_name_entry;
+        Gtk.Entry app_url_entry;
+        Gtk.Entry icon_name_entry;
+        Gtk.CheckButton save_cookies_check;
+        Gtk.CheckButton save_password_check;
+        Gtk.CheckButton stay_open_when_closed;
+        Gtk.Popover icon_selector_popover;
+        Gtk.FileChooserDialog file_chooser;
+        Gtk.Button accept_button;
+        Gtk.ColorButton primary_color_button;
+        GLib.Regex protocol_regex;
+        Gee.HashMap<string, GLib.AppInfo> apps;
 
-        private string default_app_icon = "artemanufrij.webpin";
+        private string default_app_icon = "com.github.artemanufrij.webpin";
 
         private bool app_name_valid = false;
         private bool app_url_valid = false;
@@ -56,15 +57,20 @@ namespace Webpin {
 
         private assistant_mode mode { get; set; default = assistant_mode.new_app; }
 
-        public Assistant () {
+        Gdk.RGBA default_color;
+
+        construct {
+            default_color = { 222, 222, 222, 255 };
+        }
+
+        public Editor () {
 
             GLib.Object (orientation: Gtk.Orientation.VERTICAL);
-            apps = DesktopFile.get_applications ();
+            apps = Services.DesktopFilesManager.get_applications ();
 
             this.margin = 15;
 
             try {
-                //http(s)://(words or numbers)(port and numbers)
                 this.protocol_regex = new Regex ("""https?\:\/\/[\w+\d+]((\:\d+)?\/\S*)?""");
             } catch (RegexError e) {
                 critical ("%s", e.message);
@@ -107,15 +113,18 @@ namespace Webpin {
 
             icon_selector_popover.add (popover_box);
 
-            //TODO: categories
-            //combobox
+            primary_color_button = new Gtk.ColorButton.with_rgba (default_color);
+            primary_color_button.use_alpha = false;
+            primary_color_button.color_activated.connect ((color) => {
+                stdout.printf ("COLOR %s\n", color.to_string ());
+            });
 
             //checkbuttons
             save_cookies_check = new Gtk.CheckButton.with_label (_("Save cookies"));
             save_cookies_check.active = true;
             save_password_check = new Gtk.CheckButton.with_label (_("Save login information"));
             save_password_check.active = false;
-            stay_open_when_closed = new Gtk.CheckButton.with_label (_("Run in background when closed"));
+            stay_open_when_closed = new Gtk.CheckButton.with_label (_("Run in background if closed"));
             stay_open_when_closed.active = false;
 
             //app information section
@@ -123,11 +132,11 @@ namespace Webpin {
             app_input_box.halign = Gtk.Align.START;
             app_input_box.pack_start (app_name_entry, false, false, 0);
             app_input_box.pack_start (app_url_entry, false, false, 0);
-            //app_input_box.pack_start (app_category_combo, true, false, 0);
 
             var app_info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
             app_info_box.pack_start (icon_button, false, false, 3);
             app_info_box.pack_start (app_input_box, false, false, 3);
+            app_info_box.pack_start (primary_color_button, false, false, 3);
             app_info_box.halign = Gtk.Align.CENTER;
 
             //app options
@@ -138,7 +147,7 @@ namespace Webpin {
             app_options_box.halign = Gtk.Align.CENTER;
 
             //create button
-            accept_button = new Gtk.Button.with_label(_("Save app"));
+            accept_button = new Gtk.Button.with_label (_("Save app"));
             accept_button.halign = Gtk.Align.END;
             accept_button.get_style_context ().add_class ("suggested-action");
             accept_button.set_sensitive (false);
@@ -156,7 +165,7 @@ namespace Webpin {
                 icon_selector_popover.show_all();
             });
 
-            app_url_entry.changed.connect (()=>{
+            app_url_entry.changed.connect (() => {
                 if (!this.protocol_regex.match (app_url_entry.get_text())) {
                     app_url_entry.get_style_context ().add_class ("error");
                     app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
@@ -169,8 +178,8 @@ namespace Webpin {
                 validate ();
             });
 
-            app_name_entry.changed.connect (()=>{
-                if (mode == assistant_mode.new_app && DesktopFile.get_applications().has_key (app_name_entry.get_text()) ) {
+            app_name_entry.changed.connect (() => {
+                if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text())) {
                     app_name_entry.get_style_context ().add_class ("error");
                     app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
                     app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _("App already exist"));
@@ -199,25 +208,25 @@ namespace Webpin {
             }
 
             //if is a file uri
-            if (icon.contains("/")) {
+            if (icon.contains ("/")) {
                 Gdk.Pixbuf pix = null;
                 try {
                     pix = new Gdk.Pixbuf.from_file_at_size (icon, 48, 48);
                     app_icon_valid = true;
-		        } catch (GLib.Error error) {
+                } catch (GLib.Error error) {
                     app_icon_valid = false;
                     try {
                         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default ();
                         pix = icon_theme.load_icon ("image-missing", 48, Gtk.IconLookupFlags.FORCE_SIZE);
                     } catch (GLib.Error err) {
-             	        warning ("Getting selection-checked icon from theme failed");
+                        warning ("Getting selection-checked icon from theme failed");
                     }
-	            } finally {
-                    if (pix != null)
-                        icon_button.set_image (new Gtk.Image.from_pixbuf (pix));
+                }
+                if (pix != null) {
+                    icon_button.set_image (new Gtk.Image.from_pixbuf (pix));
                 }
             } else {
-                icon_button.set_image (new Gtk.Image.from_icon_name (icon, Gtk.IconSize.DIALOG) );
+                icon_button.set_image (new Gtk.Image.from_icon_name (icon, Gtk.IconSize.DIALOG));
             }
 
             validate ();
@@ -225,38 +234,29 @@ namespace Webpin {
 
         private void on_icon_chooser_activate () {
             var filter = new Gtk.FileFilter ();
-
             filter.set_filter_name (_("Images"));
-            filter.add_pattern ("*.png");
-            filter.add_pattern ("*.svg");
-            filter.add_pattern ("*.jpg");
-            filter.add_pattern ("*.jpeg");
-            filter.add_pattern ("*.PNG");
-            filter.add_pattern ("*.SVG");
-            filter.add_pattern ("*.JPG");
-            filter.add_pattern ("*.JPEG");
+            filter.add_mime_type ("image/*");
 
             file_chooser = new Gtk.FileChooserDialog ("", null,
                                                        Gtk.FileChooserAction.OPEN,
                                                        _("Cancel"), Gtk.ResponseType.CANCEL,
                                                        _("Open"), Gtk.ResponseType.ACCEPT);
-            file_chooser.set_select_multiple(false);
+            file_chooser.set_select_multiple (false);
             file_chooser.add_filter (filter);
 
-            var preview = new Gtk.Image();
+            var preview = new Gtk.Image ();
             preview.valign = Gtk.Align.START;
 
-            file_chooser.update_preview.connect ( ()=> {
-
-                string filename = file_chooser.get_preview_filename();
+            file_chooser.update_preview.connect (()=> {
+                string filename = file_chooser.get_preview_filename ();
                 Gdk.Pixbuf pix = null;
 
                 if (filename != null) {
                     try {
                         pix = new Gdk.Pixbuf.from_file_at_size (filename, 128, 128);
-			        } catch (GLib.Error error) {
+                    } catch (GLib.Error error) {
                          warning ("There was a problem loading preview.");
-		            }
+                    }
                 }
 
                 if (pix != null){
@@ -270,7 +270,7 @@ namespace Webpin {
 
             if (file_chooser.run () == Gtk.ResponseType.ACCEPT) {
 
-                icon_name_entry.set_text(file_chooser.get_filename ());
+                icon_name_entry.set_text (file_chooser.get_filename ());
                 file_chooser.destroy ();
             }
             file_chooser.destroy ();
@@ -293,19 +293,19 @@ namespace Webpin {
             app_url_entry.set_text ("");
             app_name_entry.get_style_context ().remove_class ("error");
             app_url_entry.get_style_context ().remove_class ("error");
-            icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG) );
+            icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
             mode = assistant_mode.new_app;
         }
 
         private void on_accept () {
-
             string icon = icon_name_entry.get_text ();
             string name = app_name_entry.get_text ();
             string url = app_url_entry.get_text ().replace ("%", "%%");
             bool stay_open = stay_open_when_closed.active;
 
-            if (icon == "")
+            if (icon == "") {
                 icon = default_app_icon;
+            }
 
             if (app_icon_valid && app_name_valid && app_url_valid) {
                 var desktop_file = new DesktopFile (name, url, icon, stay_open);
@@ -317,17 +317,28 @@ namespace Webpin {
                         application_edited (desktop_file.save_to_file ());
                         break;
                 }
+                stdout.printf ("Custom Color %s\n", primary_color_button.rgba.to_string ());
+                desktop_file.color = primary_color_button.rgba;
             }
         }
 
-        public void edit_desktop_file (DesktopFile desktop_file) {
-            mode = assistant_mode.edit_app;
-            app_name_entry.text = desktop_file.name;
-            app_name_entry.set_sensitive (false);
-            app_url_entry.text = desktop_file.url.replace ("%%", "%");
-            icon_name_entry.text = desktop_file.icon;
-            stay_open_when_closed.active = desktop_file.hide_on_close;
-            update_app_icon ();
+        public void edit_desktop_file (DesktopFile? desktop_file) {
+            if (desktop_file == null) {
+                reset_fields ();
+            } else {
+                mode = assistant_mode.edit_app;
+                app_name_entry.text = desktop_file.name;
+                app_name_entry.set_sensitive (false);
+                app_url_entry.text = desktop_file.url.replace ("%%", "%");
+                icon_name_entry.text = desktop_file.icon;
+                stay_open_when_closed.active = desktop_file.hide_on_close;
+                if (desktop_file.color != null) {
+                    primary_color_button.set_rgba (desktop_file.color);
+                } else {
+                    primary_color_button.set_rgba (default_color);
+                }
+                update_app_icon ();
+            }
         }
     }
 }

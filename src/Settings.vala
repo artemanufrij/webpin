@@ -31,14 +31,15 @@ namespace Webpin {
 
         private static Settings settings;
         public static Settings get_default () {
-            if (settings == null)
+            if (settings == null) {
                 settings = new Settings ();
-
+            }
             return settings;
         }
         public int window_width { get; set; }
         public int window_height { get; set; }
         public WindowState window_state { get; set; }
+        public bool use_dark_theme { get; set; }
 
         private Settings () {
             base ("com.github.artemanufrij.webpin");

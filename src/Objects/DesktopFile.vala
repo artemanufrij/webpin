@@ -29,7 +29,7 @@
 namespace Webpin {
     public class DesktopFile : GLib.Object {
 
-        private string template = """
+        string template = """
                                     [Desktop Entry]
                                     Name=Webpin
                                     GenericName=Web app
@@ -42,9 +42,10 @@ namespace Webpin {
                                     Categories=Network;
                                     X-GNOME-FullName=webpin
                                     StartupWMClass=Webpin
-                                    WebpinThemeColor=none""";
+                                    X-Webpin-PrimaryColor=none""";
 
-        private GLib.KeyFile file;
+        GLib.KeyFile file;
+
         public DesktopAppInfo info { get; set; }
 
         public string name { get; private set; }
@@ -52,27 +53,42 @@ namespace Webpin {
         public string icon { get; private set; }
         public bool hide_on_close {
             get {
-                this.file = new GLib.KeyFile();
                 try {
                     file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    return file.get_string ("Desktop Entry", "WebpinStayOpen") == "true";
-                } catch (Error e) {
-                    warning (e.message);
+                    return file.get_string ("Desktop Entry", "X-Webpin-StayOpen") == "true";
+                } catch (Error err) {
+                    warning (err.message);
                 }
                 return false;
             }
         }
 
-        public bool mute_notifications {
+        Gdk.RGBA? _color;
+        public Gdk.RGBA? color {
             get {
-                this.file = new GLib.KeyFile();
-                try {
-                    file.load_from_file (info.filename, KeyFileFlags.NONE);
-                    return file.get_string ("Desktop Entry", "WebpinMuteNotifications") == "true";
-                } catch (Error e) {
-                    warning (e.message);
+                if (_color == null) {
+                    Gdk.RGBA return_value = {0, 0, 0, 1};
+                    try {
+                        file.load_from_file (info.filename, KeyFileFlags.NONE);
+                        var property = file.get_string ("Desktop Entry", "X-Webpin-PrimaryColor");
+                        if (property == "" || !return_value.parse (property)) {
+                            return null;
+                        }
+                    } catch (Error err) {
+                        warning (err.message);
+                        return null;
+                    }
+                    _color = return_value;
                 }
-                return false;
+                return _color;
+            } set {
+                if (value != null) {
+                    _color = value;
+                    var color = "rgba(%d,%d,%d,1)".printf ((int)(value.red * 255), (int)(value.green * 255), (int)(value.blue * 255));
+                    edit_property ("X-Webpin-PrimaryColor", color);
+                } else {
+                    edit_property ("X-Webpin-PrimaryColor", "none");
+                }
             }
         }
 
@@ -84,46 +100,46 @@ namespace Webpin {
             file = new GLib.KeyFile();
             try {
                 file.load_from_data (template, -1, GLib.KeyFileFlags.NONE);
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error err) {
+                warning (err.message);
             }
-            //TODO: Category
+
             file.set_string ("Desktop Entry", "Name", name);
             file.set_string ("Desktop Entry", "GenericName", name);
             file.set_string ("Desktop Entry", "X-GNOME-FullName", name);
             file.set_string ("Desktop Entry", "Exec", "com.github.artemanufrij.webpin " + url);
             file.set_string ("Desktop Entry", "Icon", icon);
             file.set_string ("Desktop Entry", "StartupWMClass", url);
-            file.set_string ("Desktop Entry", "WebpinStayOpen", stay_open.to_string ());
+            file.set_string ("Desktop Entry", "X-Webpin-StayOpen", stay_open.to_string ());
         }
 
-        public DesktopFile.from_desktopappinfo(GLib.DesktopAppInfo info) {
+        public DesktopFile.from_desktopappinfo (GLib.DesktopAppInfo info) {
             this.info = info;
             this.file = new GLib.KeyFile();
             try {
                 file.load_from_file (info.filename, KeyFileFlags.NONE);
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error err) {
+                warning (err.message);
             }
             this.name = info.get_display_name ();
             this.icon = info.get_icon ().to_string ();
             try {
                 this.url = file.get_string ("Desktop Entry", "Exec").substring (31);
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error err) {
+                warning (err.message);
             }
         }
 
-        public bool edit_propertie (string propertie, string val) {
+        public bool edit_property (string propertie, string val) {
             bool return_value = false;
             try {
-                string filename = GLib.Environment.get_user_data_dir () + "/applications/" + file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-                file = new GLib.KeyFile();
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" + file.get_string ("Desktop Entry", "Name") + "-webpin.desktop";
+                file = new GLib.KeyFile ();
                 file.load_from_file (filename, KeyFileFlags.NONE);
                 file.set_string ("Desktop Entry", propertie, val);
                 return_value = file.save_to_file (filename);
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error err) {
+                warning (err.message);
             }
 
             return return_value;
@@ -132,73 +148,25 @@ namespace Webpin {
         public GLib.DesktopAppInfo save_to_file () {
             GLib.DesktopAppInfo return_value = null;
             try {
-                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
-                print("Desktop file created: " + filename);
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string ("Desktop Entry", "Name") + "-webpin.desktop";
                 file.save_to_file (filename);
                 return_value = new GLib.DesktopAppInfo.from_filename (filename);
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error err) {
+                warning (err.message);
             }
             return return_value;
         }
 
         public bool delete_file () {
             try {
-                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string("Desktop Entry", "Name") + "-webpin.desktop";
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" +file.get_string ("Desktop Entry", "Name") + "-webpin.desktop";
                 File file = File.new_for_path (filename);
                 file.delete ();
-            } catch (Error e) {
-                print(e.message + "\n");
+            } catch (Error err) {
+                warning (err.message);
                 return false;
             }
             return true;
-        }
-
-        public static Gee.HashMap<string, GLib.DesktopAppInfo> get_webpin_applications () {
-
-            var list = new Gee.HashMap<string, GLib.DesktopAppInfo>();
-
-            foreach (GLib.AppInfo app in GLib.AppInfo.get_all()) {
-
-                var desktop_app = new GLib.DesktopAppInfo(app.get_id ());
-
-                //FIXME: This is not working, vala problem?
-                //var keywords = desktop_app.get_keywords ();
-
-                string keywords = desktop_app.get_string ("Keywords");
-
-                if (keywords != null && keywords.contains ("webpin")) {
-                    debug (desktop_app.get_name());
-                    list.set(desktop_app.get_name(), desktop_app);
-                }
-            }
-            return list;
-        }
-
-        public static GLib.DesktopAppInfo? get_app_by_url (string url) {
-            foreach (GLib.AppInfo app in GLib.AppInfo.get_all()) {
-
-                var desktop_app = new GLib.DesktopAppInfo(app.get_id ());
-
-                var exec = desktop_app.get_string ("Exec").replace ("%%", "%");
-
-                if (exec != null && exec.contains (url)) {
-                    return desktop_app;
-                }
-            }
-            return null;
-        }
-
-        public static Gee.HashMap<string, GLib.AppInfo> get_applications() {
-
-            var list = new Gee.HashMap<string, GLib.AppInfo>();
-
-            foreach (GLib.AppInfo app in GLib.AppInfo.get_all()) {
-                debug (app.get_name());
-                list.set(app.get_name(), app);
-            }
-
-            return list;
         }
     }
 }
