@@ -70,7 +70,7 @@ namespace Webpin.Dialogs {
 
             content.pack_start (grid, false, false, 0);
 
-            this.add_button ("_Close", Gtk.ResponseType.CLOSE);
+            this.add_button (_("_Close"), Gtk.ResponseType.CLOSE);
             this.show_all ();
         }
     }
