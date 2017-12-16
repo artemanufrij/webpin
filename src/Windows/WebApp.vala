@@ -114,7 +114,7 @@ namespace Webpin.Windows {
 
             browser.found_website_color.connect ((color) => {
                 int gray_val = (int)(desktop_file.color.red * 255);
-                if (desktop_file.color == null || (gray_val == 222 && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
+                if (desktop_file.color == null || ((gray_val == 222 || gray_val == 56610) && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
                     set_color (color);
                     desktop_file.color = color;
                 }
