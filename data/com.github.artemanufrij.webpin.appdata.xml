@@ -32,11 +32,12 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="0.2.5" date="2017-12-05">
+        <release version="0.2.5" date="2017-12-17">
             <description>
                 <p>Translation:</p>
                 <ul>
                     <li>Russian (by Camellan)</li>
+                    <li>Lithuanian (by welaq)</li>
                 </ul>
             </description>
         </release>
