@@ -32,6 +32,19 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="0.2.6" date="2018-02-07">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Save and restore window position</li>
+                    <li>Grab favorite icon</li>
+                </ul>
+                <p>Fix:</p>
+                <ul>
+                    <li>Grab website color</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.2.5" date="2017-12-17">
             <description>
                 <p>Translation:</p>

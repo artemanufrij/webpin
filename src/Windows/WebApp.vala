@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2017 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,6 @@
 
 namespace Webpin.Windows {
     public class WebApp : Gtk.Window {
-
         Gdk.WindowState current_state;
 
         Widgets.Browser browser;
@@ -52,10 +51,11 @@ namespace Webpin.Windows {
             headerbar.show_close_button = true;
 
             var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
-            copy_url.tooltip_text = _("Copy URL into clipboard");
-            copy_url.clicked.connect (() => {
-                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.web_view.uri, -1);
-            });
+            copy_url.tooltip_text = _ ("Copy URL into clipboard");
+            copy_url.clicked.connect (
+                () => {
+                    Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.web_view.uri, -1);
+                });
             headerbar.pack_end (copy_url);
 
             spinner = new Gtk.Spinner ();
@@ -64,61 +64,70 @@ namespace Webpin.Windows {
 
             var stay_open = new Gtk.ToggleButton ();
             stay_open.active = desktop_file.hide_on_close;
-            stay_open.tooltip_text = _("Run in background if closed");
+            stay_open.tooltip_text = _ ("Run in background if closed");
             stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
-            stay_open.toggled.connect (() => {
-                desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
-                desktop_file.save_to_file ();
-            });
+            stay_open.toggled.connect (
+                () => {
+                    desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
+                    desktop_file.save_to_file ();
+                });
             headerbar.pack_start (stay_open);
 
             this.set_titlebar (headerbar);
 
-            this.delete_event.connect (() => {
-                save_settings ();
-                if (desktop_file.hide_on_close) {
-                    this.hide_on_delete ();
-                }
-                return desktop_file.hide_on_close;
-            });
+            this.delete_event.connect (
+                () => {
+                    save_settings ();
+                    if (desktop_file.hide_on_close) {
+                        this.hide_on_delete ();
+                    }
+                    return desktop_file.hide_on_close;
+                });
 
-            this.window_state_event.connect ((event) => {
-                current_state = event.new_window_state;
-                return false;
-            });
+            this.window_state_event.connect (
+                (event) => {
+                    current_state = event.new_window_state;
+                    return false;
+                });
 
-            browser.external_request.connect ((action) => {
-                debug ("Web app external request: %s", action.get_request ().uri);
-                try {
-                    Process.spawn_command_line_async ("xdg-open " + action.get_request ().uri);
-                } catch (Error e) {
-                    warning (e.message);
-                }
-            });
+            browser.external_request.connect (
+                (action) => {
+                    debug ("Web app external request: %s", action.get_request ().uri);
+                    try {
+                        Process.spawn_command_line_async ("xdg-open " + action.get_request ().uri);
+                    } catch (Error e) {
+                        warning (e.message);
+                    }
+                });
 
-            browser.desktop_notification.connect ((title, body, icon) => {
-                var desktop_notification = new Notification (title);
-                desktop_notification.set_body (body);
-                desktop_notification.set_icon (icon);
-                desktop_notification.add_button_with_target_value (_("Open %s").printf (desktop_file.name), "app.open-web-app", new GLib.Variant.string (desktop_file.url));
-                WebpinApp.instance.send_notification (null, desktop_notification);
-            });
+            browser.desktop_notification.connect (
+                (title, body, icon) => {
+                    var desktop_notification = new Notification (title);
+                    desktop_notification.set_body (body);
+                    desktop_notification.set_icon (icon);
+                    desktop_notification.add_button_with_target_value (_ ("Open %s").printf (desktop_file.name), "app.open-web-app", new GLib.Variant.string (desktop_file.url));
+                    WebpinApp.instance.send_notification (null, desktop_notification);
+                });
 
-            browser.request_begin.connect (() => {
-                spinner.active = true;
-            });
+            browser.request_begin.connect (
+                () => {
+                    spinner.active = true;
+                });
 
-            browser.request_finished.connect (() => {
-                spinner.active = false;
-            });
+            browser.request_finished.connect (
+                () => {
+                    spinner.active = false;
+                });
 
-            browser.found_website_color.connect ((color) => {
-                int gray_val = (int)(desktop_file.color.red * 255);
-                if (desktop_file.color == null || ((gray_val == 222 || gray_val == 255) && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
-                    set_color (color);
-                    desktop_file.color = color;
-                }
-            });
+            browser.found_website_color.connect (
+                (color) => {
+                    stdout.printf ("%s\n", color.to_string ());
+                    int gray_val = (int)(desktop_file.color.red * 255);
+                    if (desktop_file.color == null || ((gray_val == 222 || gray_val == 255) && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
+                        set_color (color);
+                        desktop_file.color = color;
+                    }
+                });
 
             this.add (browser);
 
@@ -136,7 +145,7 @@ namespace Webpin.Windows {
             Granite.Widgets.Utils.set_color_primary (this, color);
         }
 
-        public void toggle_fullscreen() {
+        public void toggle_fullscreen () {
             if (current_state.to_string () == Gdk.WindowState.FULLSCREEN.to_string ()) {
                 this.unfullscreen ();
             } else {
@@ -147,13 +156,21 @@ namespace Webpin.Windows {
         private void load_settings () {
             var width = desktop_file.info.get_string ("X-Webpin-WindowWidth");
             var height = desktop_file.info.get_string ("X-Webpin-WindowHeight");
+            var x = desktop_file.info.get_string ("X-Webpin-WindowX");
+            var y = desktop_file.info.get_string ("X-Webpin-WindowY");
             var state = desktop_file.info.get_string ("X-Webpin-WindowMaximized");
             var zoom = desktop_file.info.get_string ("X-Webpin-WindowZoom");
 
             if (width != null && height != null) {
-                set_default_size (int.parse(width), int.parse(height));
+                set_default_size (int.parse (width), int.parse (height));
             } else {
-                set_default_size (1000, 600);
+                set_default_size (1000,              600);
+            }
+
+            if (x != null && y != null) {
+                this.move (int.parse (x), int.parse (y));
+            } else {
+                this.window_position = Gtk.WindowPosition.CENTER;
             }
 
             if (state != null && state == "max") {
@@ -169,63 +186,67 @@ namespace Webpin.Windows {
             if (this.is_maximized) {
                 desktop_file.edit_property ("X-Webpin-WindowMaximized", "max");
             } else {
-                desktop_file.edit_property ("X-Webpin-WindowWidth", this.get_allocated_width ().to_string());
-                desktop_file.edit_property ("X-Webpin-WindowHeight", this.get_allocated_height ().to_string());
+                int x, y;
+                this.get_position (out x, out y);
+                desktop_file.edit_property ("X-Webpin-WindowX", x.to_string ());
+                desktop_file.edit_property ("X-Webpin-WindowY", y.to_string ());
+                desktop_file.edit_property ("X-Webpin-WindowWidth", this.get_allocated_width ().to_string ());
+                desktop_file.edit_property ("X-Webpin-WindowHeight", this.get_allocated_height ().to_string ());
                 desktop_file.edit_property ("X-Webpin-WindowMaximized", "norm");
             }
         }
 
         public override bool key_press_event (Gdk.EventKey event) {
             switch (event.keyval) {
-                case Gdk.Key.Escape:
-                    unfullscreen();
-                    break;
-                case Gdk.Key.F11:
-                    toggle_fullscreen();
-                    break;
-                case Gdk.Key.KP_Add:
-                case Gdk.Key.plus:
-                    if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.web_view.zoom_level += 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
-                        return true;
-                    }
-                    break;
-                case Gdk.Key.KP_Subtract:
-                case Gdk.Key.minus:
-                    if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.web_view.zoom_level -= 0.1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
-                        return true;
-                    }
-                    break;
-                case Gdk.Key.KP_0:
-                case Gdk.Key.@0:
-                    if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.web_view.zoom_level = 1;
-                        desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
-                        return true;
-                    }
-                    break;
-                case Gdk.Key.F5:
-                    if (Gdk.ModifierType.CONTROL_MASK in event.state) {
-                        browser.web_view.reload ();
-                    } else {
-                        browser.web_view.reload_bypass_cache ();
-                    }
+            case Gdk.Key.Escape :
+                unfullscreen ();
+                break;
+            case Gdk.Key.F11 :
+                toggle_fullscreen ();
+                break;
+            case Gdk.Key.KP_Add :
+            case Gdk.Key.plus :
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    browser.web_view.zoom_level += 0.1;
+                    desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
                     return true;
-                case Gdk.Key.Left:
-                    if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        browser.web_view.go_back ();
-                        return true;
-                    }
-                    break;
-                case Gdk.Key.Right:
-                    if (Gdk.ModifierType.MOD1_MASK in event.state) {
-                        browser.web_view.go_forward ();
-                        return true;
-                    }
-                    break;
+                }
+                break;
+            case Gdk.Key.KP_Subtract :
+            case Gdk.Key.minus :
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    browser.web_view.zoom_level -= 0.1;
+                    desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
+                    return true;
+                }
+                break;
+            case Gdk.Key.KP_0 :
+            case Gdk.Key.@0 :
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    browser.web_view.zoom_level = 1;
+                    desktop_file.edit_property ("X-Webpin-WindowZoom", browser.web_view.zoom_level.to_string ());
+                    return true;
+                }
+                break;
+            case Gdk.Key.F5 :
+                if (Gdk.ModifierType.CONTROL_MASK in event.state) {
+                    browser.web_view.reload ();
+                } else {
+                    browser.web_view.reload_bypass_cache ();
+                }
+                return true;
+            case Gdk.Key.Left :
+                if (Gdk.ModifierType.MOD1_MASK in event.state) {
+                    browser.web_view.go_back ();
+                    return true;
+                }
+                break;
+            case Gdk.Key.Right :
+                if (Gdk.ModifierType.MOD1_MASK in event.state) {
+                    browser.web_view.go_forward ();
+                    return true;
+                }
+                break;
             }
 
             return (base.key_press_event != null) ? base.key_press_event (event) : true;

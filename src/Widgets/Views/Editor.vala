@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2017 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -28,11 +28,10 @@
 
 namespace Webpin.Widgets.Views {
     public class Editor : Gtk.Box {
-
         public enum assistant_mode { new_app, edit_app }
 
-        public signal void application_created (GLib.DesktopAppInfo? new_file);
-        public signal void application_edited (GLib.DesktopAppInfo? new_file);
+        public signal void application_created (GLib.DesktopAppInfo ? new_file);
+        public signal void application_edited (GLib.DesktopAppInfo ? new_file);
 
         Gtk.Label message;
         Gtk.Button icon_button;
@@ -59,25 +58,29 @@ namespace Webpin.Widgets.Views {
 
         Gdk.RGBA default_color;
 
+        string tmp_icon_file;
+        string tmp_icon_ext;
+        uint grab_timer = 0;
+
         construct {
-            default_color = { 222, 222, 222, 255 };
+            default_color = { 0, 0, 0, 1 };
+            default_color.parse ("rgba (222, 222, 222, 1)");
         }
 
         public Editor () {
-
-            GLib.Object (orientation: Gtk.Orientation.VERTICAL);
+            GLib.Object (orientation : Gtk.Orientation.VERTICAL);
             apps = Services.DesktopFilesManager.get_applications ();
 
             this.margin = 15;
 
             try {
-                this.protocol_regex = new Regex ("""https?\:\/\/[\w+\d+]((\:\d+)?\/\S*)?""");
+                this.protocol_regex = new Regex ("https?://[\\w+\\d+]((:\\d+)?/\\S*)?");
             } catch (RegexError e) {
                 critical ("%s", e.message);
             }
 
             //welcome message
-            message = new Gtk.Label (_("Create a new web app"));
+            message = new Gtk.Label (_ ("Create a new web app"));
             message.get_style_context ().add_class ("h2");
             //app information
             icon_button = new Gtk.Button ();
@@ -85,10 +88,10 @@ namespace Webpin.Widgets.Views {
             icon_button.halign = Gtk.Align.END;
 
             app_name_entry = new Gtk.Entry ();
-            app_name_entry.set_placeholder_text (_("Application name"));
+            app_name_entry.set_placeholder_text (_ ("Application name"));
 
             app_url_entry = new Gtk.Entry ();
-            app_url_entry.set_placeholder_text (_("http://myapp.domain"));
+            app_url_entry.set_placeholder_text (_ ("http://myapp.domain"));
 
             //icon selector popover
             icon_selector_popover = new Gtk.Popover (icon_button);
@@ -98,10 +101,10 @@ namespace Webpin.Widgets.Views {
             var popover_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
 
             icon_name_entry = new Gtk.Entry ();
-            icon_name_entry.set_placeholder_text (_("theme icon name"));
+            icon_name_entry.set_placeholder_text (_ ("theme icon name"));
 
-            var or_label = new Gtk.Label (_("or"));
-            var icon_chooser_button = new Gtk.Button.with_label(_("Set from file..."));
+            var or_label = new Gtk.Label (_ ("or"));
+            var icon_chooser_button = new Gtk.Button.with_label (_ ("Set from file..."));
             icon_chooser_button.get_style_context ().add_class ("suggested-action");
 
             popover_box.margin = 10;
@@ -115,16 +118,17 @@ namespace Webpin.Widgets.Views {
 
             primary_color_button = new Gtk.ColorButton.with_rgba (default_color);
             primary_color_button.use_alpha = false;
-            primary_color_button.color_activated.connect ((color) => {
-                stdout.printf ("COLOR %s\n", color.to_string ());
-            });
+            primary_color_button.color_activated.connect (
+                (color) => {
+                    stdout.printf ("COLOR %s\n", color.to_string ());
+                });
 
             //checkbuttons
-            save_cookies_check = new Gtk.CheckButton.with_label (_("Save cookies"));
+            save_cookies_check = new Gtk.CheckButton.with_label (_ ("Save cookies"));
             save_cookies_check.active = true;
-            save_password_check = new Gtk.CheckButton.with_label (_("Save login information"));
+            save_password_check = new Gtk.CheckButton.with_label (_ ("Save login information"));
             save_password_check.active = false;
-            stay_open_when_closed = new Gtk.CheckButton.with_label (_("Run in background if closed"));
+            stay_open_when_closed = new Gtk.CheckButton.with_label (_ ("Run in background if closed"));
             stay_open_when_closed.active = false;
 
             //app information section
@@ -147,7 +151,7 @@ namespace Webpin.Widgets.Views {
             app_options_box.halign = Gtk.Align.CENTER;
 
             //create button
-            accept_button = new Gtk.Button.with_label (_("Save app"));
+            accept_button = new Gtk.Button.with_label (_ ("Save app"));
             accept_button.halign = Gtk.Align.END;
             accept_button.get_style_context ().add_class ("suggested-action");
             accept_button.set_sensitive (false);
@@ -155,41 +159,48 @@ namespace Webpin.Widgets.Views {
             accept_button.clicked.connect (on_accept);
 
             //all sections together
-            pack_start (message, true, false, 0);
-            pack_start (app_info_box, true, false, 0);
+            pack_start (message,         true, false, 0);
+            pack_start (app_info_box,    true, false, 0);
             pack_start (app_options_box, true, false, 0);
             pack_end (accept_button, false, false, 0);
 
             //signals and handlers
-            icon_button.clicked.connect(() => {
-                icon_selector_popover.show_all();
-            });
+            icon_button.clicked.connect (
+                () => {
+                    icon_selector_popover.show_all ();
+                });
 
-            app_url_entry.changed.connect (() => {
-                if (!this.protocol_regex.match (app_url_entry.get_text())) {
-                    app_url_entry.get_style_context ().add_class ("error");
-                    app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
-                    app_url_entry.set_icon_tooltip_text(Gtk.EntryIconPosition.SECONDARY, _("url must start with http:// or https://"));
-                    app_url_valid = false;
-                } else {
-                    app_url_entry.get_style_context ().remove_class ("error");
-                    app_url_valid = true;
-                }
-                validate ();
-            });
+            app_url_entry.changed.connect (
+                () => {
+                    if (!this.protocol_regex.match (app_url_entry.get_text ())) {
+                        reset_grab_color_and_icon ();
+                        app_url_entry.get_style_context ().add_class ("error");
+                        app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                        app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https://"));
+                        app_url_valid = false;
+                    } else {
+                        grab_color_and_icon ();
+                        app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
+                        app_url_entry.get_style_context ().remove_class ("error");
+                        app_url_valid = true;
+                    }
+                    validate ();
+                });
 
-            app_name_entry.changed.connect (() => {
-                if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text())) {
-                    app_name_entry.get_style_context ().add_class ("error");
-                    app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
-                    app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _("App already exist"));
-                    app_name_valid = false;
-                } else {
-                    app_name_entry.get_style_context ().remove_class ("error");
-                    app_name_valid = true;
-                }
-                validate ();
-            });
+            app_name_entry.changed.connect (
+                () => {
+                    if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text ())) {
+                        app_name_entry.get_style_context ().add_class ("error");
+                        app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                        app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("App already exist"));
+                        app_name_valid = false;
+                    } else {
+                        app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
+                        app_name_entry.get_style_context ().remove_class ("error");
+                        app_name_valid = true;
+                    }
+                    validate ();
+                });
 
             icon_chooser_button.activate.connect (on_icon_chooser_activate);
             icon_chooser_button.clicked.connect (on_icon_chooser_activate);
@@ -197,6 +208,108 @@ namespace Webpin.Widgets.Views {
             icon_name_entry.changed.connect (update_app_icon);
         }
 
+        private void grab_color_and_icon () {
+            reset_grab_color_and_icon ();
+            grab_timer = Timeout.add (
+                500,
+                () => {
+                    var url = app_url_entry.text;
+                    var session = new Soup.Session.with_options ("user_agent", "WebPin/0.1.0 (https://github.com/artemanufrij/webpin)");
+                    session.timeout = 2;
+                    var msg = new Soup.Message ("GET", url);
+                    session.send_message (msg);
+
+                    if (msg.status_code == 200) {
+                        var body = (string)msg.response_body.data;
+
+                        stdout.printf ("%s\n", body);
+
+                        var regex = new Regex ("(?<=<meta name=\"theme-color\" content=\")#[0-9a-fA-F]{6}");
+                        MatchInfo match_info;
+                        if (regex.match (body, 0, out match_info)) {
+                            var result = match_info.fetch (0);
+                            Gdk.RGBA return_value = {0, 0, 0, 1};
+                            if (return_value.parse (result)) {
+                                primary_color_button.set_rgba (return_value);
+                            }
+                        }
+
+                        regex = new Regex ("(?<=\"apple-touch-icon\" href=\")[/\\w\\.]*");
+                        if (regex.match (body, 0, out match_info)) {
+                            var result = match_info.fetch (0);
+
+                            var icon_path = result;
+                            if (!result.has_prefix ("http")) {
+                                result = Path.build_filename (url, result);
+                            }
+                                download_icon (icon_path);
+                            icon_name_entry.set_text (tmp_icon_file);
+                        }
+
+                        if (tmp_icon_file == "") {
+                            regex = new Regex ("(?<=\"fluid-icon\" href=\")[/\\w\\.:\\-]*");
+                            if (regex.match (body, 0, out match_info)) {
+                                var result = match_info.fetch (0);
+
+                                var icon_path = result;
+                                if (!result.has_prefix ("http")) {
+                                    result = Path.build_filename (url, result);
+                                }
+                                download_icon (icon_path);
+                                icon_name_entry.set_text (tmp_icon_file);
+                            }
+                        }
+
+                        if (tmp_icon_file == "") {
+                            regex = new Regex ("(?<=\"mask-icon\" href=\")[/\\w\\.:\\-]*");
+                            if (regex.match (body, 0, out match_info)) {
+                                var result = match_info.fetch (0);
+
+                                var icon_path = result;
+                                if (!result.has_prefix ("http")) {
+                                    result = Path.build_filename (url, result);
+                                }
+                                download_icon (icon_path);
+                                icon_name_entry.set_text (tmp_icon_file);
+                            }
+                        }
+
+
+                    }
+                    msg.dispose ();
+                    session.dispose ();
+
+                    reset_grab_color_and_icon ();
+                    return false;
+                });
+        }
+
+        private void reset_grab_color_and_icon () {
+            if (grab_timer != 0) {
+                Source.remove (grab_timer);
+                grab_timer = 0;
+            }
+        }
+
+        public bool download_icon (string url) {
+            var session = new Soup.Session.with_options ("user_agent", "WebPin/0.1.0 (https://github.com/artemanufrij/webpin)");
+            var msg = new Soup.Message ("GET", url);
+            session.send_message (msg);
+            if (msg.status_code == 200) {
+                tmp_icon_ext = ".png";
+
+                if (url.has_suffix (".svg")) {
+                    tmp_icon_ext = ".svg";
+                }
+
+                tmp_icon_file = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, Random.next_int ().to_string () + tmp_icon_ext);
+                var fs = FileStream.open (tmp_icon_file, "w");
+                fs.write (msg.response_body.data, (size_t)msg.response_body.length);
+            }
+            msg.dispose ();
+            session.dispose ();
+            return true;
+        }
 
         private void update_app_icon () {
             string icon = icon_name_entry.get_text ();
@@ -234,48 +347,47 @@ namespace Webpin.Widgets.Views {
 
         private void on_icon_chooser_activate () {
             var filter = new Gtk.FileFilter ();
-            filter.set_filter_name (_("Images"));
+            filter.set_filter_name (_ ("Images"));
             filter.add_mime_type ("image/*");
 
-            file_chooser = new Gtk.FileChooserDialog ("", null,
-                                                       Gtk.FileChooserAction.OPEN,
-                                                       _("Cancel"), Gtk.ResponseType.CANCEL,
-                                                       _("Open"), Gtk.ResponseType.ACCEPT);
+            file_chooser = new Gtk.FileChooserDialog ("", WebpinApp.instance.mainwindow,
+                                                      Gtk.FileChooserAction.OPEN,
+                                                      _ ("Cancel"), Gtk.ResponseType.CANCEL,
+                                                      _ ("Open"), Gtk.ResponseType.ACCEPT);
             file_chooser.set_select_multiple (false);
             file_chooser.add_filter (filter);
 
             var preview = new Gtk.Image ();
             preview.valign = Gtk.Align.START;
 
-            file_chooser.update_preview.connect (()=> {
-                string filename = file_chooser.get_preview_filename ();
-                Gdk.Pixbuf pix = null;
+            file_chooser.update_preview.connect (
+                ()=> {
+                    string filename = file_chooser.get_preview_filename ();
+                    Gdk.Pixbuf pix = null;
 
-                if (filename != null) {
-                    try {
-                        pix = new Gdk.Pixbuf.from_file_at_size (filename, 128, 128);
-                    } catch (GLib.Error error) {
-                         warning ("There was a problem loading preview.");
+                    if (filename != null) {
+                        try {
+                            pix = new Gdk.Pixbuf.from_file_at_size (filename, 128, 128);
+                        } catch (GLib.Error error) {
+                            warning ("There was a problem loading preview.");
+                        }
                     }
-                }
 
-                if (pix != null){
-                    preview.set_from_pixbuf (pix);
-                    file_chooser.set_preview_widget_active (true);
-                    file_chooser.set_preview_widget (preview);
-                } else {
-                    file_chooser.set_preview_widget_active (false);
-                }
-            });
+                    if (pix != null) {
+                        preview.set_from_pixbuf (pix);
+                        file_chooser.set_preview_widget_active (true);
+                        file_chooser.set_preview_widget (preview);
+                    } else {
+                        file_chooser.set_preview_widget_active (false);
+                    }
+                });
 
             if (file_chooser.run () == Gtk.ResponseType.ACCEPT) {
-
                 icon_name_entry.set_text (file_chooser.get_filename ());
                 file_chooser.destroy ();
             }
             file_chooser.destroy ();
         }
-
 
         private void validate () {
             if (app_icon_valid && app_name_valid && app_url_valid) {
@@ -285,8 +397,8 @@ namespace Webpin.Widgets.Views {
             accept_button.set_sensitive (false);
         }
 
-
         public void reset_fields () {
+            tmp_icon_file = "";
             icon_name_entry.set_text ("");
             app_name_entry.set_text ("");
             app_name_entry.set_sensitive (true);
@@ -299,6 +411,12 @@ namespace Webpin.Widgets.Views {
 
         private void on_accept () {
             string icon = icon_name_entry.get_text ();
+            if (tmp_icon_file != "") {
+                var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
+                FileUtils.rename (tmp_icon_file, new_icon);
+                FileUtils.remove (tmp_icon_file);
+                icon = new_icon;
+            }
             string name = app_name_entry.get_text ();
             string url = app_url_entry.get_text ().replace ("%", "%%");
             bool stay_open = stay_open_when_closed.active;
@@ -310,19 +428,19 @@ namespace Webpin.Widgets.Views {
             if (app_icon_valid && app_name_valid && app_url_valid) {
                 var desktop_file = new DesktopFile (name, url, icon, stay_open);
                 switch (mode) {
-                    case assistant_mode.new_app:
-                        application_created (desktop_file.save_to_file ());
-                        break;
-                    case assistant_mode.edit_app:
-                        application_edited (desktop_file.save_to_file ());
-                        break;
+                case assistant_mode.new_app :
+                    application_created (desktop_file.save_to_file ());
+                    break;
+                case assistant_mode.edit_app :
+                    application_edited (desktop_file.save_to_file ());
+                    break;
                 }
                 stdout.printf ("Custom Color %s\n", primary_color_button.rgba.to_string ());
                 desktop_file.color = primary_color_button.rgba;
             }
         }
 
-        public void edit_desktop_file (DesktopFile? desktop_file) {
+        public void edit_desktop_file (DesktopFile ? desktop_file) {
             if (desktop_file == null) {
                 reset_fields ();
             } else {
@@ -337,6 +455,7 @@ namespace Webpin.Widgets.Views {
                 } else {
                     primary_color_button.set_rgba (default_color);
                 }
+                reset_grab_color_and_icon ();
                 update_app_icon ();
             }
         }

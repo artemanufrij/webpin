@@ -28,6 +28,7 @@
 
 namespace Webpin {
     public class WebpinApp : Gtk.Application {
+        public string CACHE_FOLDER { get; private set; }
 
         static WebpinApp _instance = null;
 
@@ -49,9 +50,23 @@ namespace Webpin {
                     start_webapp (parameter.get_string ());
                 }
             });
+
+            create_cache_folders ();
         }
 
         public Gtk.Window mainwindow { get; private set; default = null; }
+
+        public void create_cache_folders () {
+            CACHE_FOLDER = GLib.Path.build_filename (GLib.Environment.get_user_cache_dir (), "com.github.artemanufrij.webpin");
+            try {
+                File file = File.new_for_path (CACHE_FOLDER);
+                if (!file.query_exists ()) {
+                    file.make_directory ();
+                }
+            } catch (Error e) {
+                warning (e.message);
+            }
+        }
 
         protected override void activate () {
             if (mainwindow != null) {

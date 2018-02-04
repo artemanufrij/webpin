@@ -120,23 +120,6 @@ namespace Webpin.Widgets {
                         app_notification.reveal_child = false;
                     }
                     request_finished ();
-                    var source = web_view.get_main_resource ();
-                    source.get_data.begin (null, (obj, res) => {
-                        try {
-                            var body = (string)source.get_data.end (res);
-                            var regex = new Regex ("(?<=<meta name=\"theme-color\" content=\")#[0-9a-fA-F]{6}");
-                            MatchInfo match_info;
-                            if (regex.match (body, 0, out match_info)) {
-                                var result = match_info.fetch (0);
-                                Gdk.RGBA return_value = {0, 0, 0, 1};
-                                if (return_value.parse (result)) {
-                                    found_website_color (return_value);
-                                }
-                            }
-                        } catch (Error err) {
-                            warning (err.message);
-                        }
-                    });
                 }
             });
 

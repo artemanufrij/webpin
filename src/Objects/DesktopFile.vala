@@ -42,7 +42,7 @@ namespace Webpin {
                                     Categories=Network;
                                     X-GNOME-FullName=webpin
                                     StartupWMClass=Webpin
-                                    X-Webpin-PrimaryColor=none""";
+                                    X-Webpin-PrimaryColor=rgba (222,222,222,1)""";
 
         GLib.KeyFile file;
 
