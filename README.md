@@ -3,7 +3,10 @@
     <h3 align="center">A simple app to pin websites on the desktop</h3>
     <p align="center">Designed for <a href="https://elementary.io">elementary OS</p>
 </div>
-<a href="https://liberapay.com/Artem/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
+### Donate
+<a href="https://www.paypal.me/ArtemAnufrij">PayPal</a> | <a href="https://liberapay.com/Artem/donate">LibrePay</a> | <a href="https://www.patreon.com/ArtemAnufrij">Pareon</a>
+
 <p align="center">
   <a href="https://appcenter.elementary.io/com.github.artemanufrij.webpin">
     <img src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
@@ -16,6 +19,3 @@ Pin your any favourite website on Applications Menu or Plank like a regular desk
 
 
 ![Apps](Apps.png)
-
-## Donations
-If you liked _Webpin_, and would like to support it's development of this app and more, consider [buying me a coffee](https://www.paypal.me/ArtemAnufrij) :)
