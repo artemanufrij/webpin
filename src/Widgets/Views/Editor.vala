@@ -253,7 +253,7 @@ namespace Webpin.Widgets.Views {
 
                                 var icon_path = result;
                                 if (!result.has_prefix ("http")) {
-                                    result = Path.build_filename (url, result);
+                                    icon_path = Path.build_filename (url, result);
                                 }
                                 download_icon (icon_path);
                                 icon_name_entry.set_text (tmp_icon_file);
@@ -267,14 +267,12 @@ namespace Webpin.Widgets.Views {
 
                                 var icon_path = result;
                                 if (!result.has_prefix ("http")) {
-                                    result = Path.build_filename (url, result);
+                                    icon_path = Path.build_filename (url, result);
                                 }
                                 download_icon (icon_path);
                                 icon_name_entry.set_text (tmp_icon_file);
                             }
                         }
-
-
                     }
                     msg.dispose ();
                     session.dispose ();
