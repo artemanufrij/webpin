@@ -234,13 +234,13 @@ namespace Webpin.Widgets.Views {
                             }
                         }
 
-                        regex = new Regex ("(?<=\"apple-touch-icon\" href=\")[/\\w\\.]*");
+                        regex = new Regex ("(\"apple-touch-icon\").*href=\"([\\-/\\w]*.png)");
                         if (regex.match (body, 0, out match_info)) {
-                            var result = match_info.fetch (0);
+                            var result = match_info.fetch (match_info.get_match_count () - 1);
 
                             var icon_path = result;
-                            if (!result.has_prefix ("http")) {
-                                result = Path.build_filename (url, result);
+                            if (!icon_path.has_prefix ("http")) {
+                                icon_path = Path.build_filename (url, result);
                             }
                                 download_icon (icon_path);
                             icon_name_entry.set_text (tmp_icon_file);
