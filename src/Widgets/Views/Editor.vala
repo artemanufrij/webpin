@@ -213,6 +213,11 @@ namespace Webpin.Widgets.Views {
             grab_timer = Timeout.add (
                 500,
                 () => {
+                    if (tmp_icon_file != "" ){
+                        FileUtils.remove (tmp_icon_file);
+                        tmp_icon_file = "";
+                    }
+
                     var url = app_url_entry.text;
                     var session = new Soup.Session.with_options ("user_agent", "WebPin/0.1.0 (https://github.com/artemanufrij/webpin)");
                     session.timeout = 2;
@@ -334,14 +339,23 @@ namespace Webpin.Widgets.Views {
             session.send_message (msg);
             if (msg.status_code == 200) {
                 tmp_icon_ext = ".png";
-
                 if (url.has_suffix (".svg")) {
                     tmp_icon_ext = ".svg";
                 }
 
                 tmp_icon_file = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, Random.next_int ().to_string () + tmp_icon_ext);
-                var fs = FileStream.open (tmp_icon_file, "w");
-                fs.write (msg.response_body.data, (size_t)msg.response_body.length);
+
+                var s_file = File.new_for_uri (url);
+                var d_file = File.new_for_path (tmp_icon_file);
+
+                if (s_file.copy (d_file, FileCopyFlags.OVERWRITE) && tmp_icon_ext != ".svg") {
+                    var pixbuf = new Gdk.Pixbuf.from_file (tmp_icon_file);
+                    if (pixbuf.width < 48 || pixbuf.height < 48) {
+                        FileUtils.remove (tmp_icon_file);
+                        tmp_icon_file = "";
+                        tmp_icon_ext = "";
+                    }
+                }
             }
             msg.dispose ();
             session.dispose ();
