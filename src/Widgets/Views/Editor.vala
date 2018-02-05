@@ -213,7 +213,7 @@ namespace Webpin.Widgets.Views {
             grab_timer = Timeout.add (
                 500,
                 () => {
-                    if (tmp_icon_file != "" ){
+                    if (tmp_icon_file != "" ) {
                         FileUtils.remove (tmp_icon_file);
                         tmp_icon_file = "";
                     }
@@ -343,17 +343,27 @@ namespace Webpin.Widgets.Views {
                     tmp_icon_ext = ".svg";
                 }
 
-                tmp_icon_file = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, Random.next_int ().to_string () + tmp_icon_ext);
+                tmp_icon_file = GLib.Path.build_filename (Environment.get_tmp_dir (), Random.next_int ().to_string () + tmp_icon_ext);
 
                 var s_file = File.new_for_uri (url);
                 var d_file = File.new_for_path (tmp_icon_file);
 
-                if (s_file.copy (d_file, FileCopyFlags.OVERWRITE) && tmp_icon_ext != ".svg") {
-                    var pixbuf = new Gdk.Pixbuf.from_file (tmp_icon_file);
-                    if (pixbuf.width < 48 || pixbuf.height < 48) {
-                        FileUtils.remove (tmp_icon_file);
-                        tmp_icon_file = "";
-                        tmp_icon_ext = "";
+                bool copy_done = false;
+                try {
+                    copy_done = s_file.copy (d_file, FileCopyFlags.OVERWRITE);
+                } catch (Error err) {
+                        warning (err.message);
+                }
+                if (copy_done && tmp_icon_ext != ".svg") {
+                    try {
+                        var pixbuf = new Gdk.Pixbuf.from_file (tmp_icon_file);
+                        if (pixbuf.width < 48 || pixbuf.height < 48) {
+                            FileUtils.remove (tmp_icon_file);
+                            tmp_icon_file = "";
+                            tmp_icon_ext = "";
+                        }
+                    } catch (Error err) {
+                        warning (err.message);
                     }
                 }
             }
