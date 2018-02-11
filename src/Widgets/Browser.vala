@@ -135,6 +135,11 @@ namespace Webpin.Widgets {
                 }
                 return false;
             });
+
+            web_view.button_press_event.connect ((event) => {
+                stdout.printf ("BUTTON %u\n", event.button);
+                return base.button_press_event (event);
+            });
         }
     }
 }
