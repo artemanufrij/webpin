@@ -146,6 +146,17 @@ namespace Webpin.Widgets {
                 }
                 return base.button_press_event (event);
             });
+
+            web_view.key_press_event.connect ((event) => {
+                if (event.keyval == Gdk.Key.Back) {
+                    web_view.go_back ();
+                    return true;
+                } else if (event.keyval == Gdk.Key.Forward) {
+                    web_view.go_forward ();
+                    return true;
+                }
+                return base.key_press_event (event);
+            });
         }
     }
 }
