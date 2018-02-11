@@ -34,10 +34,13 @@
     <releases>
         <release version="0.2.7" date="2018-02-12">
             <description>
+                <p>New:</p>
+                <ul>
+                    <li>back/forward navigation by mouse buttons (8/9)</li>
+                </ul>
                 <p>Improved:</p>
                 <ul>
                     <li>favicon fetching</li>
-                    
                 </ul>
             </description>
         </release>
