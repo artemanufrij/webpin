@@ -62,7 +62,9 @@ namespace Webpin.Widgets {
             cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
             cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
 
-            web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ());
+            web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ()) {
+                settings = new WebKit.Settings () { enable_webgl = true }
+            };
             web_view.load_uri (desktop_file.url);
 
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
