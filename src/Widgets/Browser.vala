@@ -137,7 +137,13 @@ namespace Webpin.Widgets {
             });
 
             web_view.button_press_event.connect ((event) => {
-                stdout.printf ("BUTTON %u\n", event.button);
+                if (event.button == 8) {
+                    web_view.go_back ();
+                    return true;
+                } else if (event.button == 9) {
+                    web_view.go_forward ();
+                    return true;
+                }
                 return base.button_press_event (event);
             });
         }
