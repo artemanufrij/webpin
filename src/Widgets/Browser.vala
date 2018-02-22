@@ -63,7 +63,10 @@ namespace Webpin.Widgets {
             cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
 
             web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ()) {
-                settings = new WebKit.Settings () { enable_webgl = true }
+                settings = new WebKit.Settings () {
+                    enable_webgl = true,
+                    user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
+                }
             };
             web_view.load_uri (desktop_file.url);
 
@@ -106,59 +109,65 @@ namespace Webpin.Widgets {
             }
             container.pack_start (icon, true, true, 0);
 
-            web_view.create.connect ((action) => {
-                app_notification.title = _("Open request in an external application…");
-                app_notification.send_notification ();
+            web_view.create.connect (
+                (action) => {
+                    app_notification.title = _ ("Open request in an external application…");
+                    app_notification.send_notification ();
 
-                external_request (action);
-                return new WebKit.WebView ();
-            });
+                    external_request (action);
+                    return new WebKit.WebView ();
+                });
 
-            web_view.load_changed.connect ((load_event) => {
-                request_begin ();
-                if (load_event == WebKit.LoadEvent.FINISHED) {
-                    visible_child_name = "app";
-                    if (app_notification.reveal_child) {
-                        app_notification.reveal_child = false;
+            web_view.load_changed.connect (
+                (load_event) => {
+                    request_begin ();
+                    if (load_event == WebKit.LoadEvent.FINISHED) {
+                        visible_child_name = "app";
+                        if (app_notification.reveal_child) {
+                            app_notification.reveal_child = false;
+                        }
+                        request_finished ();
                     }
-                    request_finished ();
-                }
-            });
+                });
 
-            web_view.show_notification.connect ((notification) => {
-                desktop_notification (notification.title, notification.body, icon_for_notification);
-                return true;
-            });
+            web_view.show_notification.connect (
+                (notification) => {
+                    desktop_notification (notification.title, notification.body, icon_for_notification);
+                    return true;
+                });
 
-            web_view.permission_request.connect ((permission) => {
-                var permission_type = permission as WebKit.NotificationPermissionRequest;
-                if (permission_type != null) {
-                    permission_type.allow ();
-                }
-                return false;
-            });
+            web_view.permission_request.connect (
+                (permission) => {
+                    var permission_type = permission as WebKit.NotificationPermissionRequest;
+                    if (permission_type != null) {
+                        permission_type.allow ();
+                    }
+                    return false;
+                });
 
-            web_view.button_press_event.connect ((event) => {
-                if (event.button == 8) {
-                    web_view.go_back ();
-                    return true;
-                } else if (event.button == 9) {
-                    web_view.go_forward ();
-                    return true;
-                }
-                return base.button_press_event (event);
-            });
+            web_view.button_press_event.connect (
+                (event) => {
+                    if (event.button == 8) {
+                        web_view.go_back ();
+                        return true;
+                    } else if (event.button == 9) {
+                        web_view.go_forward ();
+                        return true;
+                    }
+                    return base.button_press_event (event);
+                });
 
-            web_view.key_press_event.connect ((event) => {
-                if (event.keyval == Gdk.Key.Back) {
-                    web_view.go_back ();
-                    return true;
-                } else if (event.keyval == Gdk.Key.Forward) {
-                    web_view.go_forward ();
-                    return true;
-                }
-                return base.key_press_event (event);
-            });
+            web_view.key_press_event.connect (
+                (event) => {
+                    if (event.keyval == Gdk.Key.Back) {
+                        web_view.go_back ();
+                        return true;
+                    } else if (event.keyval == Gdk.Key.Forward) {
+                        web_view.go_forward ();
+                        return true;
+                    }
+                    return base.key_press_event (event);
+                });
         }
     }
 }

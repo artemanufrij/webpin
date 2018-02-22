@@ -40,7 +40,8 @@ namespace Webpin {
                                     Terminal=false
                                     Type=Application
                                     Categories=Network;
-                                    X-GNOME-FullName=webpin
+                                    X-GNOME-Gettext-Domain=com.github.artemanufrij.webpin
+                                    X-GNOME-UsesNotifications=true
                                     StartupWMClass=Webpin
                                     X-Webpin-PrimaryColor=rgba (222,222,222,1)""";
 
