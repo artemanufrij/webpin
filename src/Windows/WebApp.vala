@@ -49,6 +49,7 @@ namespace Webpin.Windows {
             var headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
             headerbar.show_close_button = true;
+            headerbar.get_style_context ().add_class ("default-decoration");
 
             var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
             copy_url.tooltip_text = _ ("Copy URL into clipboard");
