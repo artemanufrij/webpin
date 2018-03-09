@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2017 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -40,16 +40,12 @@ namespace Webpin {
             }
         }
 
-        construct {
-            flags |= GLib.ApplicationFlags.HANDLES_OPEN;
+        [CCode (array_length = false, array_null_terminated = true)]
+        string[] ? arg_files = null;
 
-            var open_web_app = new SimpleAction ("open-web-app", GLib.VariantType.STRING);
-            add_action (open_web_app);
-            open_web_app.activate.connect ((parameter) => {
-                if (parameter != null) {
-                    start_webapp (parameter.get_string ());
-                }
-            });
+        construct {
+            this.flags |= GLib.ApplicationFlags.HANDLES_OPEN;
+            this.flags |= ApplicationFlags.HANDLES_COMMAND_LINE;
 
             create_cache_folders ();
         }
@@ -91,13 +87,76 @@ namespace Webpin {
             mainwindow = new Windows.WebApp (desktop_file);
             mainwindow.set_application (this);
         }
+
+        public override int command_line (ApplicationCommandLine cmd) {
+            command_line_interpreter (cmd);
+            return 0;
+        }
+
+        private void command_line_interpreter (ApplicationCommandLine cmd) {
+            string[] args_cmd = cmd.get_arguments ();
+            unowned string[] args = args_cmd;
+
+            bool new_app = false;
+            bool remove_app = false;
+
+            GLib.OptionEntry [] options = new OptionEntry [4];
+            options [0] = { "new", 0, 0, OptionArg.NONE, ref new_app, "Create new Webapp", null };
+            options [1] = { "remove", 0, 0, OptionArg.NONE, ref remove_app, "Remove Webapp", null };
+            options [2] = { "", 0, 0, OptionArg.STRING_ARRAY, ref arg_files, null, "[URI...]" };
+            options [3] = { null };
+
+            var opt_context = new OptionContext ("actions");
+            opt_context.add_main_entries (options, null);
+            try {
+                opt_context.parse (ref args);
+            } catch (Error err) {
+                warning (err.message);
+                return;
+            }
+
+            if (new_app) {
+                if (new_app) {
+                    activate ();
+                    (mainwindow as MainWindow).show_assistant ();
+                }
+                return;
+            }
+
+            File[] files = null;
+            foreach (string arg_file in arg_files) {
+                files += (File.new_for_uri (arg_file));
+            }
+
+            if (files != null && files.length > 0) {
+                if (remove_app) {
+                    var app_info = Services.DesktopFilesManager.get_app_by_url (files [0].get_uri ());
+                    var desktop_file = new Webpin.DesktopFile.from_desktopappinfo (app_info);
+                    desktop_file.delete_file ();
+                } else {
+                    open (files, "");
+                }
+                return;
+            }
+
+            activate ();
+        }
     }
 }
 
 static int main (string[] args) {
     Gtk.init (ref args);
     var app = Webpin.WebpinApp.instance;
-    if (args.length > 1) {
+
+    bool has_new_arg = false;
+
+    foreach (var arg in args) {
+        if (arg == "--new") {
+            has_new_arg = true;
+        }
+    }
+
+    if (args.length > 1 && !has_new_arg) {
         var checksum = new GLib.Checksum (GLib.ChecksumType.MD5);
         checksum.update (args[1].data, args[1].length);
         var id = "a" + checksum.get_string ().substring (0, 5) + "a.artemanufrij.webpin";

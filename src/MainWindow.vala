@@ -63,6 +63,7 @@ namespace Webpin {
             headerbar = new Gtk.HeaderBar ();
             headerbar.show_close_button = true;
             headerbar.title = "Webpin";
+            headerbar.get_style_context ().add_class ("default-decoration");
             set_titlebar (headerbar);
 
             back_button = new Gtk.Button.with_label (_("Applications"));
@@ -171,7 +172,7 @@ namespace Webpin {
             this.present ();
         }
 
-        private void show_assistant (DesktopFile? desktop_file = null) {
+        public void show_assistant (DesktopFile? desktop_file = null) {
             stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
             stack.set_visible_child_name("editor");
             back_button.show_all ();

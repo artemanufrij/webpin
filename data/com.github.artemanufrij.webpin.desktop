@@ -10,3 +10,9 @@ Terminal=false
 Type=Application
 Categories=Network;GNOME;GTK;
 X-GNOME-Gettext-Domain=webpin
+Actions=New;
+
+[Desktop Action New]
+Name=New Webapp
+Exec=com.github.artemanufrij.webpin --new
+Icon=document-new-symbolic
