@@ -19,7 +19,7 @@
         <value key="x-appcenter-suggested-price">1</value>
     </custom>
     <developer_name>Artem Anufrij</developer_name>
-    <url type="homepage">https://github.com/artemanufrij/webpin</url>
+    <url type="homepage">https://artemanufrij.github.io</url>
     <url type="bugtracker">https://github.com/artemanufrij/webpin/issues</url>
     <url type="help">https://github.com/artemanufrij/webpin/issues</url>
     <update_contact>artem.anufrij@live.de</update_contact>
@@ -32,6 +32,15 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="0.2.9" date="2018-03-10">
+            <description>
+                <p>Improved:</p>
+                <ul>
+                    <li>Desktop Action Menu</li>
+                    <li>Small UI fixes</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.2.8" date="2018-02-12">
             <description>
                 <p>New:</p>
