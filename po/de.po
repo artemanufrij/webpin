@@ -39,8 +39,8 @@ msgid "Application name"
 msgstr "Anwendungsname"
 
 #: ../src/Widgets/Assistant.vala:84
-msgid "http://myapp.domain"
-msgstr "http://myapp.domain"
+msgid "https://myapp.domain"
+msgstr "https://myapp.domain"
 
 #: ../src/Widgets/Assistant.vala:94
 msgid "theme icon name"

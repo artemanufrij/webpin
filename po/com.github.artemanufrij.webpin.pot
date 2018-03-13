@@ -83,7 +83,7 @@ msgid "Application name"
 msgstr ""
 
 #: ../src/Widgets/Views/Editor.vala:91
-msgid "http://myapp.domain"
+msgid "https://myapp.domain"
 msgstr ""
 
 #: ../src/Widgets/Views/Editor.vala:101
