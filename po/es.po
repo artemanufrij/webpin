@@ -29,8 +29,8 @@ msgstr "Crear una nueva aplicación web con webby"
 msgid "Application name"
 msgstr "Nombre de la aplicación"
 
-msgid "http://myapp.domain"
-msgstr "http://miapp.dominio"
+msgid "https://myapp.domain"
+msgstr "https://miapp.dominio"
 
 msgid "theme icon name"
 msgstr "nombre de ícono del tema"

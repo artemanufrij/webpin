@@ -85,8 +85,8 @@ msgid "Application name"
 msgstr "Programos pavadinimas"
 
 #: ../src/Widgets/Views/Editor.vala:91
-msgid "http://myapp.domain"
-msgstr "http://manoprograma.sritis"
+msgid "https://myapp.domain"
+msgstr "https://manoprograma.sritis"
 
 #: ../src/Widgets/Views/Editor.vala:101
 msgid "theme icon name"

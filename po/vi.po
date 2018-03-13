@@ -29,8 +29,8 @@ msgstr "Tạo ứng dụng web mới với webby"
 msgid "Application name"
 msgstr "Tên ứng dụng"
 
-msgid "http://myapp.domain"
-msgstr "http://ungdung.tenmien"
+msgid "https://myapp.domain"
+msgstr "https://ungdung.tenmien"
 
 msgid "theme icon name"
 msgstr "tên biểu tượng chủ dụng"

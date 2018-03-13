@@ -13,7 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * The Noise authors hereby grant permission for non-GPL compatible
  * GStreamer plugins to be used and distributed together with GStreamer
@@ -91,7 +91,7 @@ namespace Webpin.Widgets.Views {
             app_name_entry.set_placeholder_text (_ ("Application name"));
 
             app_url_entry = new Gtk.Entry ();
-            app_url_entry.set_placeholder_text (_ ("http://myapp.domain"));
+            app_url_entry.set_placeholder_text (_ ("https://myapp.domain"));
 
             //icon selector popover
             icon_selector_popover = new Gtk.Popover (icon_button);
