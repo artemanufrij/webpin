@@ -1,5 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-04 12:27-0300\n"
+"PO-Revision-Date: 2018-04-04 12:32-0300\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Filipe de Almeida Garrett <filipe.garrett@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: pt_BR\n"
+
+#: ../src/Dialogs/Preferences.vala:60
+msgid "Use Dark Theme"
+msgstr "Usar tema escuro"
+
+#: ../src/Dialogs/Preferences.vala:73
+msgid "_Close"
+msgstr "_Fechar"
+
+#: ../src/MainWindow.vala:68
+msgid "Applications"
+msgstr "Aplicativos"
+
+#: ../src/MainWindow.vala:75
+msgid "Add a new Web App"
+msgstr "Adicionar um novo Web App"
+
+#: ../src/MainWindow.vala:87
+msgid "Preferences"
+msgstr "Preferências"
+
+#: ../src/MainWindow.vala:99
+msgid "No Web Apps Available"
+msgstr "Nenhum Web App disponível"
+
+#: ../src/MainWindow.vala:99
+msgid "Manage your web apps."
+msgstr "Gerencie seus web apps."
+
+#: ../src/MainWindow.vala:100
+msgid "Create App"
+msgstr "Criar aplicativo"
+
+#: ../src/MainWindow.vala:100
+msgid "Create a new web app with Webpin"
+msgstr "Crie um novo web app com o Webpin"
+
+#: ../src/Services/DesktopFilesManager.vala:84
+msgid "Choose an image…"
+msgstr "Escolha uma imagem..."
+
+#: ../src/Services/DesktopFilesManager.vala:86
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: ../src/Services/DesktopFilesManager.vala:87
+msgid "_Open"
+msgstr "_Abrir"
+
+#: ../src/Services/DesktopFilesManager.vala:90
+#: ../src/Widgets/Views/Editor.vala:237
+msgid "Images"
+msgstr "Imagens"
+
+#: ../src/Widgets/Browser.vala:108
+msgid "Open request in an external application…"
+msgstr "Abrir requisição em um aplicativo externo..."
+
+#: ../src/Widgets/Views/Editor.vala:80
+msgid "Create a new web app"
+msgstr "Criar novo web app"
+
+#: ../src/Widgets/Views/Editor.vala:88
+msgid "Application name"
+msgstr "Nome do aplicativo"
+
+#: ../src/Widgets/Views/Editor.vala:91
+msgid "https://myapp.domain"
+msgstr "https://meuapp.dominio"
+
+#: ../src/Widgets/Views/Editor.vala:101
+msgid "theme icon name"
+msgstr "nome do tema do ícone"
+
+#: ../src/Widgets/Views/Editor.vala:103
+msgid "or"
+msgstr "ou"
+
+#: ../src/Widgets/Views/Editor.vala:104
+msgid "Set from file..."
+msgstr "Definir do arquivo..."
+
+#: ../src/Widgets/Views/Editor.vala:123
+msgid "Save cookies"
+msgstr "Salvar cookies"
+
+#: ../src/Widgets/Views/Editor.vala:125
+msgid "Save login information"
+msgstr "Salvar informação de login"
+
+#: ../src/Widgets/Views/Editor.vala:127 ../src/Windows/WebApp.vala:67
+msgid "Run in background if closed"
+msgstr "Executar em segundo plano se fechado"
+
+#: ../src/Widgets/Views/Editor.vala:150
+msgid "Save app"
+msgstr "Salvar app"
+
+#: ../src/Widgets/Views/Editor.vala:172
+msgid "url must start with http:// or https://"
+msgstr "o endereço deve começar com http:// ou https://"
+
+#: ../src/Widgets/Views/Editor.vala:185
+msgid "App already exist"
+msgstr "App já existente"
+
+#: ../src/Widgets/Views/Editor.vala:242
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../src/Widgets/Views/Editor.vala:243
+msgid "Open"
+msgstr "Abrir"
+
+#: ../src/Widgets/WebItem.vala:120
+msgid "Delete Webapp"
+msgstr "Excluir Webapp"
+
+#: ../src/Widgets/WebItem.vala:125
+msgid "Edit Webapp Properties"
+msgstr "Editar propriedades do Webapp"
+
+#: ../src/Windows/WebApp.vala:55
+msgid "Copy URL into clipboard"
+msgstr "Copiar endereço para a área de transferência"
+
+#: ../src/Windows/WebApp.vala:103
+msgid "Open %s"
+msgstr "Abrir %s"
