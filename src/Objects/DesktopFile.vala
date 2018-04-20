@@ -139,14 +139,28 @@ namespace Webpin {
             }
         }
 
-        public bool edit_property (string propertie, string val) {
+        public bool edit_property (string property, string val) {
             bool return_value = false;
             try {
                 string filename = GLib.Environment.get_user_data_dir () + "/applications/" + file.get_string ("Desktop Entry", "Name") + "-webpin.desktop";
                 file = new GLib.KeyFile ();
                 file.load_from_file (filename, KeyFileFlags.NONE);
-                file.set_string ("Desktop Entry", propertie, val);
+                file.set_string ("Desktop Entry", property, val);
                 return_value = file.save_to_file (filename);
+            } catch (Error err) {
+                warning (err.message);
+            }
+
+            return return_value;
+        }
+
+        public new string get_property (string property) {
+            string return_value = "";
+            try {
+                string filename = GLib.Environment.get_user_data_dir () + "/applications/" + file.get_string ("Desktop Entry", "Name") + "-webpin.desktop";
+                file = new GLib.KeyFile ();
+                file.load_from_file (filename, KeyFileFlags.NONE);
+                return_value = file.get_string ("Desktop Entry", property);
             } catch (Error err) {
                 warning (err.message);
             }

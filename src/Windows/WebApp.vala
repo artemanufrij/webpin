@@ -135,6 +135,15 @@ namespace Webpin.Windows {
             load_settings ();
 
             this.show_all ();
+
+            this.show.connect (
+                () => {
+                    var x = desktop_file.get_property ("X-Webpin-WindowX");
+                    var y = desktop_file.get_property ("X-Webpin-WindowY");
+                    if (x != null && y != null) {
+                        this.move (int.parse (x), int.parse (y));
+                    }
+                });
         }
 
         private void set_color (Gdk.RGBA color) {
