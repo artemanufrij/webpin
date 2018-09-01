@@ -4,6 +4,8 @@
     <p align="center">Designed for <a href="https://elementary.io">elementary OS</p>
 </div>
 
+[![Build Status](https://travis-ci.org/artemanufrij/webpin.svg?branch=master)](https://travis-ci.org/artemanufrij/webpin)
+
 ### Donate
 <a href="https://www.paypal.me/ArtemAnufrij">PayPal</a> | <a href="https://liberapay.com/Artem/donate">LiberaPay</a> | <a href="https://www.patreon.com/ArtemAnufrij">Patreon</a>
 
