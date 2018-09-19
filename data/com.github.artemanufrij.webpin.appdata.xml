@@ -39,6 +39,10 @@
                 <ul>
                     <li>Support for local .html files</li>
                 </ul>
+                <p>Translation:</p>
+                <ul>
+                    <li>Dutch (by Heimen Stoffels)</li>
+                </ul>
             </description>
         </release>
         <release version="0.3.0" date="2018-07-24">
