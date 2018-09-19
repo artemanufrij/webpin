@@ -74,7 +74,7 @@ namespace Webpin.Widgets.Views {
             this.margin = 15;
 
             try {
-                this.protocol_regex = new Regex ("https?://[\\w+\\d+]((:\\d+)?/\\S*)?");
+                this.protocol_regex = new Regex ("(https?://|file:///)[\\w\\d]");
             } catch (RegexError e) {
                 critical ("%s", e.message);
             }
