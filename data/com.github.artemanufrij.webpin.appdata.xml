@@ -33,10 +33,11 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="0.3.1" date="2018-09-24">
-            <description>
+        <release version="1.0.0" date="2018-10-24">
+            <<description>
                 <p>New:</p>
                 <ul>
+                    <li>Moved to Meson</li>
                     <li>Support for local .html files</li>
                 </ul>
                 <p>Translation:</p>

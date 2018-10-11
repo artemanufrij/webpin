@@ -41,15 +41,10 @@ git clone https://github.com/artemanufrij/webpin.git
 cd webpin
 ```
 
-Create **build** folder, compile and start application
+Compile, install and start Melody on your system
 ```
-mkdir build
+meson build --prefix=/usr
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-make
-```
-
-Install and start Webpin on your system
-```
-sudo make install
+sudo ninja install
 com.github.artemanufrij.webpin
+```
