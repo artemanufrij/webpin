@@ -1,0 +1,9 @@
+src/Widgets/WebItem.vala
+src/Widgets/Views/WebItemsView.vala
+src/Widgets/Views/Editor.vala
+src/Widgets/Browser.vala
+src/Windows/WebApp.vala
+src/Objects/DesktopFile.vala
+src/Dialogs/Preferences.vala
+src/Services/DesktopFilesManager.vala
+src/MainWindow.vala
