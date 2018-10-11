@@ -1,6 +1,6 @@
 <div>
     <h1 align="center">Webpin</h1>
-    <h3 align="center"><img src="data/icons/com.github.artemanufrij.webpin.svg"/><br>A simple app to pin websites on the desktop</h3>
+    <h3 align="center"><img src="data/icons/64/com.github.artemanufrij.webpin.svg"/><br>A simple app to pin websites on the desktop</h3>
     <p align="center">Designed for <a href="https://elementary.io">elementary OS</p>
 </div>
 
