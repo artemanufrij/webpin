@@ -15,11 +15,11 @@
   </a>
 </p>
 <p align="center">
-  <img src="Screenshot.png"/>
+  <img src="screenshots/Screenshot.png"/>
   </br>
     Pin your any favourite website on Applications Menu or Plank like a regular desktop app
   </br></br>
-  <img src="Apps.png"/>
+  <img src="screenshots/Apps.png"/>
 </p>
 
 
