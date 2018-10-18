@@ -207,8 +207,11 @@ namespace Webpin {
         private void store_settings () {
             settings.window_state = (this.is_maximized ? Settings.WindowState.MAXIMIZED: Settings.WindowState.NORMAL);
             if (settings.window_state == Settings.WindowState.NORMAL) {
-                settings.window_height = this.get_allocated_height ();
-                settings.window_width = this.get_allocated_width ();
+                int width, height;
+                this.get_size (out width, out height);
+
+                settings.window_height = height;
+                settings.window_width = width;
             }
         }
     }

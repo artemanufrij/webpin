@@ -91,7 +91,7 @@ namespace Webpin.Widgets.Views {
             app_name_entry.set_placeholder_text (_ ("Application name"));
 
             app_url_entry = new Gtk.Entry ();
-            app_url_entry.set_placeholder_text (_ ("https://myapp.domain"));
+            app_url_entry.set_placeholder_text (_ ("https://myapp.domain or file:///my/local/file"));
 
             //icon selector popover
             icon_selector_popover = new Gtk.Popover (icon_button);
@@ -176,7 +176,7 @@ namespace Webpin.Widgets.Views {
                         reset_grab_color_and_icon ();
                         app_url_entry.get_style_context ().add_class ("error");
                         app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
-                        app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https://"));
+                        app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https:// or file:///"));
                         app_url_valid = false;
                     } else {
                         grab_color_and_icon ();
