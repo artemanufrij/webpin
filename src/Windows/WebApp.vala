@@ -174,7 +174,7 @@ namespace Webpin.Windows {
             if (width != null && height != null) {
                 set_default_size (int.parse (width), int.parse (height));
             } else {
-                set_default_size (1000,              600);
+                set_default_size (1000, 600);
             }
 
             if (x != null && y != null) {
@@ -198,10 +198,14 @@ namespace Webpin.Windows {
             } else {
                 int x, y;
                 this.get_position (out x, out y);
+
+                int width, height;
+                this.get_size (out width, out height);
+
                 desktop_file.edit_property ("X-Webpin-WindowX", x.to_string ());
                 desktop_file.edit_property ("X-Webpin-WindowY", y.to_string ());
-                desktop_file.edit_property ("X-Webpin-WindowWidth", this.get_allocated_width ().to_string ());
-                desktop_file.edit_property ("X-Webpin-WindowHeight", this.get_allocated_height ().to_string ());
+                desktop_file.edit_property ("X-Webpin-WindowWidth", width.to_string ());
+                desktop_file.edit_property ("X-Webpin-WindowHeight", height.to_string ());
                 desktop_file.edit_property ("X-Webpin-WindowMaximized", "norm");
             }
         }

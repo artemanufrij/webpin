@@ -40,6 +40,10 @@
                     <li>Moved to Meson</li>
                     <li>Support for local .html files</li>
                 </ul>
+                <p>Fixed:</p>
+                <ul>
+                    <li>Restore correct window size</li>
+                </ul>
                 <p>Translation:</p>
                 <ul>
                     <li>Dutch (by Heimen Stoffels)</li>
