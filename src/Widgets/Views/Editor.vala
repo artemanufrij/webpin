@@ -490,7 +490,13 @@ namespace Webpin.Widgets.Views {
             string icon = icon_name_entry.get_text ();
             if (tmp_icon_file != "") {
                 var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
-                FileUtils.rename (tmp_icon_file, new_icon);
+                uint8[] content;
+                try {
+                    FileUtils.get_data (tmp_icon_file, out content);
+                    FileUtils.set_data (new_icon, content);
+                } catch (Error err) {
+                    warning (err.message);
+                }
                 FileUtils.remove (tmp_icon_file);
                 icon = new_icon;
             }
