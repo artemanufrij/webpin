@@ -63,7 +63,6 @@ namespace Webpin {
             headerbar = new Gtk.HeaderBar ();
             headerbar.show_close_button = true;
             headerbar.title = "Webpin";
-            headerbar.get_style_context ().add_class ("default-decoration");
             set_titlebar (headerbar);
 
             back_button = new Gtk.Button.with_label (_("Applications"));

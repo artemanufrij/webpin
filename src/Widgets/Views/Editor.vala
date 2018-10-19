@@ -91,6 +91,7 @@ namespace Webpin.Widgets.Views {
             app_name_entry.set_placeholder_text (_ ("Application name"));
 
             app_url_entry = new Gtk.Entry ();
+            app_url_entry.width_request = 320;
             app_url_entry.set_placeholder_text (_ ("https://myapp.domain or file:///my/local/file"));
 
             //icon selector popover
