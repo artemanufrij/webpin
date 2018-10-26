@@ -171,14 +171,17 @@ namespace Webpin.Widgets {
 
         public void go_home () {
             web_view.load_uri (desktop_file.url);
+            request_finished ();
         }
 
         public void go_back () {
             web_view.go_back ();
+            request_finished ();
         }
 
         public void go_forward () {
             web_view.go_forward ();
+            request_finished ();
         }
 
         public bool can_go_back () {
