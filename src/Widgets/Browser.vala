@@ -191,5 +191,13 @@ namespace Webpin.Widgets {
         public bool can_go_forward () {
             return web_view.can_go_forward ();
         }
+
+        public void reload () {
+            web_view.reload ();
+        }
+
+        public void reload_bypass_cache () {
+            web_view.reload_bypass_cache ();
+        }
     }
 }
