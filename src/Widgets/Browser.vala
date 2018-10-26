@@ -168,5 +168,25 @@ namespace Webpin.Widgets {
                     return base.key_press_event (event);
                 });
         }
+
+        public void go_home () {
+            web_view.load_uri (desktop_file.url);
+        }
+
+        public void go_back () {
+            web_view.go_back ();
+        }
+
+        public void go_forward () {
+            web_view.go_forward ();
+        }
+
+        public bool can_go_back () {
+            return web_view.can_go_back ();
+        }
+
+        public bool can_go_forward () {
+            return web_view.can_go_forward ();
+        }
     }
 }

@@ -52,6 +52,7 @@ namespace Webpin.Windows {
             headerbar.get_style_context ().add_class ("default-decoration");
 
             var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
+            copy_url.valign = Gtk.Align.CENTER;
             copy_url.tooltip_text = _ ("Copy URL into clipboard");
             copy_url.clicked.connect (
                 () => {
@@ -59,11 +60,8 @@ namespace Webpin.Windows {
                 });
             headerbar.pack_end (copy_url);
 
-            spinner = new Gtk.Spinner ();
-            spinner.set_size_request (16, 16);
-            headerbar.pack_end (spinner);
-
             var stay_open = new Gtk.ToggleButton ();
+            stay_open.valign = Gtk.Align.CENTER;
             stay_open.active = desktop_file.hide_on_close;
             stay_open.tooltip_text = _ ("Run in background if closed");
             stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
@@ -72,7 +70,34 @@ namespace Webpin.Windows {
                     desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
                     desktop_file.save_to_file ();
                 });
-            headerbar.pack_start (stay_open);
+            headerbar.pack_end (stay_open);
+
+            spinner = new Gtk.Spinner ();
+            spinner.set_size_request (16, 16);
+            headerbar.pack_end (spinner);
+
+            var button_back = new Gtk.Button.from_icon_name ("go-previous-symbolic", Gtk.IconSize.MENU);
+            button_back.sensitive = false;
+            button_back.valign = Gtk.Align.CENTER;
+            button_back.clicked.connect (() => {
+                browser.go_back ();
+            });
+            headerbar.pack_start (button_back);
+
+            var button_home = new Gtk.Button.from_icon_name ("go-home-symbolic", Gtk.IconSize.MENU);
+            button_home.valign = Gtk.Align.CENTER;
+            button_home.clicked.connect (() => {
+                browser.go_home ();
+            });
+            headerbar.pack_start (button_home);
+
+            var button_forward = new Gtk.Button.from_icon_name ("go-next-symbolic", Gtk.IconSize.MENU);
+            button_forward.sensitive = false;
+            button_forward.valign = Gtk.Align.CENTER;
+            button_forward.clicked.connect (() => {
+                browser.go_forward ();
+            });
+            headerbar.pack_start (button_forward);
 
             this.set_titlebar (headerbar);
 
@@ -118,6 +143,8 @@ namespace Webpin.Windows {
             browser.request_finished.connect (
                 () => {
                     spinner.active = false;
+                    button_back.sensitive = browser.can_go_back ();
+                    button_forward.sensitive = browser.can_go_forward ();
                 });
 
             browser.found_website_color.connect (
