@@ -488,7 +488,7 @@ namespace Webpin.Widgets.Views {
 
         private void on_accept () {
             string icon = icon_name_entry.get_text ();
-            if (tmp_icon_file != "") {
+            if (tmp_icon_file != "" && tmp_icon_file == icon) {
                 var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
                 uint8[] content;
                 try {

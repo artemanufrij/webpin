@@ -33,6 +33,18 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.0.2" date="2018-11-02">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Sort items inside app overview</li>
+                </ul>
+                <p>Fixed:</p>
+                <ul>
+                    <li>Custom icon was replaced by default one</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.0.1" date="2018-10-30">
             <description>
                 <p>New:</p>

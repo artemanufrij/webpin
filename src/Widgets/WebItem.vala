@@ -29,6 +29,12 @@
 namespace Webpin.Widgets {
     public class WebItem : Gtk.FlowBoxChild {
 
+        public string title {
+            get {
+                return desktop_file.name;
+            }
+        }
+
         Gtk.Image image;
         Gtk.Label label;
 

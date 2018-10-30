@@ -44,6 +44,7 @@ namespace Webpin.Widgets.Views {
             scrolled.hscrollbar_policy = Gtk.PolicyType.NEVER;
 
             web_items = new Gtk.FlowBox();
+            web_items.set_sort_func (sort_func);
             web_items.valign = Gtk.Align.START;
             web_items.vexpand = false;
             web_items.homogeneous = true;
@@ -107,6 +108,13 @@ namespace Webpin.Widgets.Views {
                     }
                 }
             }
+        }
+
+        public int sort_func (Gtk.FlowBoxChild child1, Gtk.FlowBoxChild child2) {
+            var item1 = (WebItem)child1;
+            var item2 = (WebItem)child2;
+
+            return item1.title.collate (item2.title);
         }
     }
 }
