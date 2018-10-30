@@ -34,7 +34,6 @@ namespace Webpin {
         Gtk.HeaderBar headerbar;
         Gtk.Button back_button;
         Gtk.Button add_button;
-        Gtk.MenuButton app_menu;
 
         Widgets.Views.Editor editor;
         Widgets.Views.WebItemsView web_items_view;
@@ -43,11 +42,6 @@ namespace Webpin {
             settings = Settings.get_default ();
             settings.notify["use-dark-theme"].connect (() => {
                 Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = settings.use_dark_theme;
-                if (settings.use_dark_theme) {
-                    app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR));
-                } else {
-                    app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu", Gtk.IconSize.LARGE_TOOLBAR));
-                }
             });
         }
 
@@ -75,26 +69,7 @@ namespace Webpin {
             add_button.tooltip_text = _("Add a new Web App");
             headerbar.pack_start (add_button);
 
-            // SETTINGS MENU
-            app_menu = new Gtk.MenuButton ();
-            if (settings.use_dark_theme) {
-                app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR));
-            } else {
-                app_menu.set_image (new Gtk.Image.from_icon_name ("open-menu", Gtk.IconSize.LARGE_TOOLBAR));
-            }
-
-            var settings_menu = new Gtk.Menu ();
-            var menu_item_preferences = new Gtk.MenuItem.with_label (_("Preferences"));
-            menu_item_preferences.activate.connect (() => {
-                var preferences = new Dialogs.Preferences (this);
-                preferences.run ();
-            });
-
-            settings_menu.append (menu_item_preferences);
-            settings_menu.show_all ();
-
-            app_menu.popup = settings_menu;
-            headerbar.pack_end (app_menu);
+            header_build_style_switcher ();
 
             var welcome = new Granite.Widgets.Welcome (_("No Web Apps Available"), _("Manage your web apps."));
             welcome.append ("document-new", _("Create App"), _("Create a new web app with Webpin"));
@@ -169,6 +144,16 @@ namespace Webpin {
             }
 
             this.present ();
+        }
+
+        private void header_build_style_switcher () {
+            var mode_switch = new Granite.ModeSwitch.from_icon_name ("display-brightness-symbolic", "weather-clear-night-symbolic");
+            mode_switch.valign = Gtk.Align.CENTER;
+            mode_switch.active = settings.use_dark_theme;
+            mode_switch.notify["active"].connect (() => {
+                settings.use_dark_theme = mode_switch.active;
+            });
+            headerbar.pack_end (mode_switch);
         }
 
         public void show_assistant (DesktopFile? desktop_file = null) {

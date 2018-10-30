@@ -5,7 +5,6 @@ sources = files(
     'Widgets/Browser.vala',
     'Windows/WebApp.vala',
     'Objects/DesktopFile.vala',
-    'Dialogs/Preferences.vala',
     'Services/DesktopFilesManager.vala',
     'Settings.vala',
     'MainWindow.vala',
