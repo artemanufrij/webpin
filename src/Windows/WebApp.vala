@@ -30,6 +30,9 @@ namespace Webpin.Windows {
     public class WebApp : Gtk.Window {
         Gdk.WindowState current_state;
 
+        Gtk.HeaderBar headerbar;
+        Gtk.Button button_back;
+        Gtk.Button button_forward;
         Widgets.Browser browser;
         Gtk.Spinner spinner;
 
@@ -46,67 +49,25 @@ namespace Webpin.Windows {
             }
             browser = new Widgets.Browser (desktop_file);
 
-            var headerbar = new Gtk.HeaderBar ();
+            headerbar = new Gtk.HeaderBar ();
             headerbar.title = desktop_file.name;
             headerbar.show_close_button = true;
             headerbar.get_style_context ().add_class ("default-decoration");
 
-            var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
-            copy_url.valign = Gtk.Align.CENTER;
-            copy_url.tooltip_text = _ ("Copy URL into clipboard");
-            copy_url.clicked.connect (() => {
-                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.web_view.uri, -1);
-            });
-            headerbar.pack_end (copy_url);
+            if (desktop_file.view_mode == "default") {
+                header_build_copy_button ();
 
-            var stay_open = new Gtk.ToggleButton ();
-            stay_open.valign = Gtk.Align.CENTER;
-            stay_open.active = desktop_file.hide_on_close;
-            stay_open.tooltip_text = _ ("Run in background if closed");
-            stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
-            stay_open.toggled.connect (() => {
-                desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
-                desktop_file.save_to_file ();
-            });
-            headerbar.pack_end (stay_open);
-
-            var button_refresh = new Gtk.Button.from_icon_name ("view-refresh-symbolic", Gtk.IconSize.MENU);
-            button_refresh.tooltip_text = _("Reload");
-            button_refresh.valign = Gtk.Align.CENTER;
-            button_refresh.clicked.connect (() => {
-                browser.reload ();
-            });
-            headerbar.pack_end (button_refresh);
+                header_build_pin_button ();
+            }
 
             spinner = new Gtk.Spinner ();
             spinner.set_size_request (16, 16);
             headerbar.pack_end (spinner);
 
-            var button_back = new Gtk.Button.from_icon_name ("go-previous-symbolic", Gtk.IconSize.MENU);
-            button_back.tooltip_text = _("Back");
-            button_back.sensitive = false;
-            button_back.valign = Gtk.Align.CENTER;
-            button_back.clicked.connect (() => {
-                browser.go_back ();
-            });
-            headerbar.pack_start (button_back);
+            if (desktop_file.view_mode == "default") {
+                header_build_navi_buttons ();
+            }
 
-            var button_home = new Gtk.Button.from_icon_name ("go-home-symbolic", Gtk.IconSize.MENU);
-            button_home.tooltip_text = _("Home");
-            button_home.valign = Gtk.Align.CENTER;
-            button_home.clicked.connect (() => {
-                browser.go_home ();
-            });
-            headerbar.pack_start (button_home);
-
-            var button_forward = new Gtk.Button.from_icon_name ("go-next-symbolic", Gtk.IconSize.MENU);
-            button_forward.tooltip_text = _("Forward");
-            button_forward.sensitive = false;
-            button_forward.valign = Gtk.Align.CENTER;
-            button_forward.clicked.connect (() => {
-                browser.go_forward ();
-            });
-            headerbar.pack_start (button_forward);
             this.set_titlebar (headerbar);
 
             this.delete_event.connect (() => {
@@ -170,6 +131,65 @@ namespace Webpin.Windows {
                     this.move (int.parse (x), int.parse (y));
                 }
             });
+        }
+
+        private void header_build_navi_buttons () {
+            button_back = new Gtk.Button.from_icon_name ("go-previous-symbolic", Gtk.IconSize.MENU);
+            button_back.tooltip_text = _("Back");
+            button_back.sensitive = false;
+            button_back.valign = Gtk.Align.CENTER;
+            button_back.clicked.connect (() => {
+                browser.go_back ();
+            });
+            headerbar.pack_start (button_back);
+
+            var button_home = new Gtk.Button.from_icon_name ("go-home-symbolic", Gtk.IconSize.MENU);
+            button_home.tooltip_text = _("Home");
+            button_home.valign = Gtk.Align.CENTER;
+            button_home.clicked.connect (() => {
+                browser.go_home ();
+            });
+            headerbar.pack_start (button_home);
+
+            button_forward = new Gtk.Button.from_icon_name ("go-next-symbolic", Gtk.IconSize.MENU);
+            button_forward.tooltip_text = _("Forward");
+            button_forward.sensitive = false;
+            button_forward.valign = Gtk.Align.CENTER;
+            button_forward.clicked.connect (() => {
+                browser.go_forward ();
+            });
+            headerbar.pack_start (button_forward);
+
+            var button_refresh = new Gtk.Button.from_icon_name ("view-refresh-symbolic", Gtk.IconSize.MENU);
+            button_refresh.tooltip_text = _("Reload");
+            button_refresh.valign = Gtk.Align.CENTER;
+            button_refresh.clicked.connect (() => {
+                browser.reload ();
+            });
+            headerbar.pack_start (button_refresh);
+        }
+
+        private void header_build_copy_button () {
+            var copy_url = new Gtk.Button.from_icon_name ("insert-link-symbolic", Gtk.IconSize.MENU);
+            copy_url.valign = Gtk.Align.CENTER;
+            copy_url.tooltip_text = _ ("Copy URL into clipboard");
+            copy_url.clicked.connect (() => {
+                Gtk.Clipboard.get_default (Gdk.Display.get_default ()).set_text (browser.web_view.uri, -1);
+            });
+            headerbar.pack_end (copy_url);
+        }
+
+        private void header_build_pin_button () {
+            var stay_open = new Gtk.ToggleButton ();
+            stay_open.valign = Gtk.Align.CENTER;
+            stay_open.active = desktop_file.hide_on_close;
+            stay_open.tooltip_text = _ ("Run in background if closed");
+            stay_open.image = new Gtk.Image.from_icon_name ("view-pin-symbolic", Gtk.IconSize.MENU);
+            stay_open.toggled.connect (() => {
+                desktop_file.edit_property ("X-Webpin-StayOpen", stay_open.active.to_string ());
+                desktop_file.save_to_file ();
+            });
+            headerbar.pack_end (stay_open);
         }
 
         private void set_color (Gdk.RGBA color) {

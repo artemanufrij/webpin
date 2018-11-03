@@ -41,6 +41,7 @@ namespace Webpin.Widgets.Views {
         Gtk.CheckButton save_cookies_check;
         Gtk.CheckButton save_password_check;
         Gtk.CheckButton stay_open_when_closed;
+        Gtk.CheckButton minimal_view_mode;
         Gtk.Popover icon_selector_popover;
         Gtk.FileChooserDialog file_chooser;
         Gtk.Button accept_button;
@@ -119,10 +120,9 @@ namespace Webpin.Widgets.Views {
 
             primary_color_button = new Gtk.ColorButton.with_rgba (default_color);
             primary_color_button.use_alpha = false;
-            primary_color_button.color_activated.connect (
-                (color) => {
-                    stdout.printf ("COLOR %s\n", color.to_string ());
-                });
+            primary_color_button.color_activated.connect ((color) => {
+                stdout.printf ("COLOR %s\n", color.to_string ());
+            });
 
             //checkbuttons
             save_cookies_check = new Gtk.CheckButton.with_label (_ ("Save cookies"));
@@ -131,6 +131,9 @@ namespace Webpin.Widgets.Views {
             save_password_check.active = false;
             stay_open_when_closed = new Gtk.CheckButton.with_label (_ ("Run in background if closed"));
             stay_open_when_closed.active = false;
+            minimal_view_mode = new Gtk.CheckButton.with_label (_("Use minimal UI"));
+            minimal_view_mode.active = false;
+
 
             //app information section
             var app_input_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
@@ -149,6 +152,7 @@ namespace Webpin.Widgets.Views {
             app_options_box.pack_start (save_cookies_check, true, false, 0);
             app_options_box.pack_start (save_password_check, true, false, 0);
             app_options_box.pack_start (stay_open_when_closed, true, false, 0);
+            app_options_box.pack_start (minimal_view_mode, true, false, 0);
             app_options_box.halign = Gtk.Align.CENTER;
 
             //create button
@@ -160,48 +164,45 @@ namespace Webpin.Widgets.Views {
             accept_button.clicked.connect (on_accept);
 
             //all sections together
-            pack_start (message,         true, false, 0);
-            pack_start (app_info_box,    true, false, 0);
+            pack_start (message, true, false, 0);
+            pack_start (app_info_box, true, false, 0);
             pack_start (app_options_box, true, false, 0);
             pack_end (accept_button, false, false, 0);
 
             //signals and handlers
-            icon_button.clicked.connect (
-                () => {
-                    icon_selector_popover.show_all ();
-                });
+            icon_button.clicked.connect (() => {
+                icon_selector_popover.show_all ();
+            });
 
-            app_url_entry.changed.connect (
-                () => {
-                    if (!this.protocol_regex.match (app_url_entry.get_text ())) {
-                        reset_grab_color_and_icon ();
-                        app_url_entry.get_style_context ().add_class ("error");
-                        app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
-                        app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https:// or file:///"));
-                        app_url_valid = false;
-                    } else {
-                        grab_color_and_icon ();
-                        app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
-                        app_url_entry.get_style_context ().remove_class ("error");
-                        app_url_valid = true;
-                    }
-                    validate ();
-                });
+            app_url_entry.changed.connect (() => {
+                if (!this.protocol_regex.match (app_url_entry.get_text ())) {
+                    reset_grab_color_and_icon ();
+                    app_url_entry.get_style_context ().add_class ("error");
+                    app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                    app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https:// or file:///"));
+                    app_url_valid = false;
+                } else {
+                    grab_color_and_icon ();
+                    app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
+                    app_url_entry.get_style_context ().remove_class ("error");
+                    app_url_valid = true;
+                }
+                validate ();
+            });
 
-            app_name_entry.changed.connect (
-                () => {
-                    if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text ())) {
-                        app_name_entry.get_style_context ().add_class ("error");
-                        app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
-                        app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("App already exist"));
-                        app_name_valid = false;
-                    } else {
-                        app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
-                        app_name_entry.get_style_context ().remove_class ("error");
-                        app_name_valid = true;
-                    }
-                    validate ();
-                });
+            app_name_entry.changed.connect (() => {
+                if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text ())) {
+                    app_name_entry.get_style_context ().add_class ("error");
+                    app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                    app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("App already exist"));
+                    app_name_valid = false;
+                } else {
+                    app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
+                    app_name_entry.get_style_context ().remove_class ("error");
+                    app_name_valid = true;
+                }
+                validate ();
+            });
 
             icon_chooser_button.activate.connect (on_icon_chooser_activate);
             icon_chooser_button.clicked.connect (on_icon_chooser_activate);
@@ -502,21 +503,20 @@ namespace Webpin.Widgets.Views {
             }
             string name = app_name_entry.get_text ();
             string url = app_url_entry.get_text ().replace ("%", "%%");
-            bool stay_open = stay_open_when_closed.active;
 
             if (icon == "") {
                 icon = default_app_icon;
             }
 
             if (app_icon_valid && app_name_valid && app_url_valid) {
-                var desktop_file = new DesktopFile (name, url, icon, stay_open);
+                var desktop_file = new DesktopFile (name, url, icon, stay_open_when_closed.active, minimal_view_mode.active);
                 switch (mode) {
-                case assistant_mode.new_app :
-                    application_created (desktop_file.save_to_file ());
-                    break;
-                case assistant_mode.edit_app :
-                    application_edited (desktop_file.save_to_file ());
-                    break;
+                    case assistant_mode.new_app :
+                        application_created (desktop_file.save_to_file ());
+                        break;
+                    case assistant_mode.edit_app :
+                        application_edited (desktop_file.save_to_file ());
+                        break;
                 }
                 stdout.printf ("Custom Color %s\n", primary_color_button.rgba.to_string ());
                 desktop_file.color = primary_color_button.rgba;
@@ -533,6 +533,7 @@ namespace Webpin.Widgets.Views {
                 app_url_entry.text = desktop_file.url.replace ("%%", "%");
                 icon_name_entry.text = desktop_file.icon;
                 stay_open_when_closed.active = desktop_file.hide_on_close;
+                minimal_view_mode.active = desktop_file.view_mode == "minimal";
                 if (desktop_file.color != null) {
                     primary_color_button.set_rgba (desktop_file.color);
                 } else {
