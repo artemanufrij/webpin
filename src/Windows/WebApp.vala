@@ -56,7 +56,6 @@ namespace Webpin.Windows {
 
             if (desktop_file.view_mode == "default") {
                 header_build_copy_button ();
-
                 header_build_pin_button ();
             }
 

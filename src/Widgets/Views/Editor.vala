@@ -484,6 +484,7 @@ namespace Webpin.Widgets.Views {
             app_name_entry.get_style_context ().remove_class ("error");
             app_url_entry.get_style_context ().remove_class ("error");
             icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
+            minimal_view_mode.active = false;
             mode = assistant_mode.new_app;
         }
 
