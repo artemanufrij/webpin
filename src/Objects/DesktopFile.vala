@@ -101,7 +101,7 @@ namespace Webpin {
             }
         }
 
-        string _view_mode = "";
+        string _view_mode = "default";
         public string view_mode {
             get {
                 try {
