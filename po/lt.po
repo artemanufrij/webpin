@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-04 15:09+0200\n"
+"POT-Creation-Date: 2018-11-04 17:19+0100\n"
 "PO-Revision-Date: 2017-12-04 15:10+0200\n"
 "Last-Translator: Moo\n"
 "Language-Team: \n"
@@ -19,134 +19,153 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/Dialogs/Preferences.vala:60
-msgid "Use Dark Theme"
-msgstr "Naudoti tamsią temą"
-
-#: ../src/Dialogs/Preferences.vala:73
-msgid "_Close"
-msgstr "_Užverti"
-
-#: ../src/MainWindow.vala:68
-msgid "Applications"
-msgstr "Programos"
-
-#: ../src/MainWindow.vala:75
-msgid "Add a new Web App"
-msgstr "Pridėti naują saityno programą"
-
-#: ../src/MainWindow.vala:87
-msgid "Preferences"
-msgstr "Nuostatos"
-
-#: ../src/MainWindow.vala:99
-msgid "No Web Apps Available"
-msgstr "Nėra prieinamų saityno programų"
-
-#: ../src/MainWindow.vala:99
-msgid "Manage your web apps."
-msgstr "Tvarkykite savo saityno programas."
-
-#: ../src/MainWindow.vala:100
-msgid "Create App"
-msgstr "Sukurti programą"
-
-#: ../src/MainWindow.vala:100
-msgid "Create a new web app with Webpin"
-msgstr "Sukurkite naują saityno programą, naudodami Webpin"
-
-#: ../src/Services/DesktopFilesManager.vala:84
-msgid "Choose an image…"
-msgstr "Pasirinkti paveikslą…"
-
-#: ../src/Services/DesktopFilesManager.vala:86
-msgid "_Cancel"
-msgstr "_Atsisakyti"
-
-#: ../src/Services/DesktopFilesManager.vala:87
-msgid "_Open"
-msgstr "_Atverti"
-
-#: ../src/Services/DesktopFilesManager.vala:90
-#: ../src/Widgets/Views/Editor.vala:237
-msgid "Images"
-msgstr "Paveikslai"
-
-#: ../src/Widgets/Browser.vala:108
-msgid "Open request in an external application…"
-msgstr "Užklausa atveriama išorinėje programoje…"
-
-#: ../src/Widgets/Views/Editor.vala:80
-msgid "Create a new web app"
-msgstr "Sukurti naują saityno programą"
-
-#: ../src/Widgets/Views/Editor.vala:88
-msgid "Application name"
-msgstr "Programos pavadinimas"
-
-#: ../src/Widgets/Views/Editor.vala:91
-msgid "https://myapp.domain"
-msgstr "https://manoprograma.sritis"
-
-#: ../src/Widgets/Views/Editor.vala:101
-msgid "theme icon name"
-msgstr "temos piktogramos pavadinimas"
-
-#: ../src/Widgets/Views/Editor.vala:103
-msgid "or"
-msgstr "arba"
-
-#: ../src/Widgets/Views/Editor.vala:104
-msgid "Set from file..."
-msgstr "Nustatyti iš failo..."
-
-#: ../src/Widgets/Views/Editor.vala:123
-msgid "Save cookies"
-msgstr "Įrašyti slapukus"
-
-#: ../src/Widgets/Views/Editor.vala:125
-msgid "Save login information"
-msgstr "Įrašyti prisijungimo informaciją"
-
-#: ../src/Widgets/Views/Editor.vala:127 ../src/Windows/WebApp.vala:67
-msgid "Run in background if closed"
-msgstr "Užvėrus, vykdyti fone"
-
-#: ../src/Widgets/Views/Editor.vala:150
-msgid "Save app"
-msgstr "Įrašyti programą"
-
-#: ../src/Widgets/Views/Editor.vala:172
-msgid "url must start with http:// or https://"
-msgstr "url privalo prasidėti http:// arba https://"
-
-#: ../src/Widgets/Views/Editor.vala:185
-msgid "App already exist"
-msgstr "Programa jau yra"
-
-#: ../src/Widgets/Views/Editor.vala:242
-msgid "Cancel"
-msgstr "Atsisakyti"
-
-#: ../src/Widgets/Views/Editor.vala:243
-msgid "Open"
-msgstr "Atverti"
-
-#: ../src/Widgets/WebItem.vala:120
+#: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
 msgstr "Ištrinti saityno programą"
 
-#: ../src/Widgets/WebItem.vala:125
+#: src/Widgets/WebItem.vala:131
 msgid "Edit Webapp Properties"
 msgstr "Taisyti saityno programos savybes"
 
-#: ../src/Windows/WebApp.vala:55
+#: src/Widgets/Views/Editor.vala:84
+msgid "Create a new web app"
+msgstr "Sukurti naują saityno programą"
+
+#: src/Widgets/Views/Editor.vala:92
+msgid "Application name"
+msgstr "Programos pavadinimas"
+
+#: src/Widgets/Views/Editor.vala:96
+#, fuzzy
+msgid "https://myapp.domain or file:///my/local/file"
+msgstr "https://manoprograma.sritis"
+
+#: src/Widgets/Views/Editor.vala:106
+msgid "theme icon name"
+msgstr "temos piktogramos pavadinimas"
+
+#: src/Widgets/Views/Editor.vala:108
+msgid "or"
+msgstr "arba"
+
+#: src/Widgets/Views/Editor.vala:109
+msgid "Set from file..."
+msgstr "Nustatyti iš failo..."
+
+#: src/Widgets/Views/Editor.vala:128
+msgid "Save cookies"
+msgstr "Įrašyti slapukus"
+
+#: src/Widgets/Views/Editor.vala:130
+msgid "Save login information"
+msgstr "Įrašyti prisijungimo informaciją"
+
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+msgid "Run in background if closed"
+msgstr "Užvėrus, vykdyti fone"
+
+#: src/Widgets/Views/Editor.vala:134
+msgid "Use minimal UI"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:159
+msgid "Save app"
+msgstr "Įrašyti programą"
+
+#: src/Widgets/Views/Editor.vala:182
+#, fuzzy
+msgid "url must start with http:// or https:// or file:///"
+msgstr "url privalo prasidėti http:// arba https://"
+
+#: src/Widgets/Views/Editor.vala:197
+msgid "App already exist"
+msgstr "Programa jau yra"
+
+#: src/Widgets/Views/Editor.vala:428 src/Services/DesktopFilesManager.vala:90
+msgid "Images"
+msgstr "Paveikslai"
+
+#: src/Widgets/Views/Editor.vala:433
+msgid "Cancel"
+msgstr "Atsisakyti"
+
+#: src/Widgets/Views/Editor.vala:434
+msgid "Open"
+msgstr "Atverti"
+
+#: src/Widgets/Browser.vala:112
+msgid "Open request in an external application…"
+msgstr "Užklausa atveriama išorinėje programoje…"
+
+#: src/Windows/WebApp.vala:97
+#, c-format
+msgid "Open %s"
+msgstr "Atverti %s"
+
+#: src/Windows/WebApp.vala:137
+msgid "Back"
+msgstr ""
+
+#: src/Windows/WebApp.vala:146
+msgid "Home"
+msgstr ""
+
+#: src/Windows/WebApp.vala:154
+msgid "Forward"
+msgstr ""
+
+#: src/Windows/WebApp.vala:163
+msgid "Reload"
+msgstr ""
+
+#: src/Windows/WebApp.vala:174
 msgid "Copy URL into clipboard"
 msgstr "Kopijuoti URL į iškarpinę"
 
-#: ../src/Windows/WebApp.vala:103
-msgid "Open %s"
-msgstr "Atverti %s"
+#: src/Services/DesktopFilesManager.vala:84
+msgid "Choose an image…"
+msgstr "Pasirinkti paveikslą…"
+
+#: src/Services/DesktopFilesManager.vala:86
+msgid "_Cancel"
+msgstr "_Atsisakyti"
+
+#: src/Services/DesktopFilesManager.vala:87
+msgid "_Open"
+msgstr "_Atverti"
+
+#: src/MainWindow.vala:62
+msgid "Applications"
+msgstr "Programos"
+
+#: src/MainWindow.vala:69
+msgid "Add a new Web App"
+msgstr "Pridėti naują saityno programą"
+
+#: src/MainWindow.vala:74
+msgid "No Web Apps Available"
+msgstr "Nėra prieinamų saityno programų"
+
+#: src/MainWindow.vala:74
+msgid "Manage your web apps."
+msgstr "Tvarkykite savo saityno programas."
+
+#: src/MainWindow.vala:75
+msgid "Create App"
+msgstr "Sukurti programą"
+
+#: src/MainWindow.vala:75
+msgid "Create a new web app with Webpin"
+msgstr "Sukurkite naują saityno programą, naudodami Webpin"
+
+#~ msgid "Use Dark Theme"
+#~ msgstr "Naudoti tamsią temą"
+
+#~ msgid "_Close"
+#~ msgstr "_Užverti"
+
+#~ msgid "Preferences"
+#~ msgstr "Nuostatos"
 
 #~ msgid "Accept"
 #~ msgstr "Priimti"
