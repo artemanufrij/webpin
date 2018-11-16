@@ -33,12 +33,16 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="1.0.3" date="2018-11-20">
+        <release version="1.0.3" date="2018-11-15">
             <description>
                 <p>New:</p>
                 <ul>
                     <li>Theme switcher</li>
                     <li>Option for minimal UI</li>
+                </ul>
+                <p>Improved:</p>
+                <ul>
+                    <li>Cache choosed icon instead to reference it</li>
                 </ul>
             </description>
         </release>
@@ -47,10 +51,6 @@
                 <p>New:</p>
                 <ul>
                     <li>Sort items inside app overview</li>
-                </ul>
-                <p>Improved:</p>
-                <ul>
-                    <li>Cache choosed icon instead to reference it</li>
                 </ul>
                 <p>Fixed:</p>
                 <ul>
