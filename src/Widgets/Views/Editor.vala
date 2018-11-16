@@ -428,7 +428,7 @@ namespace Webpin.Widgets.Views {
             filter.set_filter_name (_ ("Images"));
             filter.add_mime_type ("image/*");
 
-            file_chooser = new Gtk.FileChooserDialog ("", WebpinApp.instance.mainwindow,
+            file_chooser = new Gtk.FileChooserDialog (_("Choose icon"), WebpinApp.instance.mainwindow,
                                                       Gtk.FileChooserAction.OPEN,
                                                       _ ("Cancel"), Gtk.ResponseType.CANCEL,
                                                       _ ("Open"), Gtk.ResponseType.ACCEPT);
@@ -490,16 +490,20 @@ namespace Webpin.Widgets.Views {
 
         private void on_accept () {
             string icon = icon_name_entry.get_text ();
-            if (tmp_icon_file != "" && tmp_icon_file == icon) {
+
+            File file = File.new_for_path (icon);
+            if (file.query_exists ()) {
                 var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
                 uint8[] content;
                 try {
-                    FileUtils.get_data (tmp_icon_file, out content);
+                    FileUtils.get_data (icon, out content);
                     FileUtils.set_data (new_icon, content);
                 } catch (Error err) {
                     warning (err.message);
                 }
-                FileUtils.remove (tmp_icon_file);
+                if (tmp_icon_file != "") {
+                    FileUtils.remove (tmp_icon_file);
+                }
                 icon = new_icon;
             }
             string name = app_name_entry.get_text ();
