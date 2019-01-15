@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2017 Artem Anufrij <artem.anufrij@live.de> -->
 <component type="desktop">
-    <id>com.github.artemanufrij.webpin.desktop</id>
+    <id>com.github.artemanufrij.webpin</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
     <name>Webpin</name>
@@ -26,13 +26,64 @@
     <update_contact>artem.anufrij@live.de</update_contact>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Screenshot.png</image>
+            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/screenshots/Screenshot.png</image>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/Screenshot_new_app.png</image>
+            <image>https://raw.githubusercontent.com/artemanufrij/webpin/master/screenshots/Screenshot_new_app.png</image>
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.0.3" date="2018-11-18">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Theme switcher</li>
+                    <li>Option for minimal UI</li>
+                </ul>
+                <p>Improved:</p>
+                <ul>
+                    <li>Cache choosed icon instead to reference it</li>
+                </ul>
+            </description>
+        </release>
+        <release version="1.0.2" date="2018-11-02">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Sort items inside app overview</li>
+                </ul>
+                <p>Fixed:</p>
+                <ul>
+                    <li>Custom icon was replaced by default one</li>
+                </ul>
+            </description>
+        </release>
+        <release version="1.0.1" date="2018-10-30">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Navigation buttons</li>
+                </ul>
+            </description>
+        </release>
+        <release version="1.0.0" date="2018-10-20">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Moved to Meson</li>
+                    <li>Support for local .html files</li>
+                </ul>
+                <p>Fixed:</p>
+                <ul>
+                    <li>Restore correct window size</li>
+                    <li>Grabing page icon</li>
+                </ul>
+                <p>Translation:</p>
+                <ul>
+                    <li>Dutch (by Heimen Stoffels)</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.3.0" date="2018-07-24">
             <description>
                 Prepare for JUNO

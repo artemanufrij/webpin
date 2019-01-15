@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2017 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -44,6 +44,7 @@ namespace Webpin.Widgets.Views {
             scrolled.hscrollbar_policy = Gtk.PolicyType.NEVER;
 
             web_items = new Gtk.FlowBox();
+            web_items.set_sort_func (sort_func);
             web_items.valign = Gtk.Align.START;
             web_items.vexpand = false;
             web_items.homogeneous = true;
@@ -107,6 +108,13 @@ namespace Webpin.Widgets.Views {
                     }
                 }
             }
+        }
+
+        public int sort_func (Gtk.FlowBoxChild child1, Gtk.FlowBoxChild child2) {
+            var item1 = (WebItem)child1;
+            var item2 = (WebItem)child2;
+
+            return item1.title.collate (item2.title);
         }
     }
 }

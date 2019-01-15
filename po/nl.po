@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-01 13:12+0200\n"
+"POT-Creation-Date: 2018-11-04 17:19+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: \n"
@@ -13,90 +13,193 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.1.1\n"
 
-#: ../src/MainWindow.vala:67 ../src/MainWindow.vala:89
-msgid "Change"
-msgstr "Wijzigen"
+#: src/Widgets/WebItem.vala:126
+msgid "Delete Webapp"
+msgstr ""
 
-#: ../src/MainWindow.vala:70 ../src/MainWindow.vala:335
+#: src/Widgets/WebItem.vala:131
+msgid "Edit Webapp Properties"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:84
+msgid "Create a new web app"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:92
+msgid "Application name"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:96
+msgid "https://myapp.domain or file:///my/local/file"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:106
+msgid "theme icon name"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:108
+msgid "or"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:109
+msgid "Set from file..."
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:128
+msgid "Save cookies"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:130
+msgid "Save login information"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+msgid "Run in background if closed"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:134
+msgid "Use minimal UI"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:159
+msgid "Save app"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:182
+msgid "url must start with http:// or https:// or file:///"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:197
+msgid "App already exist"
+msgstr ""
+
+#: src/Widgets/Views/Editor.vala:428 src/Services/DesktopFilesManager.vala:90
+#, fuzzy
+msgid "Images"
+msgstr "Schijfafbeelding"
+
+#: src/Widgets/Views/Editor.vala:433
+#, fuzzy
+msgid "Cancel"
+msgstr "_Annuleren"
+
+#: src/Widgets/Views/Editor.vala:434
 msgid "Open"
 msgstr "Openen"
 
-#: ../src/MainWindow.vala:97 ../src/MainWindow.vala:256
-msgid "Device"
-msgstr "Apparaat"
+#: src/Widgets/Browser.vala:112
+msgid "Open request in an external application…"
+msgstr ""
 
-#: ../src/MainWindow.vala:124
-msgid "Calculating checksum…"
-msgstr "Bezig met berekenen van controlesom…"
+#: src/Windows/WebApp.vala:97
+#, fuzzy, c-format
+msgid "Open %s"
+msgstr "Openen"
 
-#: ../src/MainWindow.vala:144
-msgid "please wait…"
-msgstr "even geduld…"
+#: src/Windows/WebApp.vala:137
+msgid "Back"
+msgstr ""
 
-#: ../src/MainWindow.vala:156 ../src/MainWindow.vala:422
-msgid "Ready!"
-msgstr "Klaar!"
+#: src/Windows/WebApp.vala:146
+msgid "Home"
+msgstr ""
 
-#: ../src/MainWindow.vala:158
-msgid "%s was written onto %s"
-msgstr "%s is weggeschreven naar %s"
+#: src/Windows/WebApp.vala:154
+msgid "Forward"
+msgstr ""
 
-#: ../src/MainWindow.vala:185
-msgid "Image Burner"
-msgstr "Schijfafbeeldingen branden"
+#: src/Windows/WebApp.vala:163
+msgid "Reload"
+msgstr ""
 
-#: ../src/MainWindow.vala:194
-msgid "Choose an algorithm"
-msgstr "Kies een algoritme"
+#: src/Windows/WebApp.vala:174
+msgid "Copy URL into clipboard"
+msgstr ""
 
-#: ../src/MainWindow.vala:211
-msgid "Finished"
-msgstr "Afgerond"
+#: src/Services/DesktopFilesManager.vala:84
+#, fuzzy
+msgid "Choose an image…"
+msgstr "Kies een schijfafbeeldingsbestand…"
 
-#: ../src/MainWindow.vala:228
-msgid "Image"
-msgstr "Schijfafbeelding"
-
-#: ../src/MainWindow.vala:236
-msgid "Select Image"
-msgstr "Schijfafbeelding kiezen"
-
-#: ../src/MainWindow.vala:270
-msgid "Select Drive"
-msgstr "Schijf kiezen"
-
-#: ../src/MainWindow.vala:279 ../src/MainWindow.vala:412
-msgid "No removable devices found…"
-msgstr "Geen verwijderbare apparaten aangetroffen…"
-
-#: ../src/MainWindow.vala:308
-msgid "Flash"
-msgstr "Versturen"
-
-#: ../src/MainWindow.vala:318
-msgid "Write Image"
-msgstr "Schijfafbeelding wegschrijven"
-
-#: ../src/MainWindow.vala:337
+#: src/Services/DesktopFilesManager.vala:86
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: ../src/MainWindow.vala:338
+#: src/Services/DesktopFilesManager.vala:87
 msgid "_Open"
 msgstr "_Openen"
 
-#: ../src/MainWindow.vala:341
-msgid "Image files"
-msgstr "Schijfafbeeldingsbestanden"
+#: src/MainWindow.vala:62
+msgid "Applications"
+msgstr ""
 
-#: ../src/MainWindow.vala:404
-msgid "Choose an image file…"
-msgstr "Kies een schijfafbeeldingsbestand…"
+#: src/MainWindow.vala:69
+msgid "Add a new Web App"
+msgstr ""
 
-#: ../src/MainWindow.vala:418
-msgid "No image file chosen…"
-msgstr "Geen schijfafbeeldingsbestand gekozen…"
+#: src/MainWindow.vala:74
+msgid "No Web Apps Available"
+msgstr ""
 
-#: ../src/MainWindow.vala:420
-msgid "No device chosen…"
-msgstr "Geen apparaat gekozen…"
+#: src/MainWindow.vala:74
+msgid "Manage your web apps."
+msgstr ""
+
+#: src/MainWindow.vala:75
+msgid "Create App"
+msgstr ""
+
+#: src/MainWindow.vala:75
+msgid "Create a new web app with Webpin"
+msgstr ""
+
+#~ msgid "Change"
+#~ msgstr "Wijzigen"
+
+#~ msgid "Device"
+#~ msgstr "Apparaat"
+
+#~ msgid "Calculating checksum…"
+#~ msgstr "Bezig met berekenen van controlesom…"
+
+#~ msgid "please wait…"
+#~ msgstr "even geduld…"
+
+#~ msgid "Ready!"
+#~ msgstr "Klaar!"
+
+#~ msgid "%s was written onto %s"
+#~ msgstr "%s is weggeschreven naar %s"
+
+#~ msgid "Image Burner"
+#~ msgstr "Schijfafbeeldingen branden"
+
+#~ msgid "Choose an algorithm"
+#~ msgstr "Kies een algoritme"
+
+#~ msgid "Finished"
+#~ msgstr "Afgerond"
+
+#~ msgid "Select Image"
+#~ msgstr "Schijfafbeelding kiezen"
+
+#~ msgid "Select Drive"
+#~ msgstr "Schijf kiezen"
+
+#~ msgid "No removable devices found…"
+#~ msgstr "Geen verwijderbare apparaten aangetroffen…"
+
+#~ msgid "Flash"
+#~ msgstr "Versturen"
+
+#~ msgid "Write Image"
+#~ msgstr "Schijfafbeelding wegschrijven"
+
+#~ msgid "Image files"
+#~ msgstr "Schijfafbeeldingsbestanden"
+
+#~ msgid "No image file chosen…"
+#~ msgstr "Geen schijfafbeeldingsbestand gekozen…"
+
+#~ msgid "No device chosen…"
+#~ msgstr "Geen apparaat gekozen…"

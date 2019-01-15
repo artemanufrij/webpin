@@ -1,6 +1,6 @@
 <div>
     <h1 align="center">Webpin</h1>
-    <h3 align="center"><img src="data/icons/com.github.artemanufrij.webpin.svg"/><br>A simple app to pin websites on the desktop</h3>
+    <h3 align="center"><img src="data/icons/64/com.github.artemanufrij.webpin.svg"/><br>A simple app to pin websites on the desktop</h3>
     <p align="center">Designed for <a href="https://elementary.io">elementary OS</p>
 </div>
 
@@ -15,11 +15,11 @@
   </a>
 </p>
 <p align="center">
-  <img src="Screenshot.png"/>
+  <img src="screenshots/Screenshot.png"/>
   </br>
     Pin your any favourite website on Applications Menu or Plank like a regular desktop app
   </br></br>
-  <img src="Apps.png"/>
+  <img src="screenshots/Apps.png"/>
 </p>
 
 
@@ -41,15 +41,10 @@ git clone https://github.com/artemanufrij/webpin.git
 cd webpin
 ```
 
-Create **build** folder, compile and start application
+Compile, install and start Melody on your system
 ```
-mkdir build
+meson build --prefix=/usr
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-make
-```
-
-Install and start Webpin on your system
-```
-sudo make install
+sudo ninja install
 com.github.artemanufrij.webpin
+```

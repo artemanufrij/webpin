@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2017 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -108,65 +108,90 @@ namespace Webpin.Widgets {
             }
             container.pack_start (icon, true, true, 0);
 
-            web_view.create.connect (
-                (action) => {
-                    app_notification.title = _ ("Open request in an external application…");
-                    app_notification.send_notification ();
+            web_view.create.connect ((action) => {
+                app_notification.title = _ ("Open request in an external application…");
+                app_notification.send_notification ();
 
-                    external_request (action);
-                    return new WebKit.WebView ();
-                });
+                external_request (action);
+                return new WebKit.WebView ();
+            });
 
-            web_view.load_changed.connect (
-                (load_event) => {
-                    request_begin ();
-                    if (load_event == WebKit.LoadEvent.FINISHED) {
-                        visible_child_name = "app";
-                        if (app_notification.reveal_child) {
-                            app_notification.reveal_child = false;
-                        }
-                        request_finished ();
+            web_view.load_changed.connect ((load_event) => {
+                request_begin ();
+                if (load_event == WebKit.LoadEvent.FINISHED) {
+                    visible_child_name = "app";
+                    if (app_notification.reveal_child) {
+                        app_notification.reveal_child = false;
                     }
-                });
+                    request_finished ();
+                }
+            });
 
-            web_view.show_notification.connect (
-                (notification) => {
-                    desktop_notification (notification.title, notification.body, icon_for_notification);
+            web_view.show_notification.connect ((notification) => {
+                desktop_notification (notification.title, notification.body, icon_for_notification);
+                return true;
+            });
+
+            web_view.permission_request.connect ((permission) => {
+                var permission_type = permission as WebKit.NotificationPermissionRequest;
+                if (permission_type != null) {
+                    permission_type.allow ();
+                }
+                return false;
+            });
+
+            web_view.button_press_event.connect ((event) => {
+                if (event.button == 8) {
+                    web_view.go_back ();
                     return true;
-                });
+                } else if (event.button == 9) {
+                    web_view.go_forward ();
+                    return true;
+                }
+                return base.button_press_event (event);
+            });
 
-            web_view.permission_request.connect (
-                (permission) => {
-                    var permission_type = permission as WebKit.NotificationPermissionRequest;
-                    if (permission_type != null) {
-                        permission_type.allow ();
-                    }
-                    return false;
-                });
+            web_view.key_press_event.connect ((event) => {
+                if (event.keyval == Gdk.Key.Back) {
+                    web_view.go_back ();
+                    return true;
+                } else if (event.keyval == Gdk.Key.Forward) {
+                    web_view.go_forward ();
+                    return true;
+                }
+                return base.key_press_event (event);
+            });
+        }
 
-            web_view.button_press_event.connect (
-                (event) => {
-                    if (event.button == 8) {
-                        web_view.go_back ();
-                        return true;
-                    } else if (event.button == 9) {
-                        web_view.go_forward ();
-                        return true;
-                    }
-                    return base.button_press_event (event);
-                });
+        public void go_home () {
+            web_view.load_uri (desktop_file.url);
+            request_finished ();
+        }
 
-            web_view.key_press_event.connect (
-                (event) => {
-                    if (event.keyval == Gdk.Key.Back) {
-                        web_view.go_back ();
-                        return true;
-                    } else if (event.keyval == Gdk.Key.Forward) {
-                        web_view.go_forward ();
-                        return true;
-                    }
-                    return base.key_press_event (event);
-                });
+        public void go_back () {
+            web_view.go_back ();
+            request_finished ();
+        }
+
+        public void go_forward () {
+            web_view.go_forward ();
+            request_finished ();
+        }
+
+        public bool can_go_back () {
+            return web_view.can_go_back ();
+        }
+
+        public bool can_go_forward () {
+            return web_view.can_go_forward ();
+        }
+
+        public void reload () {
+            web_view.reload ();
+        }
+
+        public void reload_bypass_cache () {
+            web_view.reload_bypass_cache ();
         }
     }
 }
