@@ -64,6 +64,7 @@ namespace Webpin.Widgets {
 
             web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ()) {
                 settings = new WebKit.Settings () {
+                    enable_mediasource = true,
                     enable_webgl = true
                 }
             };
