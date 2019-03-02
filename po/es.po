@@ -1,48 +1,35 @@
-# Spanish translation for webby-browser
-# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
-# This file is distributed under the same license as the webby-browser package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
-#
+# Spanish translation for Webpin
+# Last translated 2/4/19 day/month/year
 msgid ""
 msgstr ""
-"Project-Id-Version: webby-browser\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-04 17:19+0100\n"
-"PO-Revision-Date: 2015-02-27 03:18+0000\n"
-"Last-Translator: Erasmo Marín <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-03-24 00:16+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
 
 #: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
-msgstr ""
+msgstr "Eliminar webapp"
 
 #: src/Widgets/WebItem.vala:131
 msgid "Edit Webapp Properties"
-msgstr ""
+msgstr "Editar ajustes de la Webapp"
 
 #: src/Widgets/Views/Editor.vala:84
-#, fuzzy
 msgid "Create a new web app"
-msgstr "Crear una nueva aplicación web con webby"
+msgstr "Crear nueva web app"
 
 #: src/Widgets/Views/Editor.vala:92
 msgid "Application name"
-msgstr "Nombre de la aplicación"
+msgstr "Nombre de app"
 
 #: src/Widgets/Views/Editor.vala:96
-#, fuzzy
 msgid "https://myapp.domain or file:///my/local/file"
-msgstr "https://miapp.dominio"
+msgstr "https://miapp.dominio o file:///mi/archivo/local"
 
 #: src/Widgets/Views/Editor.vala:106
 msgid "theme icon name"
-msgstr "nombre de ícono del tema"
+msgstr "Nombre de icono"
 
 #: src/Widgets/Views/Editor.vala:108
 msgid "or"
@@ -50,7 +37,7 @@ msgstr "o"
 
 #: src/Widgets/Views/Editor.vala:109
 msgid "Set from file..."
-msgstr "Establecer desde archivo..."
+msgstr "Seleccionar archivo..."
 
 #: src/Widgets/Views/Editor.vala:128
 msgid "Save cookies"
@@ -58,29 +45,27 @@ msgstr "Guardar cookies"
 
 #: src/Widgets/Views/Editor.vala:130
 msgid "Save login information"
-msgstr "Guardar información de sesión"
+msgstr "Guardar inicios de sesión"
 
 #: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
 msgid "Run in background if closed"
-msgstr ""
+msgstr "Mantener en memoria al cerrarse"
 
 #: src/Widgets/Views/Editor.vala:134
 msgid "Use minimal UI"
-msgstr ""
+msgstr "Usar interfaz sin botones"
 
 #: src/Widgets/Views/Editor.vala:159
-#, fuzzy
 msgid "Save app"
-msgstr "Crear aplicación"
+msgstr "Guardar app"
 
 #: src/Widgets/Views/Editor.vala:182
-#, fuzzy
 msgid "url must start with http:// or https:// or file:///"
-msgstr "La url debe comenzar con http:// o https://"
+msgstr "La url debe empezar con http://, https:// o file:///"
 
 #: src/Widgets/Views/Editor.vala:197
 msgid "App already exist"
-msgstr "La aplicación ya existe"
+msgstr "La app ya existe"
 
 #: src/Widgets/Views/Editor.vala:428 src/Services/DesktopFilesManager.vala:90
 msgid "Images"
@@ -96,46 +81,44 @@ msgstr "Abrir"
 
 #: src/Widgets/Browser.vala:112
 msgid "Open request in an external application…"
-msgstr ""
+msgstr "Abriendo en aplicación externa…"
 
 #: src/Windows/WebApp.vala:97
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s"
-msgstr "Abrir"
+msgstr "Abrir %s"
 
 #: src/Windows/WebApp.vala:137
 msgid "Back"
-msgstr ""
+msgstr "Anterior"
 
 #: src/Windows/WebApp.vala:146
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: src/Windows/WebApp.vala:154
 msgid "Forward"
-msgstr ""
+msgstr "Siguiente"
 
 #: src/Windows/WebApp.vala:163
 msgid "Reload"
-msgstr ""
+msgstr "Recargar"
 
 #: src/Windows/WebApp.vala:174
 msgid "Copy URL into clipboard"
-msgstr ""
+msgstr "Copiar URL en portapapeles"
 
 #: src/Services/DesktopFilesManager.vala:84
 msgid "Choose an image…"
-msgstr ""
+msgstr "Elige una imagen…"
 
 #: src/Services/DesktopFilesManager.vala:86
-#, fuzzy
 msgid "_Cancel"
-msgstr "Cancelar"
+msgstr "_Cancelar"
 
 #: src/Services/DesktopFilesManager.vala:87
-#, fuzzy
 msgid "_Open"
-msgstr "Abrir"
+msgstr "_Abrir"
 
 #: src/MainWindow.vala:62
 msgid "Applications"
@@ -143,34 +126,20 @@ msgstr "Aplicaciones"
 
 #: src/MainWindow.vala:69
 msgid "Add a new Web App"
-msgstr ""
+msgstr "Añadir nueva Web App"
 
 #: src/MainWindow.vala:74
 msgid "No Web Apps Available"
-msgstr ""
+msgstr "No hay Web Apps disponibles"
 
 #: src/MainWindow.vala:74
 msgid "Manage your web apps."
-msgstr ""
+msgstr "Gestionar tus web apps."
 
 #: src/MainWindow.vala:75
-#, fuzzy
 msgid "Create App"
-msgstr "Crear aplicación"
+msgstr "Crear App"
 
 #: src/MainWindow.vala:75
-#, fuzzy
 msgid "Create a new web app with Webpin"
-msgstr "Crear una nueva aplicación web con webby"
-
-#~ msgid "Remove Application"
-#~ msgstr "Quitar aplicación"
-
-#~ msgid "Accept"
-#~ msgstr "Aceptar"
-
-#~ msgid "App created"
-#~ msgstr "Aplicación creada"
-
-#~ msgid "The application shortcut was successfully created"
-#~ msgstr "El atajo a la aplicación fue creado exitosamente"
+msgstr "Crea una nueva web app con Webpin"
