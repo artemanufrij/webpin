@@ -1,24 +1,16 @@
-#!/usr/bin/env python3
+ #!/usr/bin/env python3
 
-import os
+from os import path, environ
 import subprocess
 
-prefix = os.environ.get('MESON_INSTALL_PREFIX', '/usr')
-datadir = os.path.join(prefix, 'share')
+prefix = environ.get('MESON_INSTALL_PREFIX', '/usr/local')
+schemadir = path.join(environ['MESON_INSTALL_PREFIX'], 'share', 'glib-2.0', 'schemas')
+datadir = path.join(prefix, 'share')
 
-# Packaging tools define DESTDIR and this isn't needed for them
-if 'DESTDIR' not in os.environ:
-
-
-    print('Compiling gsettings schemas...')
-    schema_dir = os.path.join(datadir, 'glib-2.0/schemas')
-    subprocess.call(['glib-compile-schemas', schema_dir])
-
-    print('Updating icon cache...')
-    icon_cache_dir = os.path.join(datadir, 'icons', 'hicolor')
-
-    subprocess.call(['gtk-update-icon-cache', '-qtf', icon_cache_dir])
-
-    print('Updating desktop database...')
-    desktop_database_dir = os.path.join(datadir, 'applications')
-    subprocess.call(['update-desktop-database', '-q', desktop_database_dir])
+if not environ.get('DESTDIR'):
+    print('Compiling gsettings schemas…')
+    subprocess.call(['glib-compile-schemas', schemadir])
+    print('Updating icon cache…')
+    subprocess.call(['gtk-update-icon-cache', '-qtf', path.join(datadir, 'icons', 'hicolor')])
+    print('Updating desktop database…')
+    subprocess.call(['update-desktop-database', '-q', path.join(datadir, 'applications')])
