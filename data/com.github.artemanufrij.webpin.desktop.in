@@ -2,7 +2,6 @@
 Name=Webpin
 GenericName=Webpin
 Comment=Pin your websites on your desktop
-Comment[lt]=Prisegti interneto svetaines savo darbalaukyje
 Keywords=internet;webapp;
 Exec=com.github.artemanufrij.webpin %u
 Icon=com.github.artemanufrij.webpin
