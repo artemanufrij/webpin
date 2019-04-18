@@ -60,6 +60,7 @@ namespace Webpin.Windows {
             }
 
             spinner = new Gtk.Spinner ();
+            spinner.tooltip_text = _("Loading…");
             spinner.set_size_request (16, 16);
             headerbar.pack_end (spinner);
 

@@ -103,7 +103,7 @@ namespace Webpin {
             GLib.OptionEntry [] options = new OptionEntry [4];
             options [0] = { "new", 0, 0, OptionArg.NONE, ref new_app, "Create new Webapp", null };
             options [1] = { "remove", 0, 0, OptionArg.NONE, ref remove_app, "Remove Webapp", null };
-            options [2] = { "", 0, 0, OptionArg.STRING_ARRAY, ref arg_files, null, "[URI...]" };
+            options [2] = { "", 0, 0, OptionArg.STRING_ARRAY, ref arg_files, null, "[URI…]" };
             options [3] = { null };
 
             var opt_context = new OptionContext ("actions");
