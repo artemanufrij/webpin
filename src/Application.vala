@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2019 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
