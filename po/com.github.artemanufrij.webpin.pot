@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 17:19+0100\n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgid "or"
 msgstr ""
 
 #: src/Widgets/Views/Editor.vala:109
-msgid "Set from file..."
+msgid "Set from file…"
 msgstr ""
 
 #: src/Widgets/Views/Editor.vala:128
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Save login information"
 msgstr ""
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
 msgstr ""
 
@@ -81,6 +81,10 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
+#: src/Widgets/Views/Editor.vala:431
+msgid "Choose icon"
+msgstr ""
+
 #: src/Widgets/Views/Editor.vala:433
 msgid "Cancel"
 msgstr ""
@@ -89,32 +93,36 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
 msgstr ""
 
-#: src/Windows/WebApp.vala:97
+#: src/Windows/WebApp.vala:63
+msgid "Loading…"
+msgstr ""
+
+#: src/Windows/WebApp.vala:98
 #, c-format
 msgid "Open %s"
 msgstr ""
 
-#: src/Windows/WebApp.vala:137
+#: src/Windows/WebApp.vala:140
 msgid "Back"
 msgstr ""
 
-#: src/Windows/WebApp.vala:146
+#: src/Windows/WebApp.vala:149
 msgid "Home"
 msgstr ""
 
-#: src/Windows/WebApp.vala:154
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
 msgstr ""
 
-#: src/Windows/WebApp.vala:163
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
 msgstr ""
 
-#: src/Windows/WebApp.vala:174
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
 msgstr ""
 
@@ -152,4 +160,12 @@ msgstr ""
 
 #: src/MainWindow.vala:75
 msgid "Create a new web app with Webpin"
+msgstr ""
+
+#: src/MainWindow.vala:151
+msgid "Light background"
+msgstr ""
+
+#: src/MainWindow.vala:152
+msgid "Dark background"
 msgstr ""

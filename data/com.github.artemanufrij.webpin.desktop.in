@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Webpin
+GenericName=Webpin
+Comment=Pin your websites on your desktop
+Keywords=internet;webapp;
+Exec=com.github.artemanufrij.webpin %u
+Icon=com.github.artemanufrij.webpin
+Terminal=false
+Type=Application
+Categories=Network;GNOME;GTK;
+X-GNOME-Gettext-Domain=webpin
+Actions=New;
+
+[Desktop Action New]
+Name=New Webapp
+Exec=com.github.artemanufrij.webpin --new
+Icon=document-new-symbolic

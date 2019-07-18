@@ -1,11 +1,21 @@
-# Spanish translation for Webpin
-# Last translated 2/4/19 day/month/year
+# Spanish translations for com.github.artemanufrij.webpin package.
+# Copyright (C) 2019 THE com.github.artemanufrij.webpin'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.artemanufrij.webpin package.
+# Erasmo Marín <Unknown>, 2019.
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 17:19+0100\n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
+"PO-Revision-Date: 2019-04-17 19:16+0200\n"
+"Last-Translator: Erasmo Marín <Unknown>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
@@ -36,7 +46,8 @@ msgid "or"
 msgstr "o"
 
 #: src/Widgets/Views/Editor.vala:109
-msgid "Set from file..."
+#, fuzzy
+msgid "Set from file…"
 msgstr "Seleccionar archivo..."
 
 #: src/Widgets/Views/Editor.vala:128
@@ -47,7 +58,7 @@ msgstr "Guardar cookies"
 msgid "Save login information"
 msgstr "Guardar inicios de sesión"
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
 msgstr "Mantener en memoria al cerrarse"
 
@@ -71,6 +82,10 @@ msgstr "La app ya existe"
 msgid "Images"
 msgstr "Imágenes"
 
+#: src/Widgets/Views/Editor.vala:431
+msgid "Choose icon"
+msgstr ""
+
 #: src/Widgets/Views/Editor.vala:433
 msgid "Cancel"
 msgstr "Cancelar"
@@ -79,32 +94,36 @@ msgstr "Cancelar"
 msgid "Open"
 msgstr "Abrir"
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
 msgstr "Abriendo en aplicación externa…"
 
-#: src/Windows/WebApp.vala:97
+#: src/Windows/WebApp.vala:63
+msgid "Loading…"
+msgstr ""
+
+#: src/Windows/WebApp.vala:98
 #, c-format
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: src/Windows/WebApp.vala:137
+#: src/Windows/WebApp.vala:140
 msgid "Back"
 msgstr "Anterior"
 
-#: src/Windows/WebApp.vala:146
+#: src/Windows/WebApp.vala:149
 msgid "Home"
 msgstr "Inicio"
 
-#: src/Windows/WebApp.vala:154
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
 msgstr "Siguiente"
 
-#: src/Windows/WebApp.vala:163
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
 msgstr "Recargar"
 
-#: src/Windows/WebApp.vala:174
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
 msgstr "Copiar URL en portapapeles"
 
@@ -143,3 +162,11 @@ msgstr "Crear App"
 #: src/MainWindow.vala:75
 msgid "Create a new web app with Webpin"
 msgstr "Crea una nueva web app con Webpin"
+
+#: src/MainWindow.vala:151
+msgid "Light background"
+msgstr ""
+
+#: src/MainWindow.vala:152
+msgid "Dark background"
+msgstr ""

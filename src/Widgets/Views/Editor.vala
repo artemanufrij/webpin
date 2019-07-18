@@ -106,7 +106,7 @@ namespace Webpin.Widgets.Views {
             icon_name_entry.set_placeholder_text (_ ("theme icon name"));
 
             var or_label = new Gtk.Label (_ ("or"));
-            var icon_chooser_button = new Gtk.Button.with_label (_ ("Set from file..."));
+            var icon_chooser_button = new Gtk.Button.with_label (_ ("Set from file…"));
             icon_chooser_button.get_style_context ().add_class ("suggested-action");
 
             popover_box.margin = 10;

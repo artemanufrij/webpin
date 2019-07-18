@@ -1,17 +1,21 @@
+# Dutch translations for com.github.artemanufrij.webpin package.
+# Copyright (C) 2019 THE com.github.artemanufrij.webpin'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.artemanufrij.webpin package.
+# Heimen Stoffels <vistausss@outlook.com>, 2019.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 17:19+0100\n"
-"PO-Revision-Date: \n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
+"PO-Revision-Date: 2019-04-17 19:16+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: \n"
+"Language-Team: none\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.1.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
@@ -42,8 +46,8 @@ msgid "or"
 msgstr "of"
 
 #: src/Widgets/Views/Editor.vala:109
-msgid "Set from file..."
-msgstr "Kiezen uit bestand..."
+msgid "Set from file…"
+msgstr "Kiezen uit bestand…"
 
 #: src/Widgets/Views/Editor.vala:128
 msgid "Save cookies"
@@ -53,7 +57,7 @@ msgstr "Cookies opslaan"
 msgid "Save login information"
 msgstr "Inloggegevens opslaan"
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
 msgstr "Uitvoeren op achtergrond na afsluiten"
 
@@ -77,6 +81,10 @@ msgstr "App bestaat al"
 msgid "Images"
 msgstr "Afbeeldingen"
 
+#: src/Widgets/Views/Editor.vala:431
+msgid "Choose icon"
+msgstr ""
+
 #: src/Widgets/Views/Editor.vala:433
 msgid "Cancel"
 msgstr "Annuleren"
@@ -85,32 +93,36 @@ msgstr "Annuleren"
 msgid "Open"
 msgstr "Openen"
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
 msgstr "Verzoek openen in externe applicatie…"
 
-#: src/Windows/WebApp.vala:97
+#: src/Windows/WebApp.vala:63
+msgid "Loading…"
+msgstr ""
+
+#: src/Windows/WebApp.vala:98
 #, c-format
 msgid "Open %s"
 msgstr "%s openen"
 
-#: src/Windows/WebApp.vala:137
+#: src/Windows/WebApp.vala:140
 msgid "Back"
 msgstr "Terug"
 
-#: src/Windows/WebApp.vala:146
+#: src/Windows/WebApp.vala:149
 msgid "Home"
 msgstr "Startpagina"
 
-#: src/Windows/WebApp.vala:154
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
 msgstr "Vooruit"
 
-#: src/Windows/WebApp.vala:163
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
 msgstr "Herladen"
 
-#: src/Windows/WebApp.vala:174
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
 msgstr "URL kopiëren naar klembord"
 
@@ -150,53 +162,10 @@ msgstr "App creëren"
 msgid "Create a new web app with Webpin"
 msgstr "Creëer een nieuwe webapp met Webpin"
 
-#~ msgid "Change"
-#~ msgstr "Wijzigen"
+#: src/MainWindow.vala:151
+msgid "Light background"
+msgstr ""
 
-#~ msgid "Device"
-#~ msgstr "Apparaat"
-
-#~ msgid "Calculating checksum…"
-#~ msgstr "Bezig met berekenen van controlesom…"
-
-#~ msgid "please wait…"
-#~ msgstr "even geduld…"
-
-#~ msgid "Ready!"
-#~ msgstr "Klaar!"
-
-#~ msgid "%s was written onto %s"
-#~ msgstr "%s is weggeschreven naar %s"
-
-#~ msgid "Image Burner"
-#~ msgstr "Schijfafbeeldingen branden"
-
-#~ msgid "Choose an algorithm"
-#~ msgstr "Kies een algoritme"
-
-#~ msgid "Finished"
-#~ msgstr "Afgerond"
-
-#~ msgid "Select Image"
-#~ msgstr "Schijfafbeelding kiezen"
-
-#~ msgid "Select Drive"
-#~ msgstr "Schijf kiezen"
-
-#~ msgid "No removable devices found…"
-#~ msgstr "Geen verwijderbare apparaten aangetroffen…"
-
-#~ msgid "Flash"
-#~ msgstr "Versturen"
-
-#~ msgid "Write Image"
-#~ msgstr "Schijfafbeelding wegschrijven"
-
-#~ msgid "Image files"
-#~ msgstr "Schijfafbeeldingsbestanden"
-
-#~ msgid "No image file chosen…"
-#~ msgstr "Geen schijfafbeeldingsbestand gekozen…"
-
-#~ msgid "No device chosen…"
-#~ msgstr "Geen apparaat gekozen…"
+#: src/MainWindow.vala:152
+msgid "Dark background"
+msgstr ""

@@ -1,144 +1,171 @@
+# French translations for com.github.artemanufrij.webpin package.
+# Copyright (C) 2019 THE com.github.artemanufrij.webpin'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.artemanufrij.webpin package.
+# NathanBnm, 2019.
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-04 17:19+0100\n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
+"PO-Revision-Date: 2019-04-17 19:16+0200\n"
+"Last-Translator: NathanBnm\n"
+"Language-Team: Français\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
-msgstr ""
+msgstr "Supprimer l'application Web"
 
 #: src/Widgets/WebItem.vala:131
 msgid "Edit Webapp Properties"
-msgstr ""
+msgstr "Modifier les propriétés de l'application Web"
 
 #: src/Widgets/Views/Editor.vala:84
 msgid "Create a new web app"
-msgstr ""
+msgstr "Créer une nouvelle application Web"
 
 #: src/Widgets/Views/Editor.vala:92
 msgid "Application name"
-msgstr ""
+msgstr "Nom de l'application"
 
 #: src/Widgets/Views/Editor.vala:96
 msgid "https://myapp.domain or file:///my/local/file"
-msgstr ""
+msgstr "https://monapp.domaine ou file:///mon/fichier/local"
 
 #: src/Widgets/Views/Editor.vala:106
 msgid "theme icon name"
-msgstr ""
+msgstr "Nom de l'icône"
 
 #: src/Widgets/Views/Editor.vala:108
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #: src/Widgets/Views/Editor.vala:109
-msgid "Set from file..."
-msgstr ""
+msgid "Set from file…"
+msgstr "Définir à partir d'un fichier…"
 
 #: src/Widgets/Views/Editor.vala:128
 msgid "Save cookies"
-msgstr ""
+msgstr "Enregistrer les cookies"
 
 #: src/Widgets/Views/Editor.vala:130
 msgid "Save login information"
-msgstr ""
+msgstr "Enregistrer les informations de connexion"
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:185
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
-msgstr ""
+msgstr "Exécuter en arrière-plan"
 
 #: src/Widgets/Views/Editor.vala:134
 msgid "Use minimal UI"
-msgstr ""
+msgstr "Utiliser l'interface minimale"
 
 #: src/Widgets/Views/Editor.vala:159
 msgid "Save app"
-msgstr ""
+msgstr "Enregistrer l'application"
 
 #: src/Widgets/Views/Editor.vala:182
 msgid "url must start with http:// or https:// or file:///"
-msgstr ""
+msgstr "L'URL doit commencer par http:// ou https:// ou file:///"
 
 #: src/Widgets/Views/Editor.vala:197
 msgid "App already exist"
-msgstr ""
+msgstr "Cette application existe déjà"
 
 #: src/Widgets/Views/Editor.vala:428 src/Services/DesktopFilesManager.vala:90
 msgid "Images"
-msgstr ""
+msgstr "Images"
+
+#: src/Widgets/Views/Editor.vala:431
+msgid "Choose icon"
+msgstr "Choisir l'icône"
 
 #: src/Widgets/Views/Editor.vala:433
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: src/Widgets/Views/Editor.vala:434
 msgid "Open"
-msgstr ""
+msgstr "Ouvrir"
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
-msgstr ""
+msgstr "Ouvrir la requête dans une application externe…"
 
-#: src/Windows/WebApp.vala:97
+#: src/Windows/WebApp.vala:63
+msgid "Loading…"
+msgstr "Chargement…"
+
+#: src/Windows/WebApp.vala:98
 #, c-format
 msgid "Open %s"
-msgstr ""
+msgstr "Ouvrir %s"
 
-#: src/Windows/WebApp.vala:137
+#: src/Windows/WebApp.vala:140
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
-#: src/Windows/WebApp.vala:146
+#: src/Windows/WebApp.vala:149
 msgid "Home"
-msgstr ""
+msgstr "Accueil"
 
-#: src/Windows/WebApp.vala:154
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
-msgstr ""
+msgstr "Suivant"
 
-#: src/Windows/WebApp.vala:163
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
-msgstr ""
+msgstr "Recharger"
 
-#: src/Windows/WebApp.vala:174
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
-msgstr ""
+msgstr "Copier l'URL dans le presse-papiers"
 
 #: src/Services/DesktopFilesManager.vala:84
 msgid "Choose an image…"
-msgstr ""
+msgstr "Choisir une image…"
 
 #: src/Services/DesktopFilesManager.vala:86
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuler"
 
 #: src/Services/DesktopFilesManager.vala:87
 msgid "_Open"
-msgstr ""
+msgstr "_Ouvrir"
 
 #: src/MainWindow.vala:62
 msgid "Applications"
-msgstr ""
+msgstr "Applications"
 
 #: src/MainWindow.vala:69
 msgid "Add a new Web App"
-msgstr ""
+msgstr "Ajouter une nouvelle application Web"
 
 #: src/MainWindow.vala:74
 msgid "No Web Apps Available"
-msgstr ""
+msgstr "Pas d'applications Web disponibles"
 
 #: src/MainWindow.vala:74
 msgid "Manage your web apps."
-msgstr ""
+msgstr "Gérez vos applications Web."
 
 #: src/MainWindow.vala:75
 msgid "Create App"
-msgstr ""
+msgstr "Créer une application"
 
 #: src/MainWindow.vala:75
 msgid "Create a new web app with Webpin"
-msgstr ""
+msgstr "Créez une nouvelle aplication Web avec Webpin"
+
+#: src/MainWindow.vala:151
+msgid "Light background"
+msgstr "Thème clair"
+
+#: src/MainWindow.vala:152
+msgid "Dark background"
+msgstr "Thème sombre"
