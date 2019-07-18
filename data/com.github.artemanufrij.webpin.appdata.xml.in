@@ -33,6 +33,20 @@
         </screenshot>
     </screenshots>
     <releases>
+        <release version="1.0.4" date="2019-07-15">
+            <description>
+                <p>New:</p>
+                <ul>
+                    <li>Enable Media Source Extensions (by Cassidy James Blaede)</li>
+                </ul>
+                <p>Translation:</p>
+                <ul>
+                    <li>Dutch (by Heimen Stoffels)</li>
+                    <li>Spanish (by Manueljlin)</li>
+                    <li>Lithuanian (by welaq)</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.0.3" date="2018-11-18">
             <description>
                 <p>New:</p>

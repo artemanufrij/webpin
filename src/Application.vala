@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2015 Erasmo Marín <erasmo.marin@gmail.com>
- * Copyright (c) 2017-2018 Artem Anufrij <artem.anufrij@live.de>
+ * Copyright (c) 2017-2019 Artem Anufrij <artem.anufrij@live.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -46,6 +46,17 @@ namespace Webpin {
         construct {
             this.flags |= GLib.ApplicationFlags.HANDLES_OPEN;
             this.flags |= ApplicationFlags.HANDLES_COMMAND_LINE;
+
+            var action_quit = new SimpleAction ("quit", null);
+            add_action (action_quit);
+            string[] accel_quit = {"<Control>q", "0"};
+            set_accels_for_action ("app.quit", accel_quit);
+            action_quit.activate.connect (
+                () => {
+                    if (mainwindow != null) {
+                        mainwindow.destroy ();
+                    }
+                });
 
             create_cache_folders ();
         }

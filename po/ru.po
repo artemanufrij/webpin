@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-18 11:33+0200\n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
 "PO-Revision-Date: 2019-04-17 19:16+0200\n"
 "Last-Translator: Andrey Kultyapov <camellan@yandex.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -58,7 +58,7 @@ msgstr "Сохранить cookies"
 msgid "Save login information"
 msgstr "Сохранить данные авторизации"
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:186
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
 msgstr "Работать в фоновом режиме после закрытия"
 
@@ -94,7 +94,7 @@ msgstr "Отменить"
 msgid "Open"
 msgstr "Открыть"
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
 msgstr "Открыть запрос во внешнем приложении…"
 
@@ -107,23 +107,23 @@ msgstr ""
 msgid "Open %s"
 msgstr "Открыть %s"
 
-#: src/Windows/WebApp.vala:138
+#: src/Windows/WebApp.vala:140
 msgid "Back"
 msgstr ""
 
-#: src/Windows/WebApp.vala:147
+#: src/Windows/WebApp.vala:149
 msgid "Home"
 msgstr ""
 
-#: src/Windows/WebApp.vala:155
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
 msgstr ""
 
-#: src/Windows/WebApp.vala:164
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
 msgstr ""
 
-#: src/Windows/WebApp.vala:175
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
 msgstr "Копировать ссылку в буфер обмена"
 

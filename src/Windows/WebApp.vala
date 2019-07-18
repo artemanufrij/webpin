@@ -105,8 +105,10 @@ namespace Webpin.Windows {
 
             browser.request_finished.connect (() => {
                 spinner.active = false;
-                button_back.sensitive = browser.can_go_back ();
-                button_forward.sensitive = browser.can_go_forward ();
+                if (button_back != null) {
+                    button_back.sensitive = browser.can_go_back ();
+                    button_forward.sensitive = browser.can_go_forward ();
+                }
             });
 
             browser.found_website_color.connect ((color) => {

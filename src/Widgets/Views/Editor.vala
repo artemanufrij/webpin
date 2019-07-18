@@ -159,7 +159,7 @@ namespace Webpin.Widgets.Views {
             accept_button = new Gtk.Button.with_label (_ ("Save app"));
             accept_button.halign = Gtk.Align.END;
             accept_button.get_style_context ().add_class ("suggested-action");
-            accept_button.set_sensitive (false);
+            accept_button.sensitive = false;
             accept_button.activate.connect (on_accept);
             accept_button.clicked.connect (on_accept);
 
@@ -469,17 +469,17 @@ namespace Webpin.Widgets.Views {
 
         private void validate () {
             if (app_icon_valid && app_name_valid && app_url_valid) {
-                accept_button.set_sensitive (true);
+                accept_button.sensitive = true;
                 return;
             }
-            accept_button.set_sensitive (false);
+            accept_button.sensitive = false;
         }
 
         public void reset_fields () {
             tmp_icon_file = "";
             icon_name_entry.set_text ("");
             app_name_entry.set_text ("");
-            app_name_entry.set_sensitive (true);
+            app_name_entry.sensitive = true;
             app_url_entry.set_text ("");
             app_name_entry.get_style_context ().remove_class ("error");
             app_url_entry.get_style_context ().remove_class ("error");

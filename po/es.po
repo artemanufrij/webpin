@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.artemanufrij.webpin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-18 11:33+0200\n"
+"POT-Creation-Date: 2019-07-18 14:33+0200\n"
 "PO-Revision-Date: 2019-04-17 19:16+0200\n"
 "Last-Translator: Erasmo Marín <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,35 +19,36 @@ msgstr ""
 
 #: src/Widgets/WebItem.vala:126
 msgid "Delete Webapp"
-msgstr ""
+msgstr "Eliminar webapp"
 
 #: src/Widgets/WebItem.vala:131
 msgid "Edit Webapp Properties"
-msgstr ""
+msgstr "Editar ajustes de la Webapp"
 
 #: src/Widgets/Views/Editor.vala:84
 msgid "Create a new web app"
-msgstr ""
+msgstr "Crear nueva web app"
 
 #: src/Widgets/Views/Editor.vala:92
 msgid "Application name"
-msgstr "Nombre de la aplicación"
+msgstr "Nombre de app"
 
 #: src/Widgets/Views/Editor.vala:96
 msgid "https://myapp.domain or file:///my/local/file"
-msgstr "https://miapp.dominio o file:///my/local/file"
+msgstr "https://miapp.dominio o file:///mi/archivo/local"
 
 #: src/Widgets/Views/Editor.vala:106
 msgid "theme icon name"
-msgstr "nombre de ícono del tema"
+msgstr "Nombre de icono"
 
 #: src/Widgets/Views/Editor.vala:108
 msgid "or"
 msgstr "o"
 
 #: src/Widgets/Views/Editor.vala:109
+#, fuzzy
 msgid "Set from file…"
-msgstr "Establecer desde archivo…"
+msgstr "Seleccionar archivo..."
 
 #: src/Widgets/Views/Editor.vala:128
 msgid "Save cookies"
@@ -55,27 +56,27 @@ msgstr "Guardar cookies"
 
 #: src/Widgets/Views/Editor.vala:130
 msgid "Save login information"
-msgstr "Guardar información de sesión"
+msgstr "Guardar inicios de sesión"
 
-#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:186
+#: src/Widgets/Views/Editor.vala:132 src/Windows/WebApp.vala:188
 msgid "Run in background if closed"
-msgstr ""
+msgstr "Mantener en memoria al cerrarse"
 
 #: src/Widgets/Views/Editor.vala:134
 msgid "Use minimal UI"
-msgstr ""
+msgstr "Usar interfaz sin botones"
 
 #: src/Widgets/Views/Editor.vala:159
 msgid "Save app"
-msgstr ""
+msgstr "Guardar app"
 
 #: src/Widgets/Views/Editor.vala:182
 msgid "url must start with http:// or https:// or file:///"
-msgstr "La url debe comenzar con http:// o https:// o file:///"
+msgstr "La url debe empezar con http://, https:// o file:///"
 
 #: src/Widgets/Views/Editor.vala:197
 msgid "App already exist"
-msgstr "La aplicación ya existe"
+msgstr "La app ya existe"
 
 #: src/Widgets/Views/Editor.vala:428 src/Services/DesktopFilesManager.vala:90
 msgid "Images"
@@ -93,9 +94,9 @@ msgstr "Cancelar"
 msgid "Open"
 msgstr "Abrir"
 
-#: src/Widgets/Browser.vala:112
+#: src/Widgets/Browser.vala:113
 msgid "Open request in an external application…"
-msgstr ""
+msgstr "Abriendo en aplicación externa…"
 
 #: src/Windows/WebApp.vala:63
 msgid "Loading…"
@@ -106,29 +107,29 @@ msgstr ""
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: src/Windows/WebApp.vala:138
+#: src/Windows/WebApp.vala:140
 msgid "Back"
-msgstr ""
+msgstr "Anterior"
 
-#: src/Windows/WebApp.vala:147
+#: src/Windows/WebApp.vala:149
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
-#: src/Windows/WebApp.vala:155
+#: src/Windows/WebApp.vala:157
 msgid "Forward"
-msgstr ""
+msgstr "Siguiente"
 
-#: src/Windows/WebApp.vala:164
+#: src/Windows/WebApp.vala:166
 msgid "Reload"
-msgstr ""
+msgstr "Recargar"
 
-#: src/Windows/WebApp.vala:175
+#: src/Windows/WebApp.vala:177
 msgid "Copy URL into clipboard"
-msgstr ""
+msgstr "Copiar URL en portapapeles"
 
 #: src/Services/DesktopFilesManager.vala:84
 msgid "Choose an image…"
-msgstr ""
+msgstr "Elige una imagen…"
 
 #: src/Services/DesktopFilesManager.vala:86
 msgid "_Cancel"
@@ -144,23 +145,23 @@ msgstr "Aplicaciones"
 
 #: src/MainWindow.vala:69
 msgid "Add a new Web App"
-msgstr ""
+msgstr "Añadir nueva Web App"
 
 #: src/MainWindow.vala:74
 msgid "No Web Apps Available"
-msgstr ""
+msgstr "No hay Web Apps disponibles"
 
 #: src/MainWindow.vala:74
 msgid "Manage your web apps."
-msgstr ""
+msgstr "Gestionar tus web apps."
 
 #: src/MainWindow.vala:75
 msgid "Create App"
-msgstr ""
+msgstr "Crear App"
 
 #: src/MainWindow.vala:75
 msgid "Create a new web app with Webpin"
-msgstr ""
+msgstr "Crea una nueva web app con Webpin"
 
 #: src/MainWindow.vala:151
 msgid "Light background"
