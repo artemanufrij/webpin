@@ -81,7 +81,7 @@ namespace Webpin.Widgets.Views {
             }
 
             //welcome message
-            message = new Gtk.Label (_ ("Create a new web app"));
+            message = new Gtk.Label (""); // set in {@link reset_fields} or {@link edit_desktop_file}
             message.get_style_context ().add_class ("h2");
             //app information
             icon_button = new Gtk.Button ();
@@ -486,6 +486,7 @@ namespace Webpin.Widgets.Views {
             icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
             minimal_view_mode.active = false;
             mode = assistant_mode.new_app;
+            message.set_text (_ ("Create a new web app"));
         }
 
         private void on_accept () {
@@ -533,6 +534,7 @@ namespace Webpin.Widgets.Views {
                 reset_fields ();
             } else {
                 mode = assistant_mode.edit_app;
+                message.set_text (_ ("Edit web app"));
                 app_name_entry.text = desktop_file.name;
                 app_name_entry.set_sensitive (false);
                 app_url_entry.text = desktop_file.url.replace ("%%", "%");
