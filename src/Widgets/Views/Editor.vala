@@ -312,6 +312,7 @@ namespace Webpin.Widgets.Views {
                                     }
                                 }
 
+                                stdout.printf ("Downloaded icon: '%s'", tmp_icon_file);
                                 if (tmp_icon_file != "") {
                                     Idle.add (
                                         () => {
@@ -399,7 +400,7 @@ namespace Webpin.Widgets.Views {
             }
 
             //if is a file uri
-            if (icon.contains ("/")) {
+            if (icon.has_prefix ("/")) {
                 Gdk.Pixbuf pix = null;
                 try {
                     pix = new Gdk.Pixbuf.from_file_at_size (icon, 48, 48);
@@ -461,6 +462,7 @@ namespace Webpin.Widgets.Views {
                 });
 
             if (file_chooser.run () == Gtk.ResponseType.ACCEPT) {
+                stdout.printf ("Icon file chosen: '%s'\n", file_chooser.get_filename ());
                 icon_name_entry.set_text (file_chooser.get_filename ());
                 file_chooser.destroy ();
             }
@@ -492,29 +494,32 @@ namespace Webpin.Widgets.Views {
         private void on_accept () {
             string icon = icon_name_entry.get_text ();
 
-            File file = File.new_for_path (icon);
-            if (file.query_exists ()) {
-                var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
-                uint8[] content;
-                try {
-                    FileUtils.get_data (icon, out content);
-                    FileUtils.set_data (new_icon, content);
-                } catch (Error err) {
-                    warning (err.message);
+            if (icon.has_prefix("/")) {
+                File file = File.new_for_path (icon);
+                if (file.query_exists ()) {
+                    var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
+                    stdout.printf ("Copying temp icon '%s' to '%s'\n", icon, new_icon);
+                    uint8[] content;
+                    try {
+                        FileUtils.get_data (icon, out content);
+                        FileUtils.set_data (new_icon, content);
+                    } catch (Error err) {
+                        warning (err.message);
+                    }
+                    if (tmp_icon_file != "") {
+                        FileUtils.remove (tmp_icon_file);
+                    }
+                    icon = new_icon;
                 }
-                if (tmp_icon_file != "") {
-                    FileUtils.remove (tmp_icon_file);
-                }
-                icon = new_icon;
-            }
-            string name = app_name_entry.get_text ();
-            string url = app_url_entry.get_text ().replace ("%", "%%");
-
-            if (icon == "") {
+            } else if (icon == "") {
                 icon = default_app_icon;
             }
 
+            string name = app_name_entry.get_text ();
+            string url = app_url_entry.get_text ().replace ("%", "%%");
+
             if (app_icon_valid && app_name_valid && app_url_valid) {
+                stdout.printf ("Saving '%s' with icon='%s'\n", name, icon);
                 var desktop_file = new DesktopFile (name, url, icon, stay_open_when_closed.active, minimal_view_mode.active);
                 switch (mode) {
                     case assistant_mode.new_app :

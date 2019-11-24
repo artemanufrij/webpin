@@ -94,7 +94,7 @@ namespace Webpin.Widgets {
         }
 
         private void set_icon (string icon) {
-            if (File.new_for_path (icon).query_exists ()) {
+            if (icon.has_prefix("/") && File.new_for_path (icon).query_exists ()) {
                 Gdk.Pixbuf pix = null;
                 try {
                     pix = new Gdk.Pixbuf.from_file (icon);
