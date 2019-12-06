@@ -186,7 +186,7 @@ namespace Webpin.Widgets.Views {
                     app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
                     app_url_valid = true;
                 }
-                updateFormStatus ();
+                update_form_status ();
             });
 
             app_name_entry.changed.connect (() => {
