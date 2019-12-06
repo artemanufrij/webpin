@@ -494,7 +494,7 @@ namespace Webpin.Widgets.Views {
             app_icon_valid = true;
             set_class(app_name_entry, "error", false); // we don't want to display as error right away (only after change)
             set_class(app_url_entry, "error", false);
-            set_class(icon_button, "destructive-action", false);
+            set_class (icon_button, "destructive-action", false);
         }
 
         private void on_accept () {
