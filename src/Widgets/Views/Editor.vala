@@ -470,7 +470,7 @@ namespace Webpin.Widgets.Views {
             file_chooser.destroy ();
         }
 
-        private void updateFormStatus () {
+        private void update_form_status () {
             set_class(app_name_entry, "error", !app_name_valid);
             set_class(app_url_entry, "error", !app_url_valid);
             set_class(icon_button, "destructive-action", !app_icon_valid);
