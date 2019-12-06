@@ -473,7 +473,7 @@ namespace Webpin.Widgets.Views {
         private void update_form_status () {
             set_class(app_name_entry, "error", !app_name_valid);
             set_class (app_url_entry, "error", !app_url_valid);
-            set_class(icon_button, "destructive-action", !app_icon_valid);
+            set_class (icon_button, "destructive-action", !app_icon_valid);
 
             accept_button.sensitive = app_icon_valid && app_name_valid && app_url_valid;
         }
