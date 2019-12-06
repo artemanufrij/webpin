@@ -394,7 +394,7 @@ namespace Webpin.Widgets.Views {
             if (icon == "") {
                 icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
                 app_icon_valid = true;
-                updateFormStatus ();
+                update_form_status ();
                 return;
             }
 
