@@ -199,7 +199,7 @@ namespace Webpin.Widgets.Views {
                     app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
                     app_name_valid = true;
                 }
-                updateFormStatus ();
+                update_form_status ();
             });
 
             icon_chooser_button.activate.connect (on_icon_chooser_activate);
