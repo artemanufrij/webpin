@@ -422,7 +422,7 @@ namespace Webpin.Widgets.Views {
                 // TODO: check if the icon name is a valid one - otherwise app_icon_valid = false
             }
 
-            updateFormStatus ();
+            update_form_status  ();
         }
 
         private void on_icon_chooser_activate () {
