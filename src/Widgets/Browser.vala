@@ -64,6 +64,7 @@ namespace Webpin.Widgets {
 
             web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ()) {
                 settings = new WebKit.Settings () {
+                    enable_back_forward_navigation_gestures = true,
                     enable_mediasource = true,
                     enable_webgl = true
                 }
