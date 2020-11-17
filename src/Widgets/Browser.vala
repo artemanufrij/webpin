@@ -58,10 +58,6 @@ namespace Webpin.Widgets {
                 }
             }
 
-            cookie_manager = WebKit.WebContext.get_default ().get_cookie_manager ();
-            cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
-            cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
-
             web_view = new WebKit.WebView.with_context (WebKit.WebContext.get_default ()) {
                 settings = new WebKit.Settings () {
                     enable_back_forward_navigation_gestures = true,
@@ -69,6 +65,11 @@ namespace Webpin.Widgets {
                     enable_webgl = true
                 }
             };
+
+            cookie_manager = web_view.web_context.get_cookie_manager ();
+            cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
+            cookie_manager.set_persistent_storage (cookie_db + "cookies.db", WebKit.CookiePersistentStorage.SQLITE);
+
             web_view.load_uri (desktop_file.url);
 
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
