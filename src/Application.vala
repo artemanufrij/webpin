@@ -49,7 +49,7 @@ namespace Webpin {
 
             var action_quit = new SimpleAction ("quit", null);
             add_action (action_quit);
-            string[] accel_quit = {"<Control>q", "0"};
+            string[] accel_quit = {"<Control>q"};
             set_accels_for_action ("app.quit", accel_quit);
             action_quit.activate.connect (
                 () => {
