@@ -232,17 +232,17 @@ namespace Webpin.Widgets.Views {
 
                             if (msg.status_code == 200) {
                                 var body = (string)msg.response_body.data;
-
                                 Regex regex = null;
                                 try {
-                                    regex = new Regex ("(?<=<meta name=\"theme-color\" content=\")#[0-9a-fA-F]{6}");
+                                    regex = new Regex ("(?<=theme-color).*((?<=content=)\"?(#[0-9a-fA-F]*))");
                                 } catch (Error err) {
                                     warning (err.message);
                                 }
 
                                 MatchInfo match_info = null;
                                 if (regex != null && regex.match (body, 0, out match_info)) {
-                                    var result = match_info.fetch (0);
+                                    var result = match_info.fetch (match_info.get_match_count () - 1);
+                                    stdout.printf("color: %s\n", result);
                                     Gdk.RGBA return_value = {0, 0, 0, 1};
                                     if (return_value.parse (result)) {
                                         Idle.add (
@@ -252,12 +252,12 @@ namespace Webpin.Widgets.Views {
                                             });
                                     }
                                 }
-
+                                var icon_path = "";
                                 if (tmp_icon_file == "") {
                                     try {
                                         regex = new Regex ("(?<=\"fluid-icon\" href=\")[/\\w\\.:\\-]*");
                                         if (regex.match (body, 0, out match_info)) {
-                                            var icon_path = format_icon_path (url, match_info.fetch (0));
+                                            icon_path = format_icon_path (url, match_info.fetch (0));
                                             download_icon (icon_path);
                                         }
                                     } catch (Error err) {
@@ -267,9 +267,9 @@ namespace Webpin.Widgets.Views {
 
                                 if (tmp_icon_file == "") {
                                     try {
-                                        regex = new Regex ("(rel=\"icon\").*href=\"([\\-/\\w]*64.png)");
+                                        regex = new Regex ("(?<=rel=icon)[\\w\\+\\/=\\s]*(?<=href=)([\\w\\+\\/=\\.)]*64\\.(svg|png))");
                                         if (regex.match (body, 0, out match_info)) {
-                                            var icon_path = format_icon_path (url,  match_info.fetch (match_info.get_match_count () - 1));
+                                            icon_path = format_icon_path (url,  match_info.fetch (match_info.get_match_count () - 2));
                                             download_icon (icon_path);
                                         }
                                     } catch (Error err) {
@@ -279,9 +279,9 @@ namespace Webpin.Widgets.Views {
 
                                 if (tmp_icon_file == "") {
                                     try {
-                                        regex = new Regex ("(rel=\"icon\").*href=\"([\\-/\\w]*96.png)");
+                                        regex = new Regex ("(?<=rel=icon)[\\w\\+\\/=\\s]*(?<=href=)([\\w\\+\\/=\\.)]*96\\.(svg|png))");
                                         if (regex.match (body, 0, out match_info)) {
-                                            var icon_path = format_icon_path (url,  match_info.fetch (match_info.get_match_count () - 1));
+                                            icon_path = format_icon_path (url,  match_info.fetch (match_info.get_match_count () - 1));
                                             download_icon (icon_path);
                                         }
                                     } catch (Error err) {
@@ -293,7 +293,7 @@ namespace Webpin.Widgets.Views {
                                     try {
                                         regex = new Regex ("(\"apple-touch-icon\").*href=\"([\\-/\\w]*.png)");
                                         if (regex.match (body, 0, out match_info)) {
-                                            var icon_path = format_icon_path (url, match_info.fetch (match_info.get_match_count () - 1));
+                                            icon_path = format_icon_path (url, match_info.fetch (match_info.get_match_count () - 1));
                                             download_icon (icon_path);
                                         }
                                     } catch (Error err) {
@@ -305,14 +305,14 @@ namespace Webpin.Widgets.Views {
                                     try {
                                         regex = new Regex ("(?<=\"mask-icon\" href=\")[/\\w\\.:\\-]*");
                                         if (regex.match (body, 0, out match_info)) {
-                                            var icon_path = format_icon_path (url, match_info.fetch (0));
+                                            icon_path = format_icon_path (url, match_info.fetch (0));
                                             download_icon (icon_path);
                                         }
                                     } catch (Error err) {
                                         warning (err.message);
                                     }
                                 }
-
+                                
                                 if (tmp_icon_file != "") {
                                     Idle.add (
                                         () => {
@@ -363,6 +363,9 @@ namespace Webpin.Widgets.Views {
 
                 tmp_icon_file = GLib.Path.build_filename (Environment.get_tmp_dir (), Random.next_int ().to_string () + tmp_icon_ext);
 
+                stdout.printf("source: %s\n", url);
+                stdout.printf("destination: %s\n", tmp_icon_file);
+
                 var s_file = File.new_for_uri (url);
                 var d_file = File.new_for_path (tmp_icon_file);
 
@@ -370,7 +373,7 @@ namespace Webpin.Widgets.Views {
                 try {
                     copy_done = s_file.copy (d_file, FileCopyFlags.OVERWRITE);
                 } catch (Error err) {
-                        warning (err.message);
+                    stdout.printf ("%s\n", err.message);
                 }
                 if (copy_done && tmp_icon_ext != ".svg") {
                     try {
