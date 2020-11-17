@@ -121,6 +121,7 @@ namespace Webpin.Widgets.Views {
             primary_color_button = new Gtk.ColorButton.with_rgba (default_color);
             primary_color_button.use_alpha = false;
             primary_color_button.color_activated.connect ((color) => {
+                validate ();
                 stdout.printf ("COLOR %s\n", color.to_string ());
             });
 

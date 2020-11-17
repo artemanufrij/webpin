@@ -73,7 +73,7 @@ namespace Webpin.Widgets {
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
             if (desktop_file.color != null) {
-                var css_provider = Gtk.CssProvider.get_default ();
+                var css_provider = new Gtk.CssProvider();
                 try {
                     css_provider.load_from_data (""" .box { background: """ + desktop_file.color.to_string () + """; } """);
                 } catch (Error err) {
