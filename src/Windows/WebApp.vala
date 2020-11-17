@@ -112,7 +112,7 @@ namespace Webpin.Windows {
             });
 
             browser.found_website_color.connect ((color) => {
-                stdout.printf ("%s\n", color.to_string ());
+                stdout.printf ("found website color: %s\n", color.to_string ());
                 int gray_val = (int)(desktop_file.color.red * 255);
                 if (desktop_file.color == null || ((gray_val == 222 || gray_val == 255) && desktop_file.color.red == desktop_file.color.green && desktop_file.color.red == desktop_file.color.blue)) {
                     set_color (color);

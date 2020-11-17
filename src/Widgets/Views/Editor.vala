@@ -81,7 +81,7 @@ namespace Webpin.Widgets.Views {
             }
 
             //welcome message
-            message = new Gtk.Label (_ ("Create a new web app"));
+            message = new Gtk.Label (""); // set in {@link reset_fields} or {@link edit_desktop_file}
             message.get_style_context ().add_class ("h2");
             //app information
             icon_button = new Gtk.Button ();
@@ -178,31 +178,29 @@ namespace Webpin.Widgets.Views {
             app_url_entry.changed.connect (() => {
                 if (!this.protocol_regex.match (app_url_entry.get_text ())) {
                     reset_grab_color_and_icon ();
-                    app_url_entry.get_style_context ().add_class ("error");
-                    app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                    app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-error");
                     app_url_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("url must start with http:// or https:// or file:///"));
                     app_url_valid = false;
+                    // widget error class is set in {@link updateFormStatus}
                 } else {
                     grab_color_and_icon ();
                     app_url_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
-                    app_url_entry.get_style_context ().remove_class ("error");
                     app_url_valid = true;
                 }
-                validate ();
+                update_form_status ();
             });
 
             app_name_entry.changed.connect (() => {
                 if (mode == assistant_mode.new_app && Services.DesktopFilesManager.get_applications ().has_key (app_name_entry.get_text ())) {
-                    app_name_entry.get_style_context ().add_class ("error");
-                    app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-information");
+                    app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "dialog-error");
                     app_name_entry.set_icon_tooltip_text (Gtk.EntryIconPosition.SECONDARY, _ ("App already exist"));
                     app_name_valid = false;
+                    // widget error class is set in {@link updateFormStatus}
                 } else {
                     app_name_entry.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, null);
-                    app_name_entry.get_style_context ().remove_class ("error");
                     app_name_valid = true;
                 }
-                validate ();
+                update_form_status ();
             });
 
             icon_chooser_button.activate.connect (on_icon_chooser_activate);
@@ -313,6 +311,7 @@ namespace Webpin.Widgets.Views {
                                     }
                                 }
 
+                                stdout.printf ("Downloaded icon: '%s'", tmp_icon_file);
                                 if (tmp_icon_file != "") {
                                     Idle.add (
                                         () => {
@@ -394,13 +393,14 @@ namespace Webpin.Widgets.Views {
             string icon = icon_name_entry.get_text ();
 
             if (icon == "") {
+                icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
                 app_icon_valid = true;
-                validate ();
+                update_form_status ();
                 return;
             }
 
             //if is a file uri
-            if (icon.contains ("/")) {
+            if (icon.has_prefix ("/")) {
                 Gdk.Pixbuf pix = null;
                 try {
                     pix = new Gdk.Pixbuf.from_file_at_size (icon, 48, 48);
@@ -418,10 +418,12 @@ namespace Webpin.Widgets.Views {
                     icon_button.set_image (new Gtk.Image.from_pixbuf (pix));
                 }
             } else {
-                icon_button.set_image (new Gtk.Image.from_icon_name (icon, Gtk.IconSize.DIALOG));
+                var img = new Gtk.Image.from_icon_name (icon, Gtk.IconSize.DIALOG);
+                icon_button.set_image (img);
+                // TODO: check if the icon name is a valid one - otherwise app_icon_valid = false
             }
 
-            validate ();
+            update_form_status  ();
         }
 
         private void on_icon_chooser_activate () {
@@ -462,59 +464,69 @@ namespace Webpin.Widgets.Views {
                 });
 
             if (file_chooser.run () == Gtk.ResponseType.ACCEPT) {
+                stdout.printf ("Icon file chosen: '%s'\n", file_chooser.get_filename ());
                 icon_name_entry.set_text (file_chooser.get_filename ());
                 file_chooser.destroy ();
             }
             file_chooser.destroy ();
         }
 
-        private void validate () {
-            if (app_icon_valid && app_name_valid && app_url_valid) {
-                accept_button.sensitive = true;
-                return;
-            }
-            accept_button.sensitive = false;
+        private void update_form_status () {
+            set_class(app_name_entry, "error", !app_name_valid);
+            set_class (app_url_entry, "error", !app_url_valid);
+            set_class (icon_button, "destructive-action", !app_icon_valid);
+
+            accept_button.sensitive = app_icon_valid && app_name_valid && app_url_valid;
         }
 
         public void reset_fields () {
             tmp_icon_file = "";
             icon_name_entry.set_text ("");
-            app_name_entry.set_text ("");
             app_name_entry.sensitive = true;
+            app_name_entry.set_text ("");
             app_url_entry.set_text ("");
-            app_name_entry.get_style_context ().remove_class ("error");
-            app_url_entry.get_style_context ().remove_class ("error");
             icon_button.set_image (new Gtk.Image.from_icon_name (default_app_icon, Gtk.IconSize.DIALOG));
             minimal_view_mode.active = false;
             mode = assistant_mode.new_app;
+            message.set_text (_ ("Create a new web app"));
+
+            app_name_valid = false;
+            app_url_valid = false;
+            app_icon_valid = true;
+            set_class(app_name_entry, "error", false); // we don't want to display as error right away (only after change)
+            set_class(app_url_entry, "error", false);
+            set_class (icon_button, "destructive-action", false);
         }
 
         private void on_accept () {
             string icon = icon_name_entry.get_text ();
 
-            File file = File.new_for_path (icon);
-            if (file.query_exists ()) {
-                var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
-                uint8[] content;
-                try {
-                    FileUtils.get_data (icon, out content);
-                    FileUtils.set_data (new_icon, content);
-                } catch (Error err) {
-                    warning (err.message);
+            if (icon.has_prefix("/")) {
+                File file = File.new_for_path (icon);
+                if (file.query_exists ()) {
+                    var new_icon = GLib.Path.build_filename (WebpinApp.instance.CACHE_FOLDER, app_name_entry.get_text () + tmp_icon_ext);
+                    stdout.printf ("Copying temp icon '%s' to '%s'\n", icon, new_icon);
+                    uint8[] content;
+                    try {
+                        FileUtils.get_data (icon, out content);
+                        FileUtils.set_data (new_icon, content);
+                    } catch (Error err) {
+                        warning (err.message);
+                    }
+                    if (tmp_icon_file != "") {
+                        FileUtils.remove (tmp_icon_file);
+                    }
+                    icon = new_icon;
                 }
-                if (tmp_icon_file != "") {
-                    FileUtils.remove (tmp_icon_file);
-                }
-                icon = new_icon;
-            }
-            string name = app_name_entry.get_text ();
-            string url = app_url_entry.get_text ().replace ("%", "%%");
-
-            if (icon == "") {
+            } else if (icon == "") {
                 icon = default_app_icon;
             }
 
+            string name = app_name_entry.get_text ();
+            string url = app_url_entry.get_text ().replace ("%", "%%");
+
             if (app_icon_valid && app_name_valid && app_url_valid) {
+                stdout.printf ("Saving '%s' with icon='%s'\n", name, icon);
                 var desktop_file = new DesktopFile (name, url, icon, stay_open_when_closed.active, minimal_view_mode.active);
                 switch (mode) {
                     case assistant_mode.new_app :
@@ -533,9 +545,11 @@ namespace Webpin.Widgets.Views {
             if (desktop_file == null) {
                 reset_fields ();
             } else {
+                stdout.printf ("Opening editor for '%s'\n", desktop_file.name);
                 mode = assistant_mode.edit_app;
+                message.set_text (_ ("Edit web app"));
                 app_name_entry.text = desktop_file.name;
-                app_name_entry.set_sensitive (false);
+                app_name_entry.sensitive = false;
                 app_url_entry.text = desktop_file.url.replace ("%%", "%");
                 icon_name_entry.text = desktop_file.icon;
                 stay_open_when_closed.active = desktop_file.hide_on_close;
@@ -547,7 +561,15 @@ namespace Webpin.Widgets.Views {
                 }
                 reset_grab_color_and_icon ();
                 update_app_icon ();
+                updateFormStatus();
             }
         }
     }
+}
+
+public void set_class(Gtk.Widget widget, string class_name, bool flag) {
+    if (flag)
+        widget.get_style_context().add_class(class_name);
+    else
+        widget.get_style_context().remove_class(class_name);
 }
