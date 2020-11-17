@@ -40,7 +40,7 @@ namespace Webpin.Windows {
 
         public WebApp (DesktopFile desktop_file) {
             this.desktop_file = desktop_file;
-            this.set_role (desktop_file.url);
+            this.set_wmclass (desktop_file.url, desktop_file.url);
             this.events |= Gdk.EventMask.STRUCTURE_MASK;
 
             var color = desktop_file.color;
