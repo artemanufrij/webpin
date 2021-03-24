@@ -33,24 +33,6 @@
         </screenshot>
     </screenshots>
     <releases>
-        <release version="1.0.5" date="2021-03-24">
-            <description>
-                <p>New:</p>
-                <ul>
-                    <li>Gesture navigation (by Cassidy James Blaede)</li>
-                </ul>
-                <p>Fixed:</p>
-                <ul>
-                    <li>Crash when press '0'</li>
-                    <li>Some improvements by Nathan Bonnemains</li>
-                </ul>
-                <p>Translation:</p>
-                <ul>
-                    <li>Polish (by Michał Nowakowski)</li>
-                    <li>French (by Nathan Bonnemains)</li>
-                </ul>
-            </description>
-        </release>
         <release version="1.0.4" date="2019-07-15">
             <description>
                 <p>New:</p>
