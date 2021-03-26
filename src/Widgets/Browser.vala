@@ -65,6 +65,8 @@ namespace Webpin.Widgets {
                     enable_webgl = true
                 }
             };
+            web_view.web_context.set_spell_checking_enabled(true);
+            web_view.web_context.set_spell_checking_languages({"en_US", "de_DE"});
 
             cookie_manager = web_view.web_context.get_cookie_manager ();
             cookie_manager.set_accept_policy (WebKit.CookieAcceptPolicy.ALWAYS);
