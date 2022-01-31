@@ -33,8 +33,16 @@ namespace Webpin.Widgets {
 
         WebKit.CookieManager cookie_manager;
         Gtk.Box container;
+        Gtk.Box app_container;
         Granite.Widgets.Toast app_notification;
         GLib.Icon icon_for_notification;
+        Gtk.InfoBar download_info_bar;
+        
+        private ulong app_notification_listener_handle;
+        
+        // To save downloaded files:
+        private string tmp_dir;
+        private ulong info_bar_signal_handle;
 
         public signal void external_request (WebKit.NavigationAction action);
         public signal void request_begin ();
@@ -44,6 +52,7 @@ namespace Webpin.Widgets {
 
 
         public Browser (DesktopFile desktop_file) {
+            this.tmp_dir = DirUtils.make_tmp(".XXXXXX");
             this.desktop_file = desktop_file;
             this.transition_duration = 350;
             this.transition_type = Gtk.StackTransitionType.SLIDE_UP;
@@ -72,6 +81,7 @@ namespace Webpin.Widgets {
 
             web_view.load_uri (desktop_file.url);
 
+            app_container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
             if (desktop_file.color != null) {
@@ -90,9 +100,10 @@ namespace Webpin.Widgets {
             var overlay = new Gtk.Overlay ();
             overlay.add (web_view);
             overlay.add_overlay (app_notification);
+            app_container.pack_start(overlay, true, true, 0);
 
             this.add_named (container, "splash");
-            this.add_named (overlay, "app");
+            this.add_named (app_container, "app");
 
             var icon_file = File.new_for_path (desktop_file.icon);
 
@@ -164,6 +175,32 @@ namespace Webpin.Widgets {
                 }
                 return base.key_press_event (event);
             });
+
+            web_view.get_context().download_started.connect((download) => {
+                download.decide_destination.connect((suggested_filename) => {
+                    download.set_destination("file://" + tmp_dir + "/" + suggested_filename);
+                    download.finished.connect(() => {
+                        process_download(download, suggested_filename, tmp_dir + "/" + suggested_filename);
+                    });
+                    return true;
+                });
+            });
+            
+            download_info_bar = new Gtk.InfoBar();
+            download_info_bar.add_button(_("Open"), 1);
+            download_info_bar.add_button(_("Save"), 2);
+            download_info_bar.set_show_close_button(true);
+            download_info_bar.set_message_type (Gtk.MessageType.OTHER);
+            download_info_bar.set_revealed(false);
+            
+            download_info_bar.close.connect(() => {
+                //container.remove(download_info_bar);
+                download_info_bar.set_no_show_all(true);
+                download_info_bar.set_revealed(false);
+                download_info_bar.hide();
+            });
+            
+            app_container.pack_end(download_info_bar, false, false, 0);
         }
 
         public void go_home () {
@@ -195,6 +232,105 @@ namespace Webpin.Widgets {
 
         public void reload_bypass_cache () {
             web_view.reload_bypass_cache ();
+        }
+        
+        private void process_download(WebKit.Download download, string suggested_filename, string downloaded_path) {
+            if (info_bar_signal_handle != 0)
+                download_info_bar.disconnect(info_bar_signal_handle);
+            download_info_bar.set_no_show_all(false);
+            download_info_bar.show_all();
+            print("suggested filename for download: " + suggested_filename);
+
+            var content_area = download_info_bar.get_content_area ();
+            var old_children = content_area.get_children ();
+            foreach (Gtk.Widget w in old_children) {
+                content_area.remove (w);
+            }
+            content_area.add(new Gtk.Label(_("»%s« has been downloaded.").replace("%s", suggested_filename)));
+            
+            info_bar_signal_handle = download_info_bar.response.connect((response) => {
+                var downloaded_file = File.new_for_path (downloaded_path);
+            
+                if (response == 1) { // Open file
+                    try {
+                        AppInfo.launch_default_for_uri (downloaded_file.get_uri (), null);
+                        download_info_bar.set_no_show_all(true);
+                        download_info_bar.set_revealed(false);
+                        download_info_bar.hide();
+                    } catch {
+                        show_notification(_ ("No fitting application could be found."));
+                    }
+                } else { // save file
+                    move_downloaded_file(downloaded_file, suggested_filename);
+                    download_info_bar.set_no_show_all(true);
+                    download_info_bar.set_revealed(false);
+                    download_info_bar.hide();
+                }
+            });
+            
+            download_info_bar.set_revealed(true);
+            download_info_bar.show_all();
+        }
+        
+        string uri; // quick fix for referencing in callback function below
+        private void move_downloaded_file(File downloaded_file, string suggested_filename) {
+            var home = GLib.Environment.get_home_dir();
+            var download_dir = home + "/Downloads";
+            
+            if (!FileUtils.test(download_dir, GLib.FileTest.IS_DIR)) {
+                DirUtils.create(download_dir, 0666);
+            }
+            
+            var dest = get_download_location(File.new_for_path(home + "/Downloads/" + suggested_filename));
+        
+            try {
+                downloaded_file.move(dest, FileCopyFlags.NONE, null);
+                uri = dest.get_uri ();
+                show_notification(_("File has been saved to »%s«").replace("%s", dest.get_path()), _("Open"), () => {
+                    print("uri2: " + uri);
+                    try {
+                        AppInfo.launch_default_for_uri (uri, null);
+                    } catch {
+                        show_notification(_ ("No fitting application could be found."));
+                    }
+                });
+            } catch (Error e) {
+                show_notification(_("The downloaded file could not be saved to your download directory. You can access it directly under »%s«").replace("%s", downloaded_file.get_path()));
+                stdout.printf("Error while moving downloaded file: %s\n", e.message);
+            }
+        }
+        
+        delegate void VoidFunc();
+        private void show_notification(string message, string action = "", VoidFunc on_action = null) {
+            if (app_notification_listener_handle != 0)
+                app_notification.disconnect(app_notification_listener_handle);
+            app_notification.title = message;
+            if (action == "")
+                app_notification.set_default_action(null);
+            else
+                app_notification.set_default_action(action);
+            if (on_action != null)
+                app_notification_listener_handle = app_notification.default_action.connect(on_action);
+            else
+                app_notification_listener_handle = 0;
+            app_notification.send_notification ();
+        }
+        
+        private File get_download_location(File dest) {
+            var res = dest;
+            var counter = 1;
+            while (res.query_exists()) {
+                var name = dest.get_basename();
+                var index = name.last_index_of(".");
+                if (index > 0) {
+                    name = name.substring(0, index) + " (" + (++counter).to_string() + ")" + name.substring(index);
+                } else {  // filename starts with dot or does not have an extension
+                    name = name + " (" + (++counter).to_string() + ")";
+                }
+                res = File.new_for_path(dest.get_parent().get_path() + "/" + name);
+                print(dest.get_path());
+            }
+            return res;
         }
     }
 }
